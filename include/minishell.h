@@ -10,6 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <readline/readline.h>
+
+# define TERMINAL_PROMPT "Enter a command: "
+
 typedef enum e_token_type
 {
 	WORD,
