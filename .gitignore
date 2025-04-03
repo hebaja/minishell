@@ -1,0 +1,6 @@
+minishell
+package.json
+*.swp
+*.out
+*.o
+*.a
