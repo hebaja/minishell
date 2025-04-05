@@ -12,7 +12,7 @@ SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS=$(SRCS:.c=.o)
 
 all: $(NAME) $(LIBFT)
-	$(CC) $(CC_FLAGS) -o $(EXEC_NAME) $(NAME) $(LIBFT) $(READLINE_FLAG)
+	$(CC) $(CC_FLAGS) -o $(EXEC_NAME) $(NAME) $(LIBFT) $(READLINE_FLAG) -g
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

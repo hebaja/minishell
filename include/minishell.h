@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <readline/readline.h>
 
-# define TERMINAL_PROMPT "Enter a command: "
+# define TERMINAL_PROMPT "🚀 $: "
 
 typedef enum e_token_type
 {
