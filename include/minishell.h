@@ -16,7 +16,7 @@
 #include <readline/history.h>
 #include "../libft/include/libft.h"
 
-#define TERMINAL_PROMPT "🚀 $: "
+# define TERMINAL_PROMPT "🚀 $: "
 
 typedef enum e_token_type
 {
