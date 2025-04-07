@@ -12,6 +12,22 @@
 
 #include "../include/minishell.h"
 
+size_t	token_lst_size(t_token *token_lst)
+{
+	size_t	size;
+
+	size = 0;
+	if (token_lst)
+	{
+		while (token_lst)
+		{
+			token_lst = token_lst->next;
+			size++;
+		}
+	}
+	return (size);
+}
+
 t_token	*token_lst_last(t_token *token_lst)
 {
 	t_token	*current_token;
