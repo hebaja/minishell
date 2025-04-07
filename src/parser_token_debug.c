@@ -12,10 +12,8 @@
 
 #include "../include/minishell.h"
 
-char	*get_token_type(t_token_type type)
+char	*print_token_type(t_token_type type)
 {
-	if (type == FLAG)
-		return "FLAG";
 	if (type == WORD)
 		return ("WORD");
 	if (type == PIPE)
@@ -28,34 +26,6 @@ char	*get_token_type(t_token_type type)
 		return ("REDIRECT_IN");
 	if (type == REDIRECT_OUT)
 		return ("REDIRECT_OUT");
-	if (type == BACKGROUND)
-		return ("BACKGROUND");
-	if (type == WILDCARD)
-		return ("WILDCARD");
-	if (type == AND)
-		return ("AND");
-	if (type == OR)
-		return ("OR");
-	if (type == DOLAR)
-		return ("DOLAR");
-	if (type == BUILTIN_CD)
-		return ("BUILTIN_CD");
-	if (type == BUILTIN_ENV)
-		return ("BUILTIN_ENV");
-	if (type == BUILTIN_PWD)
-		return ("BUILTIN_PWD");
-	if (type == BUILTIN_EXIT)
-		return ("BUILTIN_EXIT");
-	if (type == BUILTIN_ECHO)
-		return ("BUILTIN_ECHO");
-	if (type == BUILTIN_UNSET)
-		return ("BUILTIN_UNSET");
-	if (type == BUILTIN_EXPORT)
-		return ("BUILTIN_EXPORT");
-	if (type == SINGLE_QUOTED)
-		return ("SINGLE_QUOTED");
-	if (type == DOUBLE_QUOTED)
-		return ("DOUBLE_QUOTED");
 	return ("");
 }
 
@@ -64,11 +34,10 @@ void	print_tokens(t_token *tokens_head)
 	t_token	*current_token;
 
 	current_token = tokens_head;
-	printf("size -> %lu\n", token_lst_size(tokens_head));
 	while (current_token)
 	{
 		printf("value = %s, type = %s, next = %p\n", current_token->value,
-			get_token_type(current_token->type),
+			print_token_type(current_token->type),
 			current_token->next);
 		current_token = current_token->next;
 	}

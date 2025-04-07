@@ -16,7 +16,7 @@
 #include <readline/history.h>
 #include "../libft/include/libft.h"
 
-# define TERMINAL_PROMPT "🚀 $: "
+#define TERMINAL_PROMPT "🚀 $: "
 
 typedef enum e_token_type
 {
@@ -50,16 +50,10 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-int				token_lst_build(t_token **tokens_head, char *value);
-int				is_metacharacter(char *value);
-int				append_token(t_token **tokens_head, char *value_start, size_t size);
-int				quote_mode(t_token **tokens_head, char **value, char quote);
-void			token_lst_clear(t_token **token_lst_head);
-void			token_lst_add_back(t_token **token_lst_head, t_token *token);
-size_t			token_lst_size(t_token *token_lst);
-t_token			*token_build(char *value_start, size_t size);
-t_token_type	define_type(char *value);
-/* DEGUB */
 void	print_tokens(t_token *tokens_head);
+int		token_lst_build(t_token **tokens_head, char *value);
+void	token_lst_clear(t_token **token_lst_head);
+void	token_lst_add_back(t_token **token_lst_head, t_token *token);
+/* DEGUB */
 char	*print_token_type(t_token_type type);
 t_token	*token_build(char *value_start, size_t size);
