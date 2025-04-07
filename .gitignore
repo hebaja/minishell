@@ -1,5 +1,6 @@
 minishell
 package.json
+testing/tests
 *.swp
 *.out
 *.o
