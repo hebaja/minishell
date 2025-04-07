@@ -19,6 +19,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	FLAG,
 	PIPE,
 	APPEND,
 	HEREDOC,
