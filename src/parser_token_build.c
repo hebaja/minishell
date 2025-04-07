@@ -14,7 +14,9 @@
 
 t_token_type	define_type(char *value)
 {
-	if (ft_strncmp(value, "|", 2) == 0)
+	if (ft_strncmp(value, "-", 1) == 0)
+		return (FLAG);
+	else if (ft_strncmp(value, "|", 2) == 0)
 		return (PIPE);
 	else if (ft_strncmp(value, ">>", 3) == 0)
 		return (APPEND);
