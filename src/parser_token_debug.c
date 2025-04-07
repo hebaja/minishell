@@ -16,18 +16,6 @@ char	*print_token_type(t_token_type type)
 {
 	if (type == FLAG)
 		return "FLAG";
-	if (type == WORD)
-		return ("WORD");
-	if (type == PIPE)
-		return ("PIPE");
-	if (type == APPEND)
-		return ("APPEND");
-	if (type == HEREDOC)
-		return ("HEREDOC");
-	if (type == REDIRECT_IN)
-		return ("REDIRECT_IN");
-	if (type == REDIRECT_OUT)
-		return ("REDIRECT_OUT");
 	if (type == BACKGROUND)
 		return ("BACKGROUND");
 	if (type == WILDCARD_SOLO)
