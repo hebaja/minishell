@@ -3,9 +3,6 @@
 #include "criterion-2.4.2/include/criterion/redirect.h"
 #include "../include/minishell.h"
 
-#include <stdio.h>
-#include <string.h>
-
 void redirect_all_stdout(void)
 {
 	cr_redirect_stdout();
@@ -130,6 +127,75 @@ Test(minishell_test_suite, build_token_lst_word_and_n_elements)
 	char		**values = ft_split(input, ' ');
 	char		**types;
 	
+	token_lst = NULL;
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
+}
+
+Test(minishell_test_suite, build_token_lst_word_with_one_flag)
+{
+	int		i;
+	int		res;
+	t_token	*token_lst;
+	char	*input = "command -e";
+	char		**values = ft_split(input, ' ');
+	char		**types;
+
+	token_lst = NULL;
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
+}
+
+Test(minishell_test_suite, build_token_lst_word_with_raw_flag)
+{
+	int		i;
+	int		res;
+	t_token	*token_lst;
+	char	*input = "command -";
+	char		**values = ft_split(input, ' ');
+	char		**types;
+
+	token_lst = NULL;
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
+}
+
+Test(minishell_test_suite, build_token_lst_word_with_n_flag)
+{
+	int		i;
+	int		res;
+	t_token	*token_lst;
+	char	*input = "command -e -i --help";
+	char		**values = ft_split(input, ' ');
+	char		**types;
+
 	token_lst = NULL;
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
