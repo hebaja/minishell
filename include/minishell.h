@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/07 21:10:26 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/07 21:47:52 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef enum e_token_type
 {
 	WORD,
+	FLAG,
 	PIPE,
 	APPEND,
 	HEREDOC,
@@ -33,11 +34,12 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-void	print_tokens(t_token *tokens_head);
-int		token_lst_build(t_token **tokens_head, char *value);
+int	token_lst_build(t_token **tokens_head, char *value);
 void	token_lst_clear(t_token **token_lst_head);
 void	token_lst_add_back(t_token **token_lst_head, t_token *token);
 void 	fn_echo(t_token *token_lst);
-int		ft_strcmp(const char *s1, const char *s2);
+int	ft_strcmp(const char *s1, const char *s2);
+size_t	token_lst_size(t_token *token_lst);
 /* DEGUB */
+void	print_tokens(t_token *tokens_head);
 char	*print_token_type(t_token_type type);
