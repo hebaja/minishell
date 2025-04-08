@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_token_build.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:26 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/06 14:29:31 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/04/08 16:58:23 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,28 @@
 
 t_token_type	define_type(char *value)
 {
-	if (ft_strncmp(value, "-", 1) == 0)
+	if (ft_strncmp(value, "-", 1) == 0) /* NEEDS SPACES AROUND */
 		return (FLAG);
 	else if (ft_strncmp(value, "|", 2) == 0)
 		return (PIPE);
-	else if (ft_strncmp(value, ">>", 3) == 0)
-		return (APPEND);
-	else if (ft_strncmp(value, "<<", 3) == 0)
-		return (HEREDOC);
 	else if (ft_strncmp(value, ">", 2) == 0)
 		return (REDIRECT_OUT);
 	else if (ft_strncmp(value, "<", 2) == 0)
 		return (REDIRECT_IN);
+	else if (ft_strncmp(value, "&", 2) == 0)
+		return (BACKGROUND);
+	else if (ft_strncmp(value, ">>", 3) == 0)
+		return (APPEND);
+	else if (ft_strncmp(value, "<<", 3) == 0)
+		return (HEREDOC);
+	else if (ft_strncmp(value, "&&", 3) == 0)
+		return (AND);
+	else if (ft_strncmp(value, "||", 3) == 0)
+		return (OR);
+	else if (ft_strncmp(value, "*", 3) == 0) /* NEEDS SPACE RIGHT BEFORE */
+		return (WILDCARD);
+	else if (ft_strncmp(value, "$", 3) == 0) /* NEEDS LETTER RIGHT AFTER */
+		return (DOLAR);
 	return (WORD);
 }
 
