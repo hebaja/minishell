@@ -28,6 +28,14 @@ char	*get_token_type(t_token_type type)
 		return ("REDIRECT_IN");
 	if (type == REDIRECT_OUT)
 		return ("REDIRECT_OUT");
+	if (type == BACKGROUND)
+		return ("BACKGROUND");
+	if (type == WILDCARD)
+		return ("WILDCARD");
+	if (type == AND)
+		return ("AND");
+	if (type == OR)
+		return ("OR");
 	return ("");
 }
 
