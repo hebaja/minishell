@@ -1,11 +1,11 @@
-CC=cc
+CC=cc -g
 CC_FLAGS=-Wall -Wextra -Werror
 READLINE_FLAG=-lreadline
 NAME=minishell.a
 EXEC_NAME=minishell
 INC_DIR=include
 SRC_DIR=src
-SRC_FILES=main.c parser_token_build.c parser_token_utils.c parser_token_debug.c 
+SRC_FILES=main.c parser_token_build.c parser_token_utils.c parser_token_debug.c builtins.c utils.c
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
