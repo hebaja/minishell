@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:32:10 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/04/07 21:35:16 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/07 22:07:07 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,3 +39,5 @@ void fn_echo(t_token *token_lst)
 		current = current->next;
 	}
 }
+
+
