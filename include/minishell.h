@@ -18,13 +18,18 @@
 
 typedef enum e_token_type
 {
+	OR,
+	AND,
 	WORD,
 	FLAG,
 	PIPE,
+	DOLAR,
 	APPEND,
 	HEREDOC,
+	WILDCARD,
+	BACKGROUND,
 	REDIRECT_IN,
-	REDIRECT_OUT
+	REDIRECT_OUT,
 }	t_token_type;
 
 typedef struct s_token
