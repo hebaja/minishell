@@ -26,11 +26,17 @@ typedef enum e_token_type
 	DOLAR,
 	APPEND,
 	HEREDOC,
-	BUILTIN,
 	WILDCARD,
 	BACKGROUND,
 	REDIRECT_IN,
 	REDIRECT_OUT,
+	BUILTIN_CD,
+	BUILTIN_ENV,
+	BUILTIN_PWD,
+	BUILTIN_EXIT,
+	BUILTIN_ECHO,
+	BUILTIN_UNSET,
+	BUILTIN_EXPORT,
 }	t_token_type;
 
 typedef struct s_token
