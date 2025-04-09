@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:36 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/08 16:58:36 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/08 21:40:25 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ char	*get_token_type(t_token_type type)
 		return ("AND");
 	if (type == OR)
 		return ("OR");
+	if (type == COMMAND)
+		return ("COMMAND");
 	return ("");
 }
 

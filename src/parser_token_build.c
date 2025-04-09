@@ -6,11 +6,30 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:26 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/08 16:58:23 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/08 21:43:32 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+int	define_type_command(char *value)
+{
+	if (ft_strncmp(value, "echo", 5 ) == 0)
+		return (1);
+	else if (ft_strncmp(value, "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(value, "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(value, "exporte", 8) == 0)
+		return (1);
+	else if (ft_strncmp(value, "unset", 5) == 0)
+		return (1);
+	else if (ft_strncmp(value, "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp(value, "exit", 5) == 0)
+		return (1);
+	return (0);
+}
 
 t_token_type	define_type(char *value)
 {
@@ -36,6 +55,8 @@ t_token_type	define_type(char *value)
 		return (WILDCARD);
 	else if (ft_strncmp(value, "$", 3) == 0) /* NEEDS LETTER RIGHT AFTER */
 		return (DOLAR);
+	else if (define_type_command(value))
+		return (COMMAND);	
 	return (WORD);
 }
 

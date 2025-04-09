@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/08 16:58:06 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/08 21:40:05 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ int	main(void)
 			free(input);
 			break ;
 		}
-		print_tokens(tokens_head);
+		if (tokens_head->type == COMMAND)
+			builts(tokens_head);
+		//print_tokens(tokens_head);
 		free(input);
 		token_lst_clear(&tokens_head);
 		input = readline(TERMINAL_PROMPT);
