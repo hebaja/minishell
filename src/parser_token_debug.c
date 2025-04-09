@@ -36,8 +36,26 @@ char	*print_token_type(t_token_type type)
 		return ("AND");
 	if (type == OR)
 		return ("OR");
+	if (type == DOLAR)
+		return ("DOLAR");
+	if (type == BUILTIN_CD)
+		return ("BUILTIN_CD");
+	if (type == BUILTIN_ENV)
+		return ("BUILTIN_ENV");
+	if (type == BUILTIN_PWD)
+		return ("BUILTIN_PWD");
+	if (type == BUILTIN_EXIT)
+		return ("BUILTIN_EXIT");
+	if (type == BUILTIN_ECHO)
+		return ("BUILTIN_ECHO");
+	if (type == BUILTIN_UNSET)
+		return ("BUILTIN_UNSET");
+	if (type == BUILTIN_EXPORT)
+		return ("BUILTIN_EXPORT");
 	return ("");
 }
+
+
 
 void	print_tokens(t_token *tokens_head)
 {
