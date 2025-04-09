@@ -36,6 +36,8 @@ char	*get_token_type(t_token_type type)
 		return ("AND");
 	if (type == OR)
 		return ("OR");
+	if (type == BUILTIN)
+		return ("BUILTIN");
 	return ("");
 }
 

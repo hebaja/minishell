@@ -12,6 +12,25 @@
 
 #include "../include/minishell.h"
 
+int	define_type_builtin(char *value)
+{
+	if (ft_strncmp(value, "echo", 5 ) == 0)
+		return (1);
+	else if (ft_strncmp(value, "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(value, "pwd", 4) == 0)
+		return (1);
+	else if (ft_strncmp(value, "export", 8) == 0)
+		return (1);
+	else if (ft_strncmp(value, "unset", 5) == 0)
+		return (1);
+	else if (ft_strncmp(value, "env", 4) == 0)
+		return (1);
+	else if (ft_strncmp(value, "exit", 5) == 0)
+		return (1);
+	return (0);
+}
+
 t_token_type	define_type(char *value)
 {
 	if (ft_strncmp(value, "-", 1) == 0) /* NEEDS SPACES AROUND */
@@ -36,6 +55,8 @@ t_token_type	define_type(char *value)
 		return (WILDCARD);
 	else if (ft_strncmp(value, "$", 3) == 0) /* NEEDS LETTER RIGHT AFTER */
 		return (DOLAR);
+	else if (define_type_builtin(value))
+		return (BUILTIN);
 	return (WORD);
 }
 

@@ -26,6 +26,7 @@ typedef enum e_token_type
 	DOLAR,
 	APPEND,
 	HEREDOC,
+	BUILTIN,
 	WILDCARD,
 	BACKGROUND,
 	REDIRECT_IN,
