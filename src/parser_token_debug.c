@@ -38,6 +38,8 @@ char	*get_token_type(t_token_type type)
 		return ("OR");
 	if (type == BUILTIN)
 		return ("BUILTIN");
+	if (type == DOLAR)
+		return ("DOLAR");
 	return ("");
 }
 
