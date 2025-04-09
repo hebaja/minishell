@@ -21,7 +21,7 @@ int	main(void)
 	input = readline(TERMINAL_PROMPT);
 	while (input)
 	{
-		if (ft_strncmp(input, "exit", 5) == 0)
+		if (ft_strncmp(input, "quit", 5) == 0)
 		{
 			free(input);
 			break ;
