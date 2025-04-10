@@ -43,7 +43,7 @@ t_token_type	define_type(char *value)
 	if (ft_strncmp(value, "-", 1) == 0)
 	{
 		value++;
-		if (ft_isalnum(*value))
+		if (ft_strncmp(value, " ", 1) != 0)
 			return (FLAG);
 		value--;
 	}
