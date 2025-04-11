@@ -423,42 +423,18 @@ Test(minishell_test_suite, build_token_lst_builtin_mixed_2)
 	int		i;
 	int		res;
 	t_token	*token_lst;
-	char	*a = "echo";
-	char	*b = ">>";
-	char	*c = "doc";
-	char	*d = " ||";
-	char	*e = " less";
-	char	*f = "<";
-	char	*g = "more";
+	char	*input = "echo>>doc || less<more";
+	char	**values = malloc(sizeof(char *) * 8);
+	char	**types = malloc(sizeof(char *) * 8);
 
-	char		**values = malloc(sizeof(char *) * 8);
-	values[0] = ft_strdup(a);
-	values[1] = ft_strdup(b);
-	values[2] = ft_strdup(c);
-	values[3] = ft_strdup(d);
-	values[4] = ft_strdup(e);
-	values[5] = ft_strdup(f);
-	values[6] = ft_strdup(g);
+	values[0] = ft_strdup("echo");
+	values[1] = ft_strdup(">>");
+	values[2] = ft_strdup("doc");
+	values[3] = ft_strdup("||");
+	values[4] = ft_strdup("less");
+	values[5] = ft_strdup("<");
+	values[6] = ft_strdup("more");
 	values[7] = NULL;
-
-	char		**types = malloc(sizeof(char *) * 8);
-	types[0] = WORD;
-	types[1] = APPEND;
-	types[2] = WORD;
-	types[3] = OR;
-	types[4] = WORD;
-	types[5] = REDIRECT_IN;
-	types[6] = WORD;
-	types[7] = NULL;
-
-	ft_strjoin(a, b);
-	ft_strjoin(a, c);
-	ft_strjoin(a, d);
-	ft_strjoin(a, e);
-	ft_strjoin(a, f);
-	ft_strjoin(a, g);
-	char	*input = a;
-
 	token_lst = NULL;
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
