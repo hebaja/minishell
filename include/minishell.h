@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 #include <readline/readline.h>
 #include "../libft/include/libft.h"
 
@@ -55,3 +56,4 @@ t_token_type	define_type(char *value);
 /* DEGUB */
 void	print_tokens(t_token *tokens_head);
 char	*print_token_type(t_token_type type);
+t_token	*token_build(char *value_start, size_t size);
