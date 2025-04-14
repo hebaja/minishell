@@ -26,11 +26,7 @@ int	main(void)
 			free(input);
 			break ;
 		}
-		if (!token_lst_build(&tokens_head, input))
-		{
-			free(input);
-			break ;
-		}
+		token_lst_build(&tokens_head, input);
 		print_tokens(tokens_head);
 		free(input);
 		token_lst_clear(&tokens_head);
