@@ -21,7 +21,7 @@ int	main(void)
 	input = readline(TERMINAL_PROMPT);
 	while (input)
 	{
-		if (ft_strncmp(input, "exit", 5) == 0)
+		if (ft_strncmp(input, "quit", 5) == 0)
 		{
 			free(input);
 			break ;
@@ -31,8 +31,6 @@ int	main(void)
 			free(input);
 			break ;
 		}
-		if (tokens_head->type == COMMAND)
-			builts(tokens_head);
 		//print_tokens(tokens_head);
 		free(input);
 		token_lst_clear(&tokens_head);
