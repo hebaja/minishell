@@ -47,6 +47,7 @@ typedef struct s_token
 }	t_token;
 
 int				token_lst_build(t_token **tokens_head, char *value);
+int				is_metacharacter(char *value);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
 size_t			token_lst_size(t_token *token_lst);

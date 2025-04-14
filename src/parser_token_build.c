@@ -52,22 +52,41 @@ int	append_token(t_token **tokens_head, char *value_start, size_t size)
 	return (1);
 }
 
-int	is_metacharacter(char *value)
+int	build_token_metacharacter(t_token **tokens_head, char **value)
 {
-	if ((ft_strncmp(value, ">>", 2) == 0) || (ft_strncmp(value, "<<", 2) == 0) || (ft_strncmp(value, "&&", 2) == 0) || (ft_strncmp(value, "||", 2) == 0))
- 		return (2);
-	if ((ft_strncmp(value, "|", 1) == 0) || (ft_strncmp(value, ">", 1) == 0) || (ft_strncmp(value, "<", 1) == 0) || (ft_strncmp(value, "&", 1) == 0))
-		return (1);
-	return (0);
+	int		size;
+	char	*value_start;
+
+	size = is_metacharacter(*value);
+	value_start = *value;
+	if (!append_token(tokens_head, value_start, size))
+		return (0);
+	*value = *value + size;
+	return (1);
+}
+
+int	determine_token_type(t_token **tokens_head, char **value, 
+	char *value_start, size_t size)
+{
+	if (size)
+		if (!append_token(tokens_head, value_start, size))
+			return (0);
+	if (*value && is_metacharacter(*value))
+		if (!build_token_metacharacter(tokens_head, value))
+			return (0);
+	if (ft_isspace(**value))
+		while (*value && ft_isspace(**value))
+			(*value)++;
+	return (1);
 }
 
 int	token_lst_build(t_token **tokens_head, char *value)
 {
-	size_t		size;
 	char		*value_start;
+	size_t		size;
 
-	value_start = value;
 	size = 0;
+	value_start = value;
 	while (*value)
 	{
 		while (*value && (!ft_isspace(*value) && !is_metacharacter(value)))
@@ -75,20 +94,8 @@ int	token_lst_build(t_token **tokens_head, char *value)
 			value++;
 			size++;
 		}
-		if (size)
-			if (!append_token(tokens_head, value_start, size))
-				return (0);
-		if (*value && is_metacharacter(value))
-		{
-			size = is_metacharacter(value);
-			value_start = value;
-			if (!append_token(tokens_head, value_start, size))
-				return (0);
-			value = value + size;
-		}
-		if (ft_isspace(*value))
-			while (*value && ft_isspace(*value))
-				value++;
+		if (!determine_token_type(tokens_head, &value, value_start, size))
+			return (0);
 		if (*value)
 			value_start = value;
 		size = 0;
