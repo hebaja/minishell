@@ -46,10 +46,11 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-int		token_lst_build(t_token **tokens_head, char *value);
-void	token_lst_clear(t_token **token_lst_head);
-void	token_lst_add_back(t_token **token_lst_head, t_token *token);
-size_t	token_lst_size(t_token *token_lst);
+int				token_lst_build(t_token **tokens_head, char *value);
+void			token_lst_clear(t_token **token_lst_head);
+void			token_lst_add_back(t_token **token_lst_head, t_token *token);
+size_t			token_lst_size(t_token *token_lst);
+t_token_type	define_type(char *value);
 /* DEGUB */
 void	print_tokens(t_token *tokens_head);
 char	*print_token_type(t_token_type type);
