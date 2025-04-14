@@ -12,6 +12,22 @@
 
 #include "../include/minishell.h"
 
+t_token	*token_build(char *value_start, size_t size)
+{
+	t_token	*token;
+	char	*value;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	value = (char *)malloc(sizeof(char) * (size + 1));
+	if (!token || !value)
+		return (NULL);
+	ft_strlcpy(value, value_start, size + 1);
+	token->value = value;
+	token->type = define_type(value);
+	token->next = NULL;
+	return (token);
+}
+
 int	append_token(t_token **tokens_head, char *value_start, size_t size)
 {
 	t_token		*token;
