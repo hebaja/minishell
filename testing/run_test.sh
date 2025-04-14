@@ -6,6 +6,7 @@ gcc -I \
 	minishell_test.c \
 	../src/parser_token_build.c \
 	../src/parser_token_utils.c \
+	../src/parser_token_define.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
