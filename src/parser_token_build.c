@@ -65,7 +65,7 @@ int	build_token_metacharacter(t_token **tokens_head, char **value)
 	return (1);
 }
 
-int	determine_token_type(t_token **tokens_head, char **value, 
+int	determine_token_type(t_token **tokens_head, char **value,
 	char *value_start, size_t size)
 {
 	if (size)
