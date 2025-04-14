@@ -59,9 +59,22 @@ int	build_token_metacharacter(t_token **tokens_head, char **value)
 
 	size = is_metacharacter(*value);
 	value_start = *value;
-	if (!append_token(tokens_head, value_start, size))
-		return (0);
-	*value = *value + size;
+	if (size == 3) /* TODO double quote mode */
+	{
+		if (!double_quote_mode(tokens_head, value))
+			return (0);
+	}
+	else if (size == 4) /* TODO single quote mode */
+	{
+		if (!append_token(tokens_head, "single quote", 12))
+			return (0);
+	}
+	else
+	{
+		if (!append_token(tokens_head, value_start, size))
+			return (0);
+		*value = *value + size;
+	}
 	return (1);
 }
 

@@ -12,8 +12,37 @@
 
 #include "../include/minishell.h"
 
+int	double_quote_mode(t_token **tokens_head, char **value)
+{
+	size_t	size;
+	char	*value_start;
+	int		flag_close;
+
+	size = 0;
+	(*value)++;
+	value_start = *value;
+	flag_close = 0;
+	while (**value && **value != '\"')
+	{
+		size++;
+		(*value)++;
+	}
+	if (**value != '\"')
+	{
+		ft_putstr_fd("Unclosed quotes\n", 2);
+		return (0);
+	}
+	append_token(tokens_head, value_start, size);
+	(*value)++;
+	return (1);
+}
+
 int	is_metacharacter(char *value)
 {
+	if (ft_strncmp(value, "\'", 1) == 0)
+		return (4);
+	if (ft_strncmp(value, "\"", 1) == 0)
+		return (3);
 	if ((ft_strncmp(value, ">>", 2) == 0) || (ft_strncmp(value, "<<", 2) == 0)
 		|| (ft_strncmp(value, "&&", 2) == 0)
 		|| (ft_strncmp(value, "||", 2) == 0))
