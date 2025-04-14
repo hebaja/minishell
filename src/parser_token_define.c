@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_token_define.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/14 01:36:41 by hebatist          #+#    #+#             */
+/*   Updated: 2025/04/14 01:36:43 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	define_type_builtin(char *value, t_token_type *type)
@@ -5,7 +17,7 @@ int	define_type_builtin(char *value, t_token_type *type)
 	int	res;
 
 	res = 1;
-	if (ft_strncmp(value, "echo", 5 ) == 0)
+	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
 	else if (ft_strncmp(value, "cd", 3) == 0)
 		*type = BUILTIN_CD;
@@ -19,7 +31,7 @@ int	define_type_builtin(char *value, t_token_type *type)
 		*type = BUILTIN_ENV;
 	else if (ft_strncmp(value, "exit", 5) == 0)
 		*type = BUILTIN_EXIT;
-	else 
+	else
 		res = 0;
 	return (res);
 }
@@ -39,13 +51,14 @@ int	define_type_redirect(char *value, t_token_type *type)
 		*type = HEREDOC;
 	else
 		res = 0;
-
 	return (res);
 }
 
+/* * NEEDS SPACE RIGHT BEFORE */
+/* $ NEEDS LETTER RIGHT AFTER */
 t_token_type	define_type(char *value)
 {
-	t_token_type type;
+	t_token_type	type;
 
 	if (ft_strncmp(value, "-", 1) == 0)
 	{
@@ -60,9 +73,9 @@ t_token_type	define_type(char *value)
 		return (AND);
 	else if (ft_strncmp(value, "||", 3) == 0)
 		return (OR);
-	else if (ft_strncmp(value, "*", 3) == 0) /* NEEDS SPACE RIGHT BEFORE */
+	else if (ft_strncmp(value, "*", 3) == 0)
 		return (WILDCARD);
-	else if (ft_strncmp(value, "$", 3) == 0) /* NEEDS LETTER RIGHT AFTER */
+	else if (ft_strncmp(value, "$", 3) == 0)
 		return (DOLAR);
 	else if (define_type_redirect(value, &type))
 		return (type);
