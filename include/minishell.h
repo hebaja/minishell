@@ -39,6 +39,8 @@ typedef enum e_token_type
 	BUILTIN_ECHO,
 	BUILTIN_UNSET,
 	BUILTIN_EXPORT,
+	SINGLE_QUOTED,
+	DOUBLE_QUOTED,
 }	t_token_type;
 
 typedef struct s_token
@@ -51,7 +53,7 @@ typedef struct s_token
 int				token_lst_build(t_token **tokens_head, char *value);
 int				is_metacharacter(char *value);
 int				append_token(t_token **tokens_head, char *value_start, size_t size);
-int				double_quote_mode(t_token **tokens_head, char **value);
+int				quote_mode(t_token **tokens_head, char **value, char quote);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
 size_t			token_lst_size(t_token *token_lst);

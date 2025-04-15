@@ -12,22 +12,22 @@
 
 #include "../include/minishell.h"
 
-int	double_quote_mode(t_token **tokens_head, char **value)
+int	quote_mode(t_token **tokens_head, char **value, char quote)
 {
 	size_t	size;
 	char	*value_start;
 	int		flag_close;
 
 	size = 0;
-	(*value)++;
 	value_start = *value;
+	(*value)++;
 	flag_close = 0;
-	while (**value && **value != '\"')
+	while (**value && **value != quote)
 	{
 		size++;
 		(*value)++;
 	}
-	if (**value != '\"')
+	if (**value != quote)
 	{
 		ft_putstr_fd("Unclosed quotes\n", 2);
 		return (0);
