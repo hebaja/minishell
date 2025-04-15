@@ -21,9 +21,11 @@ t_token	*token_build(char *value_start, size_t size)
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
 		return (NULL);
+	token->type = define_type(value_start);
+	if (*value_start == '\'' || *value_start == '\"')
+		value_start++;
 	ft_strlcpy(value, value_start, size + 1);
 	token->value = value;
-	token->type = define_type(value);
 	token->next = NULL;
 	return (token);
 }
@@ -59,14 +61,14 @@ int	build_token_metacharacter(t_token **tokens_head, char **value)
 
 	size = is_metacharacter(*value);
 	value_start = *value;
-	if (size == 3) /* TODO double quote mode */
+	if (size == 3)
 	{
-		if (!double_quote_mode(tokens_head, value))
+		if (!quote_mode(tokens_head, value, '\"'))
 			return (0);
 	}
-	else if (size == 4) /* TODO single quote mode */
+	else if (size == 4)
 	{
-		if (!append_token(tokens_head, "single quote", 12))
+		if (!quote_mode(tokens_head, value, '\''))
 			return (0);
 	}
 	else
