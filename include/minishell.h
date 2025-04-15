@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 #include "../libft/include/libft.h"
 
 #define TERMINAL_PROMPT "🚀 $: "
