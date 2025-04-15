@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <readline/history.h>
 
 int	main(void)
 {
@@ -18,6 +19,7 @@ int	main(void)
 	t_token	*tokens_head;
 
 	tokens_head = NULL;
+	using_history();
 	input = readline(TERMINAL_PROMPT);
 	while (input)
 	{
@@ -26,6 +28,8 @@ int	main(void)
 			free(input);
 			break ;
 		}
+		if (input)
+			add_history(input);
 		token_lst_build(&tokens_head, input);
 		print_tokens(tokens_head);
 		free(input);
