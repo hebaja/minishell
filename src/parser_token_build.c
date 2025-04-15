@@ -114,6 +114,47 @@ int	append_token(t_token **tokens_head, char *value_start, size_t size)
 	return (1);
 }
 
+int	build_token_metacharacter(t_token **tokens_head, char **value)
+{
+	int		size;
+	char	*value_start;
+
+	size = is_metacharacter(*value);
+	value_start = *value;
+	if (size == 3)
+	{
+		if (!quote_mode(tokens_head, value, '\"'))
+			return (0);
+	}
+	else if (size == 4)
+	{
+		if (!quote_mode(tokens_head, value, '\''))
+			return (0);
+	}
+	else
+	{
+		if (!append_token(tokens_head, value_start, size))
+			return (0);
+		*value = *value + size;
+	}
+	return (1);
+}
+
+int	determine_token_type(t_token **tokens_head, char **value,
+	char *value_start, size_t size)
+{
+	if (size)
+		if (!append_token(tokens_head, value_start, size))
+			return (0);
+	if (*value && is_metacharacter(*value))
+		if (!build_token_metacharacter(tokens_head, value))
+			return (0);
+	if (ft_isspace(**value))
+		while (*value && ft_isspace(**value))
+			(*value)++;
+	return (1);
+}
+
 int	token_lst_build(t_token **tokens_head, char *value)
 {
 	char		*value_start;

@@ -52,10 +52,12 @@ char	*print_token_type(t_token_type type)
 		return ("BUILTIN_UNSET");
 	if (type == BUILTIN_EXPORT)
 		return ("BUILTIN_EXPORT");
+	if (type == SINGLE_QUOTED)
+		return ("SINGLE_QUOTED");
+	if (type == DOUBLE_QUOTED)
+		return ("DOUBLE_QUOTED");
 	return ("");
 }
-
-
 
 void	print_tokens(t_token *tokens_head)
 {
