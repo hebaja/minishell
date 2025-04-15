@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/09 15:38:32 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/14 17:03:44 by alda-sil         ###   ########.fr       */
+/*   Created: 2025/04/14 21:05:22 by alda-sil          #+#    #+#             */
+/*   Updated: 2025/04/14 21:30:57 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	unsigned int	i;
+#include "../include/minishell.h"
 
-	i = 0;
-	while (s1[i] == s2[i] && s1[i] != '\0' && s2[i] != '\0')
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+void	save_env_keys(char **envp)
+{
+	t_env env_head;
+	t_env env_tpm;
+
+	while (*envp)
+	{
+		
+
+		ft_printf("%s\n", *envp);
+		envp++;
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	builtin_env_lts(envp);
+	return (0);
 }

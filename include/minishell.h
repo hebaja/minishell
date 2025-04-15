@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/08 21:39:42 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/14 21:08:21 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,14 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	struct s_env *next;
+} t_env;
+
 
 int				token_lst_build(t_token **tokens_head, char *value);
 int				is_metacharacter(char *value);
