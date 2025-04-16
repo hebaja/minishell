@@ -26,15 +26,8 @@ int	define_type_builtin(char *value, t_token_type *type)
 	int	res;
 
 	res = 1;
-<<<<<<< HEAD
-	if (ft_strncmp(value, "echo", 4) == 0 && syntax_check(value, 4))
-	{
-		*type = BUILTIN_ECHO;
-	}
-=======
 	if (ft_strncmp(value, "echo", 4) == 0)
 		*type = BUILTIN_ECHO;
->>>>>>> e03dc3b (feat: 🎸 Parser - Lexical Analysis)
 	else if (ft_strncmp(value, "cd", 2) == 0)
 		*type = BUILTIN_CD;
 	else if (ft_strncmp(value, "pwd", 3) == 0)

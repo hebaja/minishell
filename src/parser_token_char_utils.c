@@ -20,10 +20,6 @@ int	quote_mode(t_token **tokens_head, char **value, char quote)
 	size = 0;
 	value_start = *value;
 	(*value)++;
-<<<<<<< HEAD
-	flag_close = 0;
-=======
->>>>>>> e03dc3b (feat: 🎸 Parser - Lexical Analysis)
 	while (**value && **value != quote)
 	{
 		size++;
