@@ -27,9 +27,30 @@ char    *fetch_token_type(t_token_type type)
 	return ("");
 }
 
+void	unquoted_value_test(t_token *token_lst, char *value, char quote)
+{
+	int		i;
+	char	*unquoted;
+	size_t	size;
+
+	i = -1;
+	size = 0;
+	value++;
+	while (value[size] != quote && value[size])
+		size++;
+	size++;
+	unquoted = (char *)malloc(sizeof(char) * (size));
+	ft_strlcpy(unquoted, value, size);
+	cr_assert_str_eq(token_lst->value, unquoted);
+}
+
 void	test_token_lst(t_token *token_lst, char *value, char *type)
 {
-	cr_assert_str_eq(token_lst->value, value);
+
+	if (*value == '\'' || *value == '\"')
+		unquoted_value_test(token_lst, value, *value);
+	else
+		cr_assert_str_eq(token_lst->value, value);
 	cr_assert_str_eq(fetch_token_type(token_lst->type), type);
 }
 
@@ -435,6 +456,52 @@ Test(minishell_test_suite, build_token_lst_builtin_mixed_2)
 	values[5] = ft_strdup("<");
 	values[6] = ft_strdup("more");
 	values[7] = NULL;
+	token_lst = NULL;
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
+}
+
+Test(minishell_test_suite, build_token_lst_double_quote_1)
+{
+	int		i;
+	int		res;
+	t_token	*token_lst;
+	char	*input = "echo \"message\"";
+	char		**values = ft_split(input, ' ');
+	char		**types;
+
+	token_lst = NULL;
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
+}
+
+Test(minishell_test_suite, build_token_lst_single_quote_1)
+{
+	int		i;
+	int		res;
+	t_token	*token_lst;
+	char	*input = "echo \'message\'";
+	char		**values = ft_split(input, ' ');
+	char		**types;
+
 	token_lst = NULL;
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
