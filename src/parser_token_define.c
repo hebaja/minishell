@@ -26,19 +26,19 @@ int	define_type_builtin(char *value, t_token_type *type)
 	int	res;
 
 	res = 1;
-	if (ft_strncmp(value, "echo", 4) == 0)
+	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
-	else if (ft_strncmp(value, "cd", 2) == 0)
+	else if (ft_strncmp(value, "cd", 3) == 0)
 		*type = BUILTIN_CD;
-	else if (ft_strncmp(value, "pwd", 3) == 0)
+	else if (ft_strncmp(value, "pwd", 4) == 0)
 		*type = BUILTIN_PWD;
-	else if (ft_strncmp(value, "export", 6) == 0)
+	else if (ft_strncmp(value, "export", 7) == 0)
 		*type = BUILTIN_EXPORT;
-	else if (ft_strncmp(value, "unset", 5) == 0)
+	else if (ft_strncmp(value, "unset", 6) == 0)
 		*type = BUILTIN_UNSET;
-	else if (ft_strncmp(value, "env", 3) == 0)
+	else if (ft_strncmp(value, "env", 4) == 0)
 		*type = BUILTIN_ENV;
-	else if (ft_strncmp(value, "exit", 4) == 0)
+	else if (ft_strncmp(value, "exit", 5) == 0)
 		*type = BUILTIN_EXIT;
 	else
 		res = 0;
