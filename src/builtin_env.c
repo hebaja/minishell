@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 21:05:22 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/04/15 20:50:56 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/16 21:22:06 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,32 @@ void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 	}
 }
 
-void	save_env_keys(char **envp)
+t_env	*extract_key_value(char **envp, char *searchequal, t_env *env_head)
+{
+	t_env *new_node;
+	int	size_key;
+	int	size_value;
+
+	size_key = searchequal - *envp;
+	size_value = ft_strlen(*envp) + size_key;
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = malloc(size_key + 1);
+	new_node->value = malloc(size_value + 1);
+	ft_strncpy(new_node->key, *envp, size_key);
+	ft_strncpy(new_node->value,  (*envp + size_key + 1), size_value);
+	new_node->key[size_key] =  '\0';
+	new_node->key[size_value] =  '\0';
+	new_node->next = NULL;
+	ft_lstadd_back_env(&env_head, new_node);
+	return (env_head);
+}
+
+t_env	*save_env_keys_and_value(char **envp)
 {
 	t_env 	*env_head;
-	t_env	*new_node;
 	char	*searchequal;
-	int		size_key;
 	
 	env_head = NULL;
 	while (*envp)
@@ -40,50 +60,40 @@ void	save_env_keys(char **envp)
 		searchequal = ft_strchr(*envp, '=');
 		if (searchequal)
 		{
-			size_key = searchequal - *envp;
-			new_node = malloc(sizeof(t_env));
-			if (!new_node)
-				return ;
-			new_node->key = malloc(size_key + 1);
-			if (!new_node->key)
+			env_head = extract_key_value(envp, searchequal, env_head);
+			if (!env_head)
 			{
-				free(new_node);
-				return ;
+				while(env_head)
+				{
+					free(env_head);
+					env_head = env_head->next;
+				}
+				return (NULL);
 			}
-			ft_strncpy(new_node->key, *envp, size_key);
-			new_node->key[size_key] = '\0';
-			new_node->next = NULL;
-			ft_lstadd_back_env(&env_head, new_node);
 		}
 		envp++;
 	}
 
-}
+	t_env *tmp = env_head;
 
-void	save_env_value(char **envp)
-{
-	t_env	*env_head;
-	t_env	*new_node;
-	char	*searchequal;
-	int		size_value;
-
-	env_head = NULL;
-	while (*envp)
+	while (tmp)
 	{
-		searchequal	= ft_strchr(*envp, '=');
-		if (searchequal)
-		{
-			searchequal += 1;
-			size_value = (ft_strlen(searchequal));
-			
-		}
-		envp++;
+		ft_printf("%s  \n", tmp->value);
+		tmp = tmp->next;
 	}
+	
+	return (env_head);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	save_env_keys(envp);
-	save_env_value(envp);
+	t_env *env_head;
+
+	env_head = save_env_keys_and_value(envp);
+	while(env_head)
+	{
+		free(env_head);
+		env_head = env_head->next;
+	}
 	return (0);
 }
