@@ -36,6 +36,15 @@ Test(minishell_test_suite, build_token_lst_test_builtin_echo)
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
+
+	// print_tokens(token_lst);
+	// i = -1;
+	// while (++i < 4)
+	// {
+	// 	ft_printf("%d - ", i);
+	// 	ft_printf("%s\n", types[i]);
+	// }
+
 	i = 0;
 	while (token_lst)
 	{
