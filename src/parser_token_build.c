@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-t_token	*token_build(char *value_start, size_t size)
+t_token	*token_build(char **o_value, char *value_start, size_t size)
 {
 	t_token	*token;
 	char	*value;
@@ -21,35 +21,47 @@ t_token	*token_build(char *value_start, size_t size)
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
 		return (NULL);
-	token->type = define_type(value_start);
 	if (*value_start == '\'' || *value_start == '\"')
-		value_start++;
-	ft_strlcpy(value, value_start, size + 1);
-	token->value = value;
-	token->next = NULL;
-	return (token);
-}
-
-int	append_token(t_token **tokens_head, char *value_start, size_t size)
-{
-	t_token		*token;
-
-	if (tokens_head == NULL || *tokens_head == NULL)
 	{
-		token = token_build(value_start, size);
-		if (!token)
-			return (0);
-		*tokens_head = token;
+		token->type = define_type(value_start);
+		value_start++;
+		ft_strlcpy(value, value_start, size + 1);
 	}
 	else
 	{
-		token = token_build(value_start, size);
-		if (!token)
+		ft_strlcpy(value, value_start, size + 1);
+		token->type = define_type(value);
+	}
+	token->value = value;
+	token->next = NULL;
+	*o_value = (*o_value) + size;
+	return (token);
+}
+
+int	append_token(t_token **tokens_head, char **value,
+	char *value_start, size_t size)
+{
+	t_token		*token;
+
+	if (*value_start)
+	{
+		if (tokens_head == NULL || *tokens_head == NULL)
 		{
-			token_lst_clear(tokens_head);
-			return (0);
+			token = token_build(value, value_start, size);
+			if (!token)
+				return (0);
+			*tokens_head = token;
 		}
-		token_lst_add_back(tokens_head, token);
+		else
+		{
+			token = token_build(value, value_start, size);
+			if (!token)
+			{
+				token_lst_clear(tokens_head);
+				return (0);
+			}
+			token_lst_add_back(tokens_head, token);
+		}
 	}
 	return (1);
 }
@@ -59,61 +71,63 @@ int	build_token_metacharacter(t_token **tokens_head, char **value)
 	int		size;
 	char	*value_start;
 
-	size = is_metacharacter(*value);
-	value_start = *value;
-	if (size == 3)
+	if (*value)
 	{
-		if (!quote_mode(tokens_head, value, '\"'))
-			return (0);
-	}
-	else if (size == 4)
-	{
-		if (!quote_mode(tokens_head, value, '\''))
-			return (0);
-	}
-	else
-	{
-		if (!append_token(tokens_head, value_start, size))
+		size = is_meta_token(*value);
+		value_start = *value;
+		if (!append_token(tokens_head, value, value_start, size))
 			return (0);
 		*value = *value + size;
 	}
 	return (1);
 }
 
-int	determine_token_type(t_token **tokens_head, char **value,
-	char *value_start, size_t size)
+int	default_build(t_token **tokens_head,
+	char **value, char *value_start, int i)
 {
-	if (size)
-		if (!append_token(tokens_head, value_start, size))
+	while ((*value)[i] && !ft_isspace((*value)[i])
+		&& !is_metacharacter((*value)[i]))
+		i++;
+	if (*value_start == '\'')
+	{
+		if (!quote_mode(tokens_head, value, value_start, '\''))
 			return (0);
-	if (*value && is_metacharacter(*value))
-		if (!build_token_metacharacter(tokens_head, value))
+	}
+	else if (*value_start == '\"')
+	{
+		if (!quote_mode(tokens_head, value, value_start, '\"'))
 			return (0);
-	if (ft_isspace(**value))
-		while (*value && ft_isspace(**value))
-			(*value)++;
+	}
+	else if (!append_token(tokens_head, value, value_start, i))
+		return (0);
 	return (1);
 }
 
 int	token_lst_build(t_token **tokens_head, char *value)
 {
+	size_t		i;
 	char		*value_start;
-	size_t		size;
 
-	size = 0;
+	i = 0;
 	value_start = value;
-	while (*value)
+	while (value[i])
 	{
-		while (*value && (!ft_isspace(*value) && !is_metacharacter(value)))
+		if (value[i] && is_metacharacter(value[i]))
 		{
-			value++;
-			size++;
+			while (is_metacharacter(value[i]))
+				i++;
+			if (!append_token(tokens_head, &value, value_start, i))
+				return (0);
 		}
-		if (!determine_token_type(tokens_head, &value, value_start, size))
-			return (0);
-		if (*value)
-			value_start = value;
-		size = 0;
+		else
+		{
+			if (!default_build(tokens_head, &value, value_start, i))
+				return (0);
+		}
+		while (value && ft_isspace(*value))
+			value++;
+		value_start = value;
+		i = 0;
 	}
 	return (1);
 }

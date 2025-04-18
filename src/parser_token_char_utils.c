@@ -12,30 +12,42 @@
 
 #include "../include/minishell.h"
 
-int	quote_mode(t_token **tokens_head, char **value, char quote)
+int	is_metacharacter(char c)
+{
+	if (c == '>' || c == '<' || c == '|')
+		return (1);
+	return (0);
+}
+
+int	quote_mode(t_token **token_lst, char **value,
+	char *quoted_value, char quote)
 {
 	size_t	size;
 	char	*value_start;
 
 	size = 0;
-	value_start = *value;
-	(*value)++;
-	while (**value && **value != quote)
+	value_start = quoted_value;
+	quoted_value++;
+	if (*quoted_value)
 	{
-		size++;
-		(*value)++;
+		while (*quoted_value && *quoted_value != quote)
+		{
+			size++;
+			quoted_value++;
+		}
+		if (*quoted_value != quote)
+		{
+			ft_putstr_fd("Unclosed quotes\n", 2);
+			return (0);
+		}
+		append_token(token_lst, value, value_start, size);
+		quoted_value++;
+		*value = quoted_value;
 	}
-	if (**value != quote)
-	{
-		ft_putstr_fd("Unclosed quotes\n", 2);
-		return (0);
-	}
-	append_token(tokens_head, value_start, size);
-	(*value)++;
 	return (1);
 }
 
-int	is_metacharacter(char *value)
+int	is_meta_token(char *value)
 {
 	if (ft_strncmp(value, "\'", 1) == 0)
 		return (4);

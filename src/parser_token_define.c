@@ -12,20 +12,29 @@
 
 #include "../include/minishell.h"
 
+int	syntax_check(char *value, size_t size)
+{
+	if (ft_strnstr(value, " ", size + 1) || ft_strnstr(value, "&", size + 1)
+		|| ft_strlen(value) == size)
+		return (1);
+	return (0);
+}
+
+/* TODO after here, if word is the sabe as builting, show syntax error*/
 int	define_type_builtin(char *value, t_token_type *type)
 {
 	int	res;
 
 	res = 1;
-	if (ft_strncmp(value, "echo", 4) == 0)
+	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
 	else if (ft_strncmp(value, "cd", 2) == 0)
 		*type = BUILTIN_CD;
 	else if (ft_strncmp(value, "pwd", 3) == 0)
 		*type = BUILTIN_PWD;
-	else if (ft_strncmp(value, "export", 6) == 0)
+	else if (ft_strncmp(value, "export", 7) == 0)
 		*type = BUILTIN_EXPORT;
-	else if (ft_strncmp(value, "unset", 5) == 0)
+	else if (ft_strncmp(value, "unset", 6) == 0)
 		*type = BUILTIN_UNSET;
 	else if (ft_strncmp(value, "env", 3) == 0)
 		*type = BUILTIN_ENV;

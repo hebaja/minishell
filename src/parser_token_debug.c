@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-char	*get_token_type(t_token_type type)
+char	*print_token_type(t_token_type type)
 {
 	if (type == FLAG)
 		return "FLAG";
@@ -64,11 +64,10 @@ void	print_tokens(t_token *tokens_head)
 	t_token	*current_token;
 
 	current_token = tokens_head;
-	printf("size -> %lu\n", token_lst_size(tokens_head));
 	while (current_token)
 	{
 		printf("value = %s, type = %s, next = %p\n", current_token->value,
-			get_token_type(current_token->type),
+			print_token_type(current_token->type),
 			current_token->next);
 		current_token = current_token->next;
 	}
