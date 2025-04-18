@@ -19,12 +19,19 @@ t_token	*token_build(char **o_value, char *value_start, size_t size)
 
 	token = (t_token *)malloc(sizeof(t_token));
 	value = (char *)malloc(sizeof(char) * (size + 1));
-	if (*value_start == '\'' || *value_start == '\"')
-		value_start++;
-	ft_strlcpy(value, value_start, size + 1);
 	if (!token || !value)
 		return (NULL);
-	token->type = define_type(value);
+	if (*value_start == '\'' || *value_start == '\"')
+	{
+		token->type = define_type(value_start);
+		value_start++;
+		ft_strlcpy(value, value_start, size + 1);
+	}
+	else
+	{
+		ft_strlcpy(value, value_start, size + 1);
+		token->type = define_type(value);
+	}
 	token->value = value;
 	token->next = NULL;
 	*o_value = (*o_value) + size;

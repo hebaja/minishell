@@ -26,8 +26,8 @@ int	quote_mode(t_token **token_lst, char **value,
 	char	*value_start;
 
 	size = 0;
-	quoted_value++;
 	value_start = quoted_value;
+	quoted_value++;
 	if (*quoted_value)
 	{
 		while (*quoted_value && *quoted_value != quote)
