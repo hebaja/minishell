@@ -44,6 +44,21 @@ void	token_clear(t_token *token)
 	token = NULL;
 }
 
+size_t		token_lst_size(t_token *token_lst)
+{
+	size_t	size;
+
+	if (!token_lst)
+		return (0);
+	size = 0;
+	while (token_lst)
+	{
+		size++;
+		token_lst = token_lst->next;
+	}
+	return (size);
+}
+
 void	token_lst_clear(t_token **token_lst_head)
 {
 	t_token	*token;
