@@ -20,6 +20,34 @@ char    *fetch_token_type(t_token_type type)
 		return ("REDIRECT_IN");
 	if (type == REDIRECT_OUT)
 		return ("REDIRECT_OUT");
+	if (type == BACKGROUND)
+		return ("BACKGROUND");
+	if (type == WILDCARD)
+		return ("WILDCARD");
+	if (type == AND)
+		return ("AND");
+	if (type == OR)
+		return ("OR");
+	if (type == DOLAR)
+		return ("DOLAR");
+	if (type == BUILTIN_ECHO)
+		return ("BUILTIN_ECHO");
+	if (type == BUILTIN_CD)
+		return ("BUILTIN_CD");
+	if (type == BUILTIN_ENV)
+		return ("BUILTIN_ENV");
+	if (type == BUILTIN_PWD)
+		return ("BUILTIN_PWD");
+	if (type == BUILTIN_EXIT)
+		return ("BUILTIN_EXIT");
+	if (type == BUILTIN_UNSET)
+		return ("BUILTIN_UNSET");
+	if (type == BUILTIN_EXPORT)
+		return ("BUILTIN_EXPORT");
+	if (type == SINGLE_QUOTED)
+		return ("SINGLE_QUOTED");
+	if (type == DOUBLE_QUOTED)
+		return ("DOUBLE_QUOTED");
 	return ("");
 }
 
@@ -63,7 +91,6 @@ void	unquoted_value_test(t_token *token_lst, char *value, char quote)
 
 void	test_token_lst(t_token *token_lst, char *value, char *type)
 {
-
 	if (*value == '\'' || *value == '\"')
 		unquoted_value_test(token_lst, value, *value);
 	else
