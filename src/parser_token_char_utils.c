@@ -14,9 +14,20 @@
 
 int	is_metacharacter(char c)
 {
-	if (c == '>' || c == '<' || c == '|')
+	if (c == '>' || c == '<' || c == '|' || c == '*' || c == '$')
 		return (1);
 	return (0);
+}
+
+void	set_extra_meta_chars(t_token *token, char *value_start)
+{
+	if (token->type == DOLAR && !ft_isalnum(*++value_start))
+		token->type = WORD;
+	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
+	{
+		if (*value_start != ' ')
+			token->type = WILDCARD_JOIN;
+	}
 }
 
 int	quote_mode(t_token **token_lst, char **value,

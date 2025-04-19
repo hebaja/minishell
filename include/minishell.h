@@ -31,7 +31,8 @@ typedef enum e_token_type
 	DOLAR,
 	APPEND,
 	HEREDOC,
-	WILDCARD,
+	WILDCARD_SOLO,
+	WILDCARD_JOIN,
 	BACKGROUND,
 	REDIRECT_IN,
 	REDIRECT_OUT,
@@ -62,6 +63,7 @@ int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
+void			set_extra_meta_chars(t_token *token, char *value_start);
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 /* DEGUB */
