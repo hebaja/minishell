@@ -6,7 +6,7 @@
 /*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:26 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/06 14:29:31 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/04/20 11:22:48 by hebatist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 		ft_strlcpy(value, value_start, size + 1);
 		token->type = define_type(value);
 	}
-	if (token->type == DOLAR && !ft_isalnum(*++value_start))
-		token->type = WORD;
-	if (token->type == WILDCARD_SOLO && *++value_start != ' ')
-		token->type = WILDCARD_JOIN;
+	set_extra_meta_chars(token, value_start);
 	token->value = value;
 	token->next = NULL;
 	*abs_value = (*abs_value) + size;
