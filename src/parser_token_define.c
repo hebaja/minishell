@@ -87,7 +87,7 @@ t_token_type	define_type(char *value)
 	else if (ft_strncmp(value, "|", 1) == 0)
 		return (PIPE);
 	else if (ft_strncmp(value, "*", 2) == 0)
-		return (WILDCARD);
+		return (WILDCARD_SOLO);
 	else if (ft_strncmp(value, "$", 2) == 0)
 		return (DOLAR);
 	else if (define_type_more(value, &type))

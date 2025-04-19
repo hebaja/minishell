@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-t_token	*token_build(char **o_value, char *value_start, size_t size)
+t_token	*token_build(char **abs_value, char *value_start, size_t size)
 {
 	t_token	*token;
 	char	*value;
@@ -24,17 +24,18 @@ t_token	*token_build(char **o_value, char *value_start, size_t size)
 	if (*value_start == '\'' || *value_start == '\"')
 	{
 		token->type = define_type(value_start);
+		ft_strlcpy(value, ++value_start, size + 1);
 		value_start++;
-		ft_strlcpy(value, value_start, size + 1);
 	}
 	else
 	{
 		ft_strlcpy(value, value_start, size + 1);
 		token->type = define_type(value);
 	}
+	set_extra_meta_chars(token, value_start);
 	token->value = value;
 	token->next = NULL;
-	*o_value = (*o_value) + size;
+	*abs_value = (*abs_value) + size;
 	return (token);
 }
 
