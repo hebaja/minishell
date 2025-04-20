@@ -22,8 +22,10 @@ char    *fetch_token_type(t_token_type type)
 		return ("REDIRECT_OUT");
 	if (type == BACKGROUND)
 		return ("BACKGROUND");
-	if (type == WILDCARD)
-		return ("WILDCARD");
+	if (type == WILDCARD_SOLO)
+		return ("WILDCARD_SOLO");
+	if (type == WILDCARD_JOIN)
+		return ("WILDCARD_JOIN");
 	if (type == AND)
 		return ("AND");
 	if (type == OR)

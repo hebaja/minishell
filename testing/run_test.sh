@@ -7,6 +7,7 @@ gcc -I \
 	minishell_test_utils.c \
 	minishell_test_builtin.c \
 	minishell_test_quote.c \
+	minishell_test_extra_meta.c \
 	../src/parser_token_build.c \
 	../src/parser_token_utils.c \
 	../src/parser_token_define.c \
