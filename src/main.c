@@ -30,7 +30,12 @@ int	main(void)
 		if (input)
 			add_history(input);
 		token_lst_build(&tokens_head, input);
-		print_tokens(tokens_head);
+		if (!tokens_head)
+		{
+			free(input);
+			break ;
+		}
+		token_lst_perform(&tokens_head);/* TODO Function to carry on the command */	
 		free(input);
 		token_lst_clear(&tokens_head);
 		input = readline(TERMINAL_PROMPT);
