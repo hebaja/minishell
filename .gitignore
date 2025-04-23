@@ -1,5 +1,7 @@
 minishell
 package.json
+testing/tests
+.vscode
 *.swp
 *.out
 *.o
