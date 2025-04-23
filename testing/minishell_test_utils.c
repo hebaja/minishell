@@ -1,5 +1,5 @@
 #include "minishell_test.h"
-
+	
 void redirect_all_stdout(void)
 {
 	cr_redirect_stdout();
@@ -57,8 +57,6 @@ char	**fetch_tokens_type_list(t_token *token_lst)
 {
 	char	**tokens_type_list;
 	char	*type_str;
-	size_t	size;
-	int		i;
 
 	tokens_type_list = (char **)malloc(sizeof(char *) * (token_lst_size(token_lst) + 1));
 	i = 0;
@@ -76,11 +74,8 @@ char	**fetch_tokens_type_list(t_token *token_lst)
 
 void	unquoted_value_test(t_token *token_lst, char *value, char quote)
 {
-	int		i;
 	char	*unquoted;
-	size_t	size;
 
-	i = -1;
 	size = 0;
 	value++;
 	while (value[size] != quote && value[size])
@@ -98,4 +93,16 @@ void	test_token_lst(t_token *token_lst, char *value, char *type)
 	else
 		cr_assert_str_eq(token_lst->value, value);
 	cr_assert_str_eq(fetch_token_type(token_lst->type), type);
+}
+
+void	test_lst(t_token *token_lst, char **values, char **types)
+{
+	i = 0;
+	while (token_lst)
+	{
+		test_token_lst(token_lst, values[i], types[i]);
+		token_lst = token_lst->next;
+		i++;
+	}
+	token_lst_clear(&token_lst);
 }
