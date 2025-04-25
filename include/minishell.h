@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/24 19:41:06 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/04/25 20:00:07 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_env
 typedef struct s_token
 {
 	char			*value;
+	char			*export;
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
@@ -76,6 +77,7 @@ void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
 void			builtin_env(char **envp);
 void			builtin_pwd(void);
+void			builtin_export(t_token *head, char **envp);
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 void			print_tokens(t_token *tokens_head);
