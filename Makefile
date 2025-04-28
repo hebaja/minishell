@@ -9,6 +9,7 @@ LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJS=$(SRCS:.c=.o)
+TEST_DIR=testing
 
 all: $(OBJS) $(LIBFT)
 	$(CC) $(CC_FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(READLINE_FLAG) -g
@@ -29,5 +30,8 @@ fclean: clean
 	rm -f $(EXEC_NAME)
 
 re: fclean all
+
+test: $(LIBFT)
+	@cd $(TEST_DIR) && ./run_test.sh
 
 .PHONY: all clean fclean re
