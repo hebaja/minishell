@@ -39,35 +39,35 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 	return (token);
 }
 
-int	append_token(t_token **tokens_head, char **value,
+int	append_token(t_token **token_lst, char **value,
 	char *value_start, size_t size)
 {
 	t_token		*token;
 
 	if (*value_start)
 	{
-		if (tokens_head == NULL || *tokens_head == NULL)
+		if (token_lst == NULL || *token_lst == NULL)
 		{
 			token = token_build(value, value_start, size);
 			if (!token)
 				return (0);
-			*tokens_head = token;
+			*token_lst = token;
 		}
 		else
 		{
 			token = token_build(value, value_start, size);
 			if (!token)
 			{
-				token_lst_clear(tokens_head);
+				token_lst_clear(token_lst);
 				return (0);
 			}
-			token_lst_add_back(tokens_head, token);
+			token_lst_add_back(token_lst, token);
 		}
 	}
 	return (1);
 }
 
-int	build_token_metacharacter(t_token **tokens_head, char **value)
+int	build_token_metacharacter(t_token **token_lst, char **value)
 {
 	int		size;
 	char	*value_start;
@@ -76,14 +76,14 @@ int	build_token_metacharacter(t_token **tokens_head, char **value)
 	{
 		size = is_meta_token(*value);
 		value_start = *value;
-		if (!append_token(tokens_head, value, value_start, size))
+		if (!append_token(token_lst, value, value_start, size))
 			return (0);
 		*value = *value + size;
 	}
 	return (1);
 }
 
-int	default_build(t_token **tokens_head,
+int	default_build(t_token **token_lst,
 	char **value, char *value_start, int i)
 {
 	while ((*value)[i] && !ft_isspace((*value)[i])
@@ -91,20 +91,20 @@ int	default_build(t_token **tokens_head,
 		i++;
 	if (*value_start == '\'')
 	{
-		if (!quote_mode(tokens_head, value, value_start, '\''))
+		if (!quote_mode(token_lst, value, value_start, '\''))
 			return (0);
 	}
 	else if (*value_start == '\"')
 	{
-		if (!quote_mode(tokens_head, value, value_start, '\"'))
+		if (!quote_mode(token_lst, value, value_start, '\"'))
 			return (0);
 	}
-	else if (!append_token(tokens_head, value, value_start, i))
+	else if (!append_token(token_lst, value, value_start, i))
 		return (0);
 	return (1);
 }
 
-int	token_lst_build(t_token **tokens_head, char *value)
+int	token_lst_build(t_token **token_lst, char *value)
 {
 	size_t		i;
 	char		*value_start;
@@ -117,12 +117,12 @@ int	token_lst_build(t_token **tokens_head, char *value)
 		{
 			while (is_metacharacter(value[i]))
 				i++;
-			if (!append_token(tokens_head, &value, value_start, i))
+			if (!append_token(token_lst, &value, value_start, i))
 				return (0);
 		}
 		else
 		{
-			if (!default_build(tokens_head, &value, value_start, i))
+			if (!default_build(token_lst, &value, value_start, i))
 				return (0);
 		}
 		while (value && ft_isspace(*value))

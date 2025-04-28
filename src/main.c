@@ -15,9 +15,9 @@
 int	main(void)
 {
 	char	*input;
-	t_token	*tokens_head;
+	t_token	*token_lst;
 
-	tokens_head = NULL;
+	token_lst = NULL;
 	using_history();
 	input = readline(TERMINAL_PROMPT);
 	while (input)
@@ -29,18 +29,18 @@ int	main(void)
 		}
 		if (input)
 			add_history(input);
-		token_lst_build(&tokens_head, input);
-		if (!tokens_head)
+		token_lst_build(&token_lst, input);
+		if (!token_lst)
 		{
 			free(input);
 			break ;
 		}
-		token_lst_perform(&tokens_head);/* TODO Function to carry on the command */	
+		token_lst_perform(&token_lst);/* TODO Function to carry on the command */	
 		free(input);
-		token_lst_clear(&tokens_head);
+		token_lst_clear(&token_lst);
 		input = readline(TERMINAL_PROMPT);
 	}
-	if (tokens_head)
-		token_lst_clear(&tokens_head);
+	if (token_lst)
+		token_lst_clear(&token_lst);
 	return (0);
 }

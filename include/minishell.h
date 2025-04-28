@@ -54,7 +54,7 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-int				token_lst_build(t_token **tokens_head, char *value);
+int				token_lst_build(t_token **token_lst, char *value);
 int				token_lst_perform(t_token **tokens_head);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
@@ -62,13 +62,14 @@ int				append_token(t_token **token_lst, char **value,
 					char *value_start, size_t size);
 int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
-void			token_lst_clear(t_token **token_lst_head);
-void			token_lst_add_back(t_token **token_lst_head, t_token *token);
+void			token_lst_clear(t_token **token_lst);
+void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token, char *value_start);
+void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 /* DEGUB */
-void			print_tokens(t_token *tokens_head);
+void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);
 t_token			*token_build(char **value, char *value_start, size_t size);
 
