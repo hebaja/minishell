@@ -49,6 +49,13 @@ char	*get_token_type(t_token_type type)
 	return ("");
 }
 
+void	print(t_token *token_lst)
+{
+	printf("value = %s, type = %s, next = %p\n", token_lst->value,
+		print_token_type(token_lst->type),
+		token_lst->next);
+}
+
 void	print_tokens(t_token *tokens_head)
 {
 	t_token	*current_token;

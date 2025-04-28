@@ -42,22 +42,12 @@ t_token	*token_lst_last(t_token *token_lst)
 	return (current_token);
 }
 
-void	token_lst_add_back(t_token **token_lst_head, t_token *token)
+void	token_lst_add_back(t_token **token_lst, t_token *token)
 {
-	if (*token_lst_head == NULL)
-		*token_lst_head = token;
+	if (*token_lst == NULL)
+		*token_lst = token;
 	else
-		token_lst_last(*token_lst_head)->next = token;
-}
-
-void	token_clear(t_token *token)
-{
-	if (!token)
-		return ;
-	token->next = NULL;
-	free(token->value);
-	free(token);
-	token = NULL;
+		token_lst_last(*token_lst)->next = token;
 }
 
 size_t	token_lst_size(t_token *token_lst)
@@ -75,17 +65,16 @@ size_t	token_lst_size(t_token *token_lst)
 	return (size);
 }
 
-void	token_lst_clear(t_token **token_lst_head)
+void	token_lst_iterate(t_token *token_lst, void(func)(t_token *))
 {
-	t_token	*token;
-	t_token	*token_tmp;
+	t_token	*next_token;
 
-	token = *token_lst_head;
-	if (token)
+	if (token_lst == NULL)
+		return ;
+	while (token_lst)
 	{
-		token_tmp = token;
-		token = token->next;
-		token_clear(token_tmp);
+		next_token = token_lst->next;
+		func(token_lst);
+		token_lst = next_token;
 	}
-	*token_lst_head = NULL;
 }
