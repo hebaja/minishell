@@ -10,9 +10,10 @@ gcc -I \
 	minishell_test_extra_meta.c \
 	minishell_test_globals.c \
 	../src/parser_token_build.c \
-	../src/parser_token_utils.c \
 	../src/parser_token_define.c \
 	../src/parser_token_char_utils.c \
+	../src/token_utils.c \
+	../src/token_clear.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
