@@ -104,16 +104,7 @@ int	default_build(t_token **token_lst,
 	return (1);
 }
 
-int	is_metacharacter(char *value)
-{
-	if ((ft_strncmp(value, ">>", 2) == 0) || (ft_strncmp(value, "<<", 2) == 0) || (ft_strncmp(value, "&&", 2) == 0) || (ft_strncmp(value, "||", 2) == 0))
- 		return (2);
-	if ((ft_strncmp(value, "|", 1) == 0) || (ft_strncmp(value, ">", 1) == 0) || (ft_strncmp(value, "<", 1) == 0) || (ft_strncmp(value, "&", 1) == 0))
-		return (1);
-	return (0);
-}
-
-int	token_lst_build(t_token **tokens_head, char *value)
+int	token_lst_build(t_token **token_lst, char *value)
 {
 	size_t		i;
 	char		*value_start;

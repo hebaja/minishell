@@ -50,21 +50,6 @@ void	token_lst_add_back(t_token **token_lst, t_token *token)
 		token_lst_last(*token_lst)->next = token;
 }
 
-size_t	token_lst_size(t_token *token_lst)
-{
-	size_t	size;
-
-	if (!token_lst)
-		return (0);
-	size = 0;
-	while (token_lst)
-	{
-		size++;
-		token_lst = token_lst->next;
-	}
-	return (size);
-}
-
 void	token_lst_iterate(t_token *token_lst, void(func)(t_token *))
 {
 	t_token	*next_token;
