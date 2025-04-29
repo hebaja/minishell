@@ -62,6 +62,7 @@ int				append_token(t_token **token_lst, char **value,
 					char *value_start, size_t size);
 int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
+void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token, char *value_start);
