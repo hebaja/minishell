@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/04/25 20:43:35 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/02 21:03:08 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,6 @@ void	ft_lstadd_back_export(t_token **export_head, t_token *new_node)
 
 
 
-/*
-t_token	*create_variable(t_token *head)
-{
-	
-}
-*/
 t_token	*extract_variable(t_token *head, char **envp)
 {
 	int	size_env;
@@ -62,10 +56,38 @@ t_token	*extract_variable(t_token *head, char **envp)
 	return (head);
 }
 
+#include <stdio.h>
+
+t_token	*create_variable(t_token *current, t_token *head)
+{
+
+	char	*searchequal;
+
+	if (current->type != WORD)
+		return (NULL);
+	else
+	{
+		printf("1: antes de strchr\n");
+		searchequal = ft_strchr(current->value, '=');
+		printf("2: depois de strchr\n");
+
+		printf("3: current->value = %s\n", current->value);
+		printf("4: searchequal = %p\n", (void *)searchequal);
+
+		if (searchequal)
+		{
+			head->env = extract_key_and_value(&current->value, searchequal, head->env);
+		}
+
+		printf("5: depois de extract_key_and_value\n");
+	}	
+	return (head);
+
+}
 void	builtin_export(t_token *head, char **envp)
 {
 	t_token *current;
-	//t_token	*export_head;
+	t_token	*export_head;
 	t_token *globais_variables;
 	t_token	*tmp;
 
@@ -73,7 +95,7 @@ void	builtin_export(t_token *head, char **envp)
 	globais_variables = extract_variable(head, envp);
 	tmp = globais_variables;
 	
-	if (!current)
+	if (!current && current->type != WORD)
 	{
 		while (tmp)
 		{
@@ -81,12 +103,9 @@ void	builtin_export(t_token *head, char **envp)
 			tmp = tmp->next;
 		}
 	}
-	
-	/*
 	else
 	{
-		export_head = create_variable(head);
+		export_head = create_variable(current, head);
 
 	}
-	*/
 }

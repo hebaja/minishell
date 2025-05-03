@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 18:45:48 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/04/24 19:49:34 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/02 21:05:41 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,20 @@ t_env *save_env_keys_and_value(char **envp)
 	return (env_head);
 }
 
-void	builtin_env(char **envp)
+t_env	*builtin_env(char **envp)
 {
 	t_env	*env_head;
 	t_env	*temp;
 
 	env_head = save_env_keys_and_value(envp);
 	if (!env_head)
-		return ;
+		return (NULL);
 	temp = env_head;
 	while (temp)
 	{
 		ft_printf("%s=%s\n",temp->key, temp->value);
 		temp = temp->next;
 	}
+
+	return (env_head);
 }

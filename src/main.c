@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/25 20:14:05 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/02 19:57:15 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	isCommandToken(t_token *token_head, char **envp)
 	else if (token_head->type == BUILTIN_ECHO)
 		builtin_echo(token_head);
 	else if (token_head->type == BUILTIN_ENV)
-		builtin_env(envp);
+		token_head->env = builtin_env(envp);
 	else if (token_head->type == BUILTIN_EXPORT)
 		builtin_export(token_head, envp);
 

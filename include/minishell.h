@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/25 20:00:07 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/02 20:40:45 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_token
 	char			*value;
 	char			*export;
 	t_token_type	type;
+	t_env 			*env;
 	struct s_token	*next;
 }	t_token;
 
@@ -75,7 +76,8 @@ void			token_lst_add_back(t_token **token_lst_head, t_token *token);
 void			set_extra_meta_chars(t_token *token, char *value_start);
 void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
-void			builtin_env(char **envp);
+t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
+t_env			*builtin_env(char **envp);
 void			builtin_pwd(void);
 void			builtin_export(t_token *head, char **envp);
 size_t			token_lst_size(t_token *token_lst);
