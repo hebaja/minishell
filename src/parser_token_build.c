@@ -87,7 +87,7 @@ int	default_build(t_token **token_lst,
 	char **value, char *value_start, int i)
 {
 	while ((*value)[i] && !ft_isspace((*value)[i])
-		&& !is_metacharacter((*value)[i]))
+		&& !is_metacharacter((*value)[i]) && (*value)[i] != '\'' && (*value)[i] != '\"')
 		i++;
 	if (*value_start == '\'')
 	{
