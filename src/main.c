@@ -6,13 +6,13 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/02 19:57:15 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:57:37 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	isCommandToken(t_token *token_head, char **envp)
+void	isCommandToken(t_token *token_head, t_env *env)
 {
 	if (token_head->type == BUILTIN_CD)
 		builtin_cd(token_head);
@@ -21,9 +21,9 @@ void	isCommandToken(t_token *token_head, char **envp)
 	else if (token_head->type == BUILTIN_ECHO)
 		builtin_echo(token_head);
 	else if (token_head->type == BUILTIN_ENV)
-		token_head->env = builtin_env(envp);
+		builtin_env(env);
 	else if (token_head->type == BUILTIN_EXPORT)
-		builtin_export(token_head, envp);
+		builtin_export(token_head, env);
 
 }
 
@@ -31,12 +31,15 @@ int	main(int argc, char **argv , char **envp)
 {
 	char	*input;
 	t_token	*tokens_head;
+	t_env	*environment_variables;
+
 
 	tokens_head = NULL;
 	(void)argc;
 	(void)argv;
 	using_history();
 	input = readline(TERMINAL_PROMPT);
+	environment_variables = fn_enviroment_variables(envp);
 	while (input)
 	{
 		if (ft_strncmp(input, "quit", 5) == 0)
@@ -52,7 +55,7 @@ int	main(int argc, char **argv , char **envp)
 			free(input);
 			break ;
 		}
-		isCommandToken(tokens_head, envp);
+		isCommandToken(tokens_head, environment_variables);
 		token_lst_perform(&tokens_head);/* TODO Function to carry on the command */	
 		free(input);
 		token_lst_clear(&tokens_head);

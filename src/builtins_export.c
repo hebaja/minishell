@@ -6,59 +6,31 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/02 21:03:08 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:16:25 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	ft_lstadd_back_export(t_token **export_head, t_token *new_node)
+t_env	create_new_node(t_env *env, char *searchequal, t_token *variable)
 {
-	t_token *tmp;
+	t_env	*new_node;
+	int		size_key;
+	int		size_value;
 
-	if (!*export_head)
-		*export_head = new_node;
-	else
-	{
-		tmp = *export_head;
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new_node;
-	}
+	size_key = searchequal - env;
+	
 }
 
-
-
-t_token	*extract_variable(t_token *head, char **envp)
+t_token	*add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 {
-	int	size_env;
-	t_token	*new_node;
 
-	while (*envp)
-	{
-		size_env = 0;
-		if (ft_strcmp(*envp, "_=/usr/bin/env") == 0)
-			return (head);
-		size_env = ft_strlen(*envp);
-			new_node = malloc(sizeof(t_token));
-			if (!new_node)
-				return (NULL);
-			new_node->export = malloc(size_env + 1);
-			if (!new_node->export)
-				return (NULL);
-			ft_strncpy(new_node->export, *envp, size_env);
-			new_node->export[size_env] = '\0';
-			new_node->next = NULL;
-			ft_lstadd_back_export(&head, new_node);
-			ft_printf("%s\n",new_node->export);
-		envp++;
-	}
-	return (head);
+
+	ft_lstadd_back(env, variable);
+
 }
 
-#include <stdio.h>
-
-t_token	*create_variable(t_token *current, t_token *head)
+t_token	*create_variable(t_token *current, t_env *env)
 {
 
 	char	*searchequal;
@@ -67,45 +39,35 @@ t_token	*create_variable(t_token *current, t_token *head)
 		return (NULL);
 	else
 	{
-		printf("1: antes de strchr\n");
 		searchequal = ft_strchr(current->value, '=');
-		printf("2: depois de strchr\n");
 
 		printf("3: current->value = %s\n", current->value);
 		printf("4: searchequal = %p\n", (void *)searchequal);
 
 		if (searchequal)
-		{
-			head->env = extract_key_and_value(&current->value, searchequal, head->env);
-		}
-
+			head->env = extract_key_and_value(env, searchequal, current);
 		printf("5: depois de extract_key_and_value\n");
 	}	
 	return (head);
 
 }
-void	builtin_export(t_token *head, char **envp)
+void	builtin_export(t_token *head, t_env *env)
 {
 	t_token *current;
 	t_token	*export_head;
-	t_token *globais_variables;
-	t_token	*tmp;
+	t_env	*tmp;
 
 	current = head->next;
-	globais_variables = extract_variable(head, envp);
-	tmp = globais_variables;
+	tmp = env;
 	
-	if (!current && current->type != WORD)
+	if (!current || current->type != WORD)
 	{
 		while (tmp)
 		{
-			ft_printf("%s\n",tmp->export);
+			ft_printf("%s=%s\n",tmp->key, tmp->value);
 			tmp = tmp->next;
 		}
 	}
 	else
-	{
-		export_head = create_variable(current, head);
-
-	}
+		export_head = create_variable(current, env);
 }

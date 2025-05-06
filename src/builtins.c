@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:32:44 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/04/24 18:08:02 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:27:04 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,16 @@ void	builtin_echo(t_token *token_lst)
 	}
 	else
 		ft_printf("\n");
+}
+
+void	builtin_env(t_env *env_head)
+{
+	t_env	*temp;
+
+	temp = env_head;
+	while (temp)
+	{
+		ft_printf("%s=%s\n",temp->key, temp->value);
+		temp = temp->next;
+	}
 }

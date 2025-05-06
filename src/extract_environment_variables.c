@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_env.c                                     :+:      :+:    :+:   */
+/*   extract_environment_variables.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 18:45:48 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/02 21:05:41 by alda-sil         ###   ########.fr       */
+/*   Created: 2025/05/05 17:27:27 by alda-sil          #+#    #+#             */
+/*   Updated: 2025/05/05 20:12:21 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 	}
 }
 
-t_env	*extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
+t_env *extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
 {
 	t_env	*new_node;
 	int		size_key;
@@ -45,11 +45,12 @@ t_env	*extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
 	ft_strncpy(new_node->key, *envp, size_key);
 	ft_strncpy(new_node->value, (*envp + size_key + 1), size_value);
 	new_node->key[size_key] = '\0';
-	new_node->key[size_value] = '\0';
+	new_node->value[size_value] = '\0';
 	new_node->next = NULL;
 	ft_lstadd_back_env(&env_head, new_node);
 	return (env_head);
 }
+
 
 t_env *save_env_keys_and_value(char **envp)
 {
@@ -70,7 +71,6 @@ t_env *save_env_keys_and_value(char **envp)
 					free(env_head);
 					env_head = env_head->next;
 				}
-				return (NULL);
 			}
 		}
 		envp++;
@@ -78,20 +78,10 @@ t_env *save_env_keys_and_value(char **envp)
 	return (env_head);
 }
 
-t_env	*builtin_env(char **envp)
+t_env *fn_enviroment_variables(char **envp)
 {
-	t_env	*env_head;
-	t_env	*temp;
-
+	t_env *env_head;
+	
 	env_head = save_env_keys_and_value(envp);
-	if (!env_head)
-		return (NULL);
-	temp = env_head;
-	while (temp)
-	{
-		ft_printf("%s=%s\n",temp->key, temp->value);
-		temp = temp->next;
-	}
-
 	return (env_head);
 }
