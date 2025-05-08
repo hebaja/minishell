@@ -19,7 +19,7 @@ gcc -I \
 	-L ./criterion-2.4.2/lib \
 	-lcriterion \
 	-o tests \
-	&& ./tests --verbose
+	&& ./tests
 if [ $? -eq 0 ]; then
     echo "✅ All tests passed"
 	exit 0

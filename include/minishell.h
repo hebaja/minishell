@@ -26,6 +26,7 @@ typedef enum e_token_type
 {
 	OR,
 	AND,
+	VAR,
 	WORD,
 	FLAG,
 	PIPE,
@@ -69,9 +70,8 @@ int				is_dolar(char *value);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
-void			set_extra_meta_chars(t_token *token, char *value_start);
+void			set_extra_meta_chars(t_token *token, char *value_start, char quote);
 void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
-void			token_lst_remove_if(t_token **token_lst, t_token_type type, int (*cmp)());
 void			var_expansion(t_token **token_lst);
 void			quotes_var_expansion(t_token **token_lst);
 size_t			token_lst_size(t_token *token_lst);

@@ -35,7 +35,7 @@ int	main(void)
 			free(input);
 			break ;
 		}
-		analyse_token_lst(&token_lst);/* TODO Function to carry on the command */	
+		analyse_token_lst(&token_lst);
 		free(input);
 		token_lst_clear(&token_lst);
 		input = readline(TERMINAL_PROMPT);

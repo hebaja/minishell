@@ -12,8 +12,10 @@
 
 #include "../include/minishell.h"
 
-/* TODO we might need to check if all tokens are
-* ok after an iteration */
+/* TODO still to implement:
+ * - quotes removal
+ * - checking lst integrity
+*/
 int		analyse_token_lst(t_token **token_lst)
 {
 	var_expansion(token_lst);

@@ -38,6 +38,8 @@ char	*print_token_type(t_token_type type)
 		return ("AND");
 	if (type == OR)
 		return ("OR");
+	if (type == VAR)
+		return ("VAR");
 	if (type == DOLAR)
 		return ("DOLAR");
 	if (type == BUILTIN_CD)

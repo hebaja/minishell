@@ -71,10 +71,7 @@ void	check_double_quoted(t_token *token_lst)
 	}
 }
 
-/* TODO we might need to check if all tokens are
-* ok after an iteration */
 void	quotes_var_expansion(t_token **token_lst)
 {
 	token_lst_iterate(*token_lst, check_double_quoted);
-	token_lst_remove_if(token_lst, DOLAR, cmp);
 }

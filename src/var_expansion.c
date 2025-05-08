@@ -12,8 +12,6 @@
 
 #include "../include/minishell.h"
 
-/* TODO search in internal environment variables here
-* when they're ready */
 int	find_dolar_pos(t_token *token_lst)
 {
 	int	dolar_pos;
@@ -30,21 +28,21 @@ int	find_dolar_pos(t_token *token_lst)
 	return (-1);
 }
 
+/* TODO search in internal environment variables here
+* when they're ready */
 void	expand_var(t_token *token)
 {
-	t_token	*next_token;
 	size_t	var_val_len;
 	char	*new_str;
 	int		dolar_pos;
 
 	dolar_pos = -1;
-	if (token->type == DOLAR)
+	if (token->type == VAR)
 	{
-		next_token = token->next;
-		if (ft_strncmp(next_token->value, "USER", ft_strlen("USER")) == 0)
+		if (ft_strncmp(&token->value[1], "USER", ft_strlen("USER")) == 0)
 		{
-			free(next_token->value);
-			next_token->value = ft_strdup(USER);
+			free(token->value);
+			token->value = ft_strdup(USER);
 		}
 	}
 	else if (find_dolar_pos(token) >= 1 && token->type == WORD)
@@ -59,10 +57,7 @@ void	expand_var(t_token *token)
 	}
 }
 
-/* TODO we might need to check if all tokens are
-* ok after an iteration */
 void	var_expansion(t_token **token_lst)
 {
 	token_lst_iterate(*token_lst, expand_var);
-	token_lst_remove_if(token_lst, DOLAR, cmp);
 }

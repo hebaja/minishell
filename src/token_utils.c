@@ -12,6 +12,13 @@
 
 #include "../include/minishell.h"
 
+int	comp(t_token_type type_a, t_token_type type_b)
+{
+	if (type_a == type_b)
+		return (1);
+	return (0);
+}
+
 t_token	*token_lst_last(t_token *token_lst)
 {
 	t_token	*current_token;

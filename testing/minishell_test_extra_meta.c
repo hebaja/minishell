@@ -15,11 +15,10 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_test_dolar_var)
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
 	values[0] = ft_strdup("echo");
-	values[1] = ft_strdup("$");
-	values[2] = ft_strdup("USER");
-	values[3] = NULL;
+	values[1] = ft_strdup("$USER");
+	values[2] = NULL;
 	cr_assert_eq(res, 1);
-	cr_assert_eq(token_lst->next->type, DOLAR);
+	cr_assert_eq(token_lst->next->type, VAR);
 	test_lst(token_lst, values, types);
 }
  
@@ -34,7 +33,7 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_dolar_char)
 	values[2] = ft_strdup("USER");
 	values[3] = NULL;
 	cr_assert_eq(res, 1);
-	cr_assert_neq(token_lst->next->type, DOLAR);
+	cr_assert_neq(token_lst->next->type, VAR);
 	test_lst(token_lst, values, types);
 }
 

@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <ctype.h>
 
 int	is_metacharacter(char c)
 {
@@ -24,19 +23,17 @@ int	is_dolar(char *value)
 {
 	if (value == NULL || *value == '\0' || *value != '$')
 		return (0);
-	if (*value == '$')
-		value--;
-	if (is_metacharacter(*value))
+	else if (*value == '$')
+		value++;
+	if (*value && ft_isalnum(*value))
 		return (1);
-	if (isalnum(*value))
-		return (0);
-	return (1);
+	return (0);
 }
 
-void	set_extra_meta_chars(t_token *token, char *value_start)
+void	set_extra_meta_chars(t_token *token, char *value_start, char quote)
 {
-	if (token->type == DOLAR && !ft_isalnum(*++value_start))
-		token->type = WORD;
+	if (is_dolar(value_start) && quote == 0)
+		token->type = VAR;
 	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
 	{
 		if (*value_start != ' ')

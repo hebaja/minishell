@@ -12,15 +12,6 @@
 
 #include "../include/minishell.h"
 
-int	syntax_check(char *value, size_t size)
-{
-	if (ft_strnstr(value, " ", size + 1) || ft_strnstr(value, "&", size + 1)
-		|| ft_strlen(value) == size)
-		return (1);
-	return (0);
-}
-
-/* TODO after here, if word is the sabe as builting, show syntax error*/
 int	define_type_builtin(char *value, t_token_type *type)
 {
 	int	res;
@@ -62,17 +53,11 @@ int	define_type_more(char *value, t_token_type *type, char c)
 		*type = REDIRECT_OUT;
 	else if (ft_strncmp(value, "<", 1) == 0)
 		*type = REDIRECT_IN;
-	// else if (ft_strncmp(value, "\'", 1) == 0)
-	// 	*type = SINGLE_QUOTED;
-	// else if (ft_strncmp(value, "\"", 1) == 0)
-	// 	*type = DOUBLE_QUOTED;
 	else
 		res = 0;
 	return (res);
 }
 
-/* * NEEDS SPACE RIGHT BEFORE */
-/* $ NEEDS LETTER RIGHT AFTER */
 t_token_type	define_type(char *value, char c)
 {
 	t_token_type	type;
@@ -92,8 +77,6 @@ t_token_type	define_type(char *value, char c)
 		return (PIPE);
 	else if (ft_strncmp(value, "*", 2) == 0)
 		return (WILDCARD_SOLO);
-	else if (ft_strcmp(value, "$") == 0)
-		return (DOLAR);
 	else if (define_type_more(value, &type, c))
 		return (type);
 	else if (define_type_builtin(value, &type))
