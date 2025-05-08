@@ -11,12 +11,26 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <ctype.h>
 
 int	is_metacharacter(char c)
 {
-	if (c == '>' || c == '<' || c == '|' || c == '*' || c == '$')
+	if (c == '>' || c == '<' || c == '|' || c == '*')
 		return (1);
 	return (0);
+}
+
+int	is_dolar(char *value)
+{
+	if (value == NULL || *value == '\0' || *value != '$')
+		return (0);
+	if (*value == '$')
+		value--;
+	if (is_metacharacter(*value))
+		return (1);
+	if (isalnum(*value))
+		return (0);
+	return (1);
 }
 
 void	set_extra_meta_chars(t_token *token, char *value_start)

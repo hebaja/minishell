@@ -20,6 +20,7 @@
 # include "../libft/include/libft.h"
 
 # define TERMINAL_PROMPT "🚀 $: "
+# define USER "hebatist"
 
 typedef enum e_token_type
 {
@@ -55,20 +56,26 @@ typedef struct s_token
 }	t_token;
 
 int				token_lst_build(t_token **token_lst, char *value);
-int				token_lst_perform(t_token **tokens_head);
+int				analyse_token_lst(t_token **tokens_head);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
+int				cmp(t_token_type type_a, t_token_type type_b);
 int				append_token(t_token **token_lst, char **value,
 					char *value_start, size_t size);
 int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
+int				find_dolar_pos(t_token *token_lst);
+int				is_dolar(char *value);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token, char *value_start);
 void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
+void			token_lst_remove_if(t_token **token_lst, t_token_type type, int (*cmp)());
+void			var_expansion(t_token **token_lst);
+void			quotes_var_expansion(t_token **token_lst);
 size_t			token_lst_size(t_token *token_lst);
-t_token_type	define_type(char *value);
+t_token_type	define_type(char *value, char c);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);

@@ -16,22 +16,23 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 {
 	t_token	*token;
 	char	*value;
+	char	quote;
 
+	quote = 0;
+	if ((is_metacharacter(value_start[0]) && value_start[1] == '$')
+		|| (is_metacharacter(value_start[1]) && value_start[2] == '$'))
+		size--;
 	token = (t_token *)malloc(sizeof(t_token));
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
 		return (NULL);
 	if (*value_start == '\'' || *value_start == '\"')
 	{
-		token->type = define_type(value_start);
-		ft_strlcpy(value, ++value_start, size + 1);
+		quote = *value_start;
 		value_start++;
 	}
-	else
-	{
-		ft_strlcpy(value, value_start, size + 1);
-		token->type = define_type(value);
-	}
+	ft_strlcpy(value, value_start, size + 1);
+	token->type = define_type(value, quote);
 	set_extra_meta_chars(token, value_start);
 	token->value = value;
 	token->next = NULL;
@@ -86,9 +87,6 @@ int	build_token_metacharacter(t_token **token_lst, char **value)
 int	default_build(t_token **token_lst,
 	char **value, char *value_start, int i)
 {
-	while ((*value)[i] && !ft_isspace((*value)[i])
-		&& !is_metacharacter((*value)[i]) && (*value)[i] != '\'' && (*value)[i] != '\"')
-		i++;
 	if (*value_start == '\'')
 	{
 		if (!quote_mode(token_lst, value, value_start, '\''))
@@ -99,8 +97,18 @@ int	default_build(t_token **token_lst,
 		if (!quote_mode(token_lst, value, value_start, '\"'))
 			return (0);
 	}
-	else if (!append_token(token_lst, value, value_start, i))
-		return (0);
+	else
+	{
+		/* TODO if I verify that the previous node is a dolar,
+			* I could write another while where it WORD would go until quotes
+			* I might to refactor linked list with next and prev.
+			*
+		while ((*value)[i] && !ft_isspace((*value)[i])
+			&& !is_metacharacter((*value)[i]) && !is_dolar(*value))
+			i++;
+		if (!append_token(token_lst, value, value_start, i))
+			return (0);
+	}
 	return (1);
 }
 
@@ -113,9 +121,9 @@ int	token_lst_build(t_token **token_lst, char *value)
 	value_start = value;
 	while (value[i])
 	{
-		if (value[i] && is_metacharacter(value[i]))
+		if (value[i] && (is_metacharacter(value[i]) || is_dolar(&value[i])))
 		{
-			while (is_metacharacter(value[i]))
+			while (i < 2 && (is_metacharacter(value[i]) || is_dolar(&value[i])))
 				i++;
 			if (!append_token(token_lst, &value, value_start, i))
 				return (0);
