@@ -60,7 +60,6 @@ int				token_lst_build(t_token **token_lst, char *value);
 int				analyse_token_lst(t_token **tokens_head);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
-int				cmp(t_token_type type_a, t_token_type type_b);
 int				append_token(t_token **token_lst, char **value,
 					char *value_start, size_t size);
 int				quote_mode(t_token **token_lst, char **value,
