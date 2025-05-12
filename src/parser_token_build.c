@@ -81,17 +81,6 @@ int	build_token_metacharacter(t_token **token_lst, char **value)
 	return (1);
 }
 
-int	var_mode(t_token **token_lst, char **value, char *value_start)
-{
-	int	size;
-
-	size = 1;
-	while (ft_isalnum((*value)[size]))
-		size++;
-	append_token(token_lst, value, value_start, size);
-	return (1);
-}
-
 int	default_build(t_token **token_lst,
 	char **value, char *value_start, int i)
 {

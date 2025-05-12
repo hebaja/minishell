@@ -49,7 +49,7 @@ size_t	token_lst_size(t_token *token_lst)
 	return (size);
 }
 
-void	token_lst_iterate(t_token *token_lst, void(func)(t_token *))
+void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
 {
 	t_token	*next_token;
 

@@ -16,7 +16,7 @@
  * - quotes removal
  * - checking lst integrity
 */
-int		analyse_token_lst(t_token **token_lst)
+int	analyse_token_lst(t_token **token_lst)
 {
 	var_expansion(token_lst);
 	quotes_var_expansion(token_lst);

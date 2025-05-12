@@ -12,6 +12,17 @@
 
 #include "../include/minishell.h"
 
+void	set_extra_meta_chars(t_token *token, char *value_start, char quote)
+{
+	if (is_dolar(value_start) && quote == 0)
+		token->type = VAR;
+	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
+	{
+		if (*value_start != ' ')
+			token->type = WILDCARD_JOIN;
+	}
+}
+
 int	define_type_builtin(char *value, t_token_type *type)
 {
 	int	res;
@@ -45,7 +56,7 @@ int	define_type_more(char *value, t_token_type *type, char c)
 		*type = SINGLE_QUOTED;
 	else if (c == '\"')
 		*type = DOUBLE_QUOTED;
-	else if(ft_strncmp(value, ">>", 2) == 0)
+	else if (ft_strncmp(value, ">>", 2) == 0)
 		*type = APPEND;
 	else if (ft_strncmp(value, "<<", 2) == 0)
 		*type = HEREDOC;

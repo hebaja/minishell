@@ -30,15 +30,15 @@ int	is_dolar(char *value)
 	return (0);
 }
 
-void	set_extra_meta_chars(t_token *token, char *value_start, char quote)
+int	var_mode(t_token **token_lst, char **value, char *value_start)
 {
-	if (is_dolar(value_start) && quote == 0)
-		token->type = VAR;
-	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
-	{
-		if (*value_start != ' ')
-			token->type = WILDCARD_JOIN;
-	}
+	int	size;
+
+	size = 1;
+	while (ft_isalnum((*value)[size]))
+		size++;
+	append_token(token_lst, value, value_start, size);
+	return (1);
 }
 
 int	quote_mode(t_token **token_lst, char **value,

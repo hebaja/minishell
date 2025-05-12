@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_quotes_expansion.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/09 02:28:19 by hebatist          #+#    #+#             */
+/*   Updated: 2025/05/09 02:28:22 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	define_new_value(t_token *token_lst, int dolar_pos)
@@ -7,7 +19,7 @@ int	define_new_value(t_token *token_lst, int dolar_pos)
 	int		var_key_len;
 	int		old_value_len;
 	int		new_value_len;
-	
+
 	var_value_len = ft_strlen(USER);
 	var_key_len = ft_strlen("USER");
 	old_value_len = ft_strlen(token_lst->value);
@@ -17,8 +29,8 @@ int	define_new_value(t_token *token_lst, int dolar_pos)
 		return (0);
 	ft_memcpy(new_str, token_lst->value, dolar_pos);
 	ft_memcpy(&new_str[dolar_pos], USER, var_value_len);
-	ft_memcpy(&new_str[dolar_pos + var_value_len], 
-		&token_lst->value[dolar_pos + var_key_len + 1], 
+	ft_memcpy(&new_str[dolar_pos + var_value_len],
+		&token_lst->value[dolar_pos + var_key_len + 1],
 		old_value_len - var_key_len - dolar_pos);
 	free(token_lst->value);
 	token_lst->value = new_str;
@@ -33,9 +45,10 @@ int	expand_in_quote(t_token *token_lst, int dolar_pos)
 	char	*env_name;
 	int		i;
 
-	i = -1;
+	i = 0;
 	env_name_len = 0;
-	while (token_lst->value[++i] != '$');
+	while (token_lst->value[i] != '$')
+		i++;
 	while (ft_isalnum(token_lst->value[++i]))
 		env_name_len++;
 	env_name = ft_substr(token_lst->value, dolar_pos + 1, env_name_len);
@@ -57,7 +70,7 @@ void	check_double_quoted(t_token *token_lst)
 		if (dolar_pos >= 0)
 		{
 			i = dolar_pos;
-			while(token_lst->value[i])
+			while (token_lst->value[i])
 			{
 				expand_in_quote(token_lst, dolar_pos);
 				i++;
