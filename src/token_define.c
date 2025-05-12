@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	is_join(char **abs_value)
+int	is_word_join(char **abs_value)
 {
 	if (*(*abs_value - 1)
 		&& (*(*abs_value - 1) == '\''
@@ -21,10 +21,16 @@ int	is_join(char **abs_value)
 	return (0);
 }
 
-void	set_extra_meta_chars(t_token *token, char *value_start, char quote)
+void	set_extra_meta_chars(t_token *token,
+	char *value_start, char quote, int is_join)
 {
 	if (is_dolar(value_start) && quote == 0)
-		token->type = VAR;
+	{
+		if (is_join)
+			token->type = VAR_JOIN;
+		else
+			token->type = VAR;
+	}
 	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
 	{
 		if (*value_start != ' ')

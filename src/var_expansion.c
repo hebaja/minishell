@@ -69,7 +69,7 @@ void	expand_var(t_token *token)
 	int		dolar_pos;
 
 	dolar_pos = find_dolar_pos(token);
-	if (token->type == VAR)
+	if (token->type == VAR || token->type == VAR_JOIN)
 	{
 		if (ft_strncmp(&token->value[1], "USER", ft_strlen("USER") + 1) == 0)
 		{

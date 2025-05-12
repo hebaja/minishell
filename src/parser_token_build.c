@@ -17,10 +17,10 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 	t_token	*token;
 	char	*value;
 	char	quote;
-	char	is_word_join;
+	int		is_join;
 
 	quote = 0;
-	is_word_join = is_join(abs_value);
+	is_join = is_word_join(abs_value);
 	token = (t_token *)malloc(sizeof(t_token));
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
@@ -31,8 +31,8 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 		value_start++;
 	}
 	ft_strlcpy(value, value_start, size + 1);
-	token->type = define_type(value, quote, is_word_join);
-	set_extra_meta_chars(token, value_start, quote);
+	token->type = define_type(value, quote, is_join);
+	set_extra_meta_chars(token, value_start, quote, is_join);
 	token->value = value;
 	token->next = NULL;
 	*abs_value = (*abs_value) + size;
