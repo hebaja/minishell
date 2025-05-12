@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/08 20:57:58 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/12 18:22:51 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ void	builtin_export(t_token *head, t_env *env)
 	{
 		while (tmp)
 		{
+			if (tmp > tmp->next)
+			{
+				
+			}
 			ft_printf("%s=%s\n",tmp->key, tmp->value);
 			tmp = tmp->next;
 		}
