@@ -13,7 +13,7 @@ OBJS=$(SRCS:.c=.o)
 TEST_DIR=testing
 
 all: $(OBJS) $(LIBFT)
-	$(CC) $(CC_FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(READLINE_FLAG) -g
+	$(CC) $(CC_FLAGS) -o $(NAME) $(OBJS) $(LIBFT) $(READLINE_FLAG)
 
 $(LIBFT):
 	make -C $(LIBFT_DIR)

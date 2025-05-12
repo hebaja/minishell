@@ -33,6 +33,7 @@ typedef enum e_token_type
 	DOLAR,
 	APPEND,
 	HEREDOC,
+	WORD_JOIN,
 	WILDCARD_SOLO,
 	WILDCARD_JOIN,
 	BACKGROUND,
@@ -67,6 +68,7 @@ int				quote_mode(t_token **token_lst, char **value,
 int				find_dolar_pos(t_token *token_lst);
 int				is_dolar(char *value);
 int				var_mode(t_token **token_lst, char **value, char *value_start);
+int				is_join(char **abs_value);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
@@ -75,7 +77,7 @@ void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
 void			var_expansion(t_token **token_lst);
 void			quotes_var_expansion(t_token **token_lst);
 size_t			token_lst_size(t_token *token_lst);
-t_token_type	define_type(char *value, char c);
+t_token_type	define_type(char *value, char c, int is_word_join);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);
