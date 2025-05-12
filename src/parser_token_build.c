@@ -65,19 +65,31 @@ int	append_token(t_token **token_lst, char **value,
 	return (1);
 }
 
-int	build_token_metacharacter(t_token **token_lst, char **value)
+int	regular_mode(t_token **token_lst, char **value, char *value_start, int i)
 {
-	int		size;
-	char	*value_start;
+	char	quote;
 
-	if (*value)
+	quote = 0;
+	while ((*value)[i] && !is_metacharacter((*value)[i]) && !is_dolar(*value))
 	{
-		size = is_meta_token(*value);
-		value_start = *value;
-		if (!append_token(token_lst, value, value_start, size))
+		if (!quote && ft_isspace((*value)[i]))
+			break ;
+		else if (quote && (*value)[i] == quote)
+		{
+			i++;
+			break ;
+		}
+		else if ((*value)[i] == '\'' || (*value)[i] == '\"')
+			quote = (*value)[i];
+		i++;
+		if (quote && !(*value)[i])
+		{
+			ft_putstr_fd("Unclosed quotes\n", 2);
 			return (0);
-		*value = *value + size;
+		}
 	}
+	if (!append_token(token_lst, value, value_start, i))
+		return (0);
 	return (1);
 }
 
@@ -100,13 +112,8 @@ int	default_build(t_token **token_lst,
 			return (0);
 	}
 	else
-	{
-		while ((*value)[i] && !ft_isspace((*value)[i])
-			&& !is_metacharacter((*value)[i]) && !is_dolar(*value))
-			i++;
-		if (!append_token(token_lst, value, value_start, i))
+		if (!regular_mode(token_lst, value, value_start, i))
 			return (0);
-	}
 	return (1);
 }
 

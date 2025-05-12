@@ -29,8 +29,7 @@ int	main(void)
 		}
 		if (input)
 			add_history(input);
-		token_lst_build(&token_lst, input);
-		if (!token_lst)
+		if (!token_lst_build(&token_lst, input) || !token_lst)
 		{
 			free(input);
 			break ;
