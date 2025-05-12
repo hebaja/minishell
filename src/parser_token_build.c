@@ -65,21 +65,6 @@ int	append_token(t_token **token_lst, char **value,
 	return (1);
 }
 
-// int	build_token_metacharacter(t_token **token_lst, char **value)
-// {
-// 	int		size;
-// 	char	*value_start;
-
-// 	if (*value)
-// 	{
-// 		size = is_meta_token(*value);
-// 		value_start = *value;
-// 		if (!append_token(token_lst, value, value_start, size))
-// 			return (0);
-// 		*value = *value + size;
-// 	}
-// 	return (1);
-// }
 int	regular_mode(t_token **token_lst, char **value, char *value_start, int i)
 {
 	char	quote;
@@ -98,7 +83,10 @@ int	regular_mode(t_token **token_lst, char **value, char *value_start, int i)
 			quote = (*value)[i];
 		i++;
 		if (quote && !(*value)[i])
+		{
+			ft_putstr_fd("Unclosed quotes\n", 2);
 			return (0);
+		}
 	}
 	if (!append_token(token_lst, value, value_start, i))
 		return (0);

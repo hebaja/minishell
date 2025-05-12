@@ -39,32 +39,26 @@ int	single_quote_precedes(char *value, int i)
 	return (0);
 }
 
-int	deal_mixed_value(t_token *token, int dolar_pos)
+/* We'll have to handle possible calloc error here
+ */
+void	deal_mixed_value(t_token *token, int dolar_pos)
 {
 	size_t	var_val_len;
 	size_t	var_key_len;
+	size_t	end_val_offset;
 	char	*new_str;
-	int		cut_size;
-	int		new_size;
 
 	var_val_len = ft_strlen(USER);
 	var_key_len = ft_strlen("USER");
-
-	cut_size = dolar_pos + var_key_len + 1;
-	new_size = ft_strlen(token->value) - cut_size;
-
-	// new_str = (char *)malloc(sizeof(char) * (dolar_pos + var_val_len + new_size + 1));
-	new_str = ft_calloc(dolar_pos + var_val_len + new_size + 1, sizeof(char));
-	if (!new_str)
-		return (0);
+	end_val_offset = ft_strlen(token->value) - (dolar_pos + var_key_len + 1);
+	new_str = ft_calloc(dolar_pos + var_val_len
+		+ end_val_offset + 1, sizeof(char));
 	ft_memcpy(new_str, token->value, dolar_pos);
 	ft_memcpy(&new_str[dolar_pos], USER, var_val_len);
 	ft_memcpy(&new_str[dolar_pos + var_val_len],
-		&token->value[dolar_pos + var_key_len + 1],
-		new_size);
+		&token->value[dolar_pos + var_key_len + 1], end_val_offset);
 	free(token->value);
 	token->value = new_str;
-	return (1);
 }
 
 /* TODO search in internal environment variables here
@@ -85,7 +79,7 @@ void	expand_var(t_token *token)
 	}
 	else if (token->type == WORD && dolar_pos >= 1
 		&& !single_quote_precedes(token->value, dolar_pos))
-	deal_mixed_value(token, dolar_pos);
+		deal_mixed_value(token, dolar_pos);
 }
 
 void	var_expansion(t_token **token_lst)
