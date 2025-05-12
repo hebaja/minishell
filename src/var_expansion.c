@@ -28,33 +28,58 @@ int	find_dolar_pos(t_token *token_lst)
 	return (-1);
 }
 
-/* TODO search in internal environment variables here
-* when they're ready */
-void	expand_var(t_token *token)
+int	single_quote_precedes(char *value, int i)
+{
+	while (i >= 0)
+	{
+		if (value[i] == '\'')
+			return (1);
+		i--;
+	}
+	return (0);
+}
+
+/* We'll have to handle possible calloc error here
+ */
+void	deal_mixed_value(t_token *token, int dolar_pos)
 {
 	size_t	var_val_len;
+	size_t	var_key_len;
+	size_t	end_val_offset;
 	char	*new_str;
+
+	var_val_len = ft_strlen(USER);
+	var_key_len = ft_strlen("USER");
+	end_val_offset = ft_strlen(token->value) - (dolar_pos + var_key_len + 1);
+	new_str = ft_calloc(dolar_pos + var_val_len
+		+ end_val_offset + 1, sizeof(char));
+	ft_memcpy(new_str, token->value, dolar_pos);
+	ft_memcpy(&new_str[dolar_pos], USER, var_val_len);
+	ft_memcpy(&new_str[dolar_pos + var_val_len],
+		&token->value[dolar_pos + var_key_len + 1], end_val_offset);
+	free(token->value);
+	token->value = new_str;
+}
+
+/* TODO search in internal environment variables here
+* when they're ready 
+* */
+void	expand_var(t_token *token)
+{
 	int		dolar_pos;
 
-	dolar_pos = -1;
-	if (token->type == VAR)
+	dolar_pos = find_dolar_pos(token);
+	if (token->type == VAR || token->type == VAR_JOIN)
 	{
-		if (ft_strncmp(&token->value[1], "USER", ft_strlen("USER")) == 0)
+		if (ft_strncmp(&token->value[1], "USER", ft_strlen("USER") + 1) == 0)
 		{
 			free(token->value);
 			token->value = ft_strdup(USER);
 		}
 	}
-	else if (find_dolar_pos(token) >= 1 && token->type == WORD)
-	{
-		dolar_pos = find_dolar_pos(token);
-		var_val_len = ft_strlen(USER);
-		new_str = (char *)malloc(sizeof(char) * (dolar_pos + var_val_len + 1));
-		ft_memcpy(new_str, token->value, dolar_pos);
-		ft_memcpy(&new_str[dolar_pos], USER, var_val_len);
-		free(token->value);
-		token->value = new_str;
-	}
+	else if (token->type == WORD && dolar_pos >= 1
+		&& !single_quote_precedes(token->value, dolar_pos))
+		deal_mixed_value(token, dolar_pos);
 }
 
 void	var_expansion(t_token **token_lst)

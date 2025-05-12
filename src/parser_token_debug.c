@@ -60,6 +60,10 @@ char	*print_token_type(t_token_type type)
 		return ("SINGLE_QUOTED");
 	if (type == DOUBLE_QUOTED)
 		return ("DOUBLE_QUOTED");
+	if (type == WORD_JOIN)
+		return ("WORD_JOIN");
+	if (type == VAR_JOIN)
+		return ("VAR_JOIN");
 	return ("");
 }
 
