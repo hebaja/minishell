@@ -12,7 +12,8 @@
 
 #include "../include/minishell.h"
 
-t_token	*token_build(char **abs_value, char *value_start, size_t size)
+t_token	*token_build(char **abs_value, char *value_start,
+	size_t size, int is_start)
 {
 	t_token	*token;
 	char	*value;
@@ -20,7 +21,7 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 	int		is_join;
 
 	quote = 0;
-	is_join = is_word_join(abs_value);
+	is_join = is_word_join(abs_value, is_start);
 	token = (t_token *)malloc(sizeof(t_token));
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
@@ -48,14 +49,14 @@ int	append_token(t_token **token_lst, char **value,
 	{
 		if (token_lst == NULL || *token_lst == NULL)
 		{
-			token = token_build(value, value_start, size);
+			token = token_build(value, value_start, size, 1);
 			if (!token)
 				return (0);
 			*token_lst = token;
 		}
 		else
 		{
-			token = token_build(value, value_start, size);
+			token = token_build(value, value_start, size, 0);
 			if (!token)
 			{
 				token_lst_clear(token_lst);
