@@ -43,7 +43,7 @@ int	define_type_builtin(char *value, t_token_type *type)
 	int	res;
 
 	res = 1;
-	if (ft_strncmp(value, "echo", 4) == 0)
+	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
 	else if (ft_strncmp(value, "cd", 2) == 0)
 		*type = BUILTIN_CD;
