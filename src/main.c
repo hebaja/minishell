@@ -32,12 +32,16 @@ int	main(void)
 		if (!token_lst_build(&token_lst, input) || !token_lst)
 		{
 			free(input);
-			break ;
+			token_lst_clear(&token_lst);
+			input = readline(TERMINAL_PROMPT);
 		}
-		analyse_token_lst(&token_lst);
-		free(input);
-		token_lst_clear(&token_lst);
-		input = readline(TERMINAL_PROMPT);
+		else
+		{
+			analyse_token_lst(&token_lst);
+			free(input);
+			token_lst_clear(&token_lst);
+			input = readline(TERMINAL_PROMPT);
+		}
 	}
 	if (token_lst)
 		token_lst_clear(&token_lst);
