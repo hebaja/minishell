@@ -12,15 +12,32 @@
 
 #include "../include/minishell.h"
 
-int	syntax_check(char *value, size_t size)
+int	is_word_join(char **abs_value)
 {
-	if (ft_strnstr(value, " ", size + 1) || ft_strnstr(value, "&", size + 1)
-		|| ft_strlen(value) == size)
+	if (*(*abs_value - 1)
+		&& (*(*abs_value - 1) == '\''
+		|| *(*abs_value - 1) == '\"'))
 		return (1);
 	return (0);
 }
 
-/* TODO after here, if word is the sabe as builting, show syntax error*/
+void	set_extra_meta_chars(t_token *token,
+	char *value_start, char quote, int is_join)
+{
+	if (is_dolar(value_start) && quote == 0)
+	{
+		if (is_join)
+			token->type = VAR_JOIN;
+		else
+			token->type = VAR;
+	}
+	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
+	{
+		if (*value_start != ' ')
+			token->type = WILDCARD_JOIN;
+	}
+}
+
 int	define_type_builtin(char *value, t_token_type *type)
 {
 	int	res;
@@ -45,12 +62,16 @@ int	define_type_builtin(char *value, t_token_type *type)
 	return (res);
 }
 
-int	define_type_more(char *value, t_token_type *type)
+int	define_type_more(char *value, t_token_type *type, char c)
 {
 	int	res;
 
 	res = 1;
-	if (ft_strncmp(value, ">>", 2) == 0)
+	if (c == '\'')
+		*type = SINGLE_QUOTED;
+	else if (c == '\"')
+		*type = DOUBLE_QUOTED;
+	else if (ft_strncmp(value, ">>", 2) == 0)
 		*type = APPEND;
 	else if (ft_strncmp(value, "<<", 2) == 0)
 		*type = HEREDOC;
@@ -58,18 +79,12 @@ int	define_type_more(char *value, t_token_type *type)
 		*type = REDIRECT_OUT;
 	else if (ft_strncmp(value, "<", 1) == 0)
 		*type = REDIRECT_IN;
-	else if (ft_strncmp(value, "\'", 1) == 0)
-		*type = SINGLE_QUOTED;
-	else if (ft_strncmp(value, "\"", 1) == 0)
-		*type = DOUBLE_QUOTED;
 	else
 		res = 0;
 	return (res);
 }
 
-/* * NEEDS SPACE RIGHT BEFORE */
-/* $ NEEDS LETTER RIGHT AFTER */
-t_token_type	define_type(char *value)
+t_token_type	define_type(char *value, char c, int is_word_join)
 {
 	t_token_type	type;
 
@@ -88,11 +103,11 @@ t_token_type	define_type(char *value)
 		return (PIPE);
 	else if (ft_strncmp(value, "*", 2) == 0)
 		return (WILDCARD_SOLO);
-	else if (ft_strncmp(value, "$", 2) == 0)
-		return (DOLAR);
-	else if (define_type_more(value, &type))
+	else if (define_type_more(value, &type, c))
 		return (type);
 	else if (define_type_builtin(value, &type))
 		return (type);
+	else if (is_word_join)
+		return (WORD_JOIN);
 	return (WORD);
 }

@@ -53,6 +53,51 @@ char    *fetch_token_type(t_token_type type)
 	return ("");
 }
 
+void	clean_values(char **values)
+{
+	while(*values)
+	{
+		free(*values);
+		values++;
+	}
+	values = NULL;
+}
+
+char	**populate_values(int size, ...)
+{
+	int		i;
+	char	**strs;
+	va_list	args;
+
+	i = -1;
+	strs = (char **)malloc(sizeof(char *) * (size + 1));
+	va_start(args, size);
+	while (++i < size)
+		strs[i] = ft_strdup(va_arg(args, char *));
+	va_end(args);
+	strs[i] = NULL;
+	return (strs);
+}
+
+char	**split_token_lst(t_token *token_lst)
+{
+	char	**split_values;
+	size_t	size;
+	int		i;
+
+	size = token_lst_size(token_lst);
+	split_values = (char **)malloc(sizeof(char *) * (size + 1));
+	i = 0;
+	while (token_lst)
+	{
+		split_values[i] = ft_strdup(token_lst->value);
+		token_lst = token_lst->next;
+		i++;
+	}
+	split_values[i] = NULL;
+	return split_values;
+}
+
 char	**fetch_tokens_type_list(t_token *token_lst)
 {
 	char	**tokens_type_list;

@@ -102,16 +102,8 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed)
 Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed_2)
 {
 	char	*input = "echo>>doc || less<more";
-	
-	values = malloc(sizeof(char *) * 8);
-	values[0] = ft_strdup("echo");
-	values[1] = ft_strdup(">>");
-	values[2] = ft_strdup("doc");
-	values[3] = ft_strdup("||");
-	values[4] = ft_strdup("less");
-	values[5] = ft_strdup("<");
-	values[6] = ft_strdup("more");
-	values[7] = NULL;
+
+	values = populate_values(7, "echo", ">>", "doc", "||", "less", "<", "more");
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
