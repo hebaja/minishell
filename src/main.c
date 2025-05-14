@@ -12,6 +12,13 @@
 
 #include "../include/minishell.h"
 
+void	clean_prompt(t_token **token_lst, char **input)
+{
+	free(*input);
+	token_lst_clear(token_lst);
+	*input = readline(TERMINAL_PROMPT);
+}
+
 int	main(void)
 {
 	char	*input;
@@ -30,14 +37,12 @@ int	main(void)
 		if (input)
 			add_history(input);
 		if (!token_lst_build(&token_lst, input) || !token_lst)
+			clean_prompt(&token_lst, &input);
+		else
 		{
-			free(input);
-			break ;
+			analyse_token_lst(&token_lst);
+			clean_prompt(&token_lst, &input);
 		}
-		analyse_token_lst(&token_lst);
-		free(input);
-		token_lst_clear(&token_lst);
-		input = readline(TERMINAL_PROMPT);
 	}
 	if (token_lst)
 		token_lst_clear(&token_lst);

@@ -12,12 +12,15 @@
 
 #include "../include/minishell.h"
 
-int	is_word_join(char **abs_value)
+int	is_word_join(char **abs_value, int is_start)
 {
-	if (*(*abs_value - 1)
-		&& (*(*abs_value - 1) == '\''
-		|| *(*abs_value - 1) == '\"'))
-		return (1);
+	if (!is_start)
+	{
+		if (*(*abs_value - 1)
+			&& (*(*abs_value - 1) == '\''
+				|| *(*abs_value - 1) == '\"'))
+			return (1);
+	}
 	return (0);
 }
 
@@ -45,17 +48,17 @@ int	define_type_builtin(char *value, t_token_type *type)
 	res = 1;
 	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
-	else if (ft_strncmp(value, "cd", 2) == 0)
+	else if (ft_strncmp(value, "cd", 3) == 0)
 		*type = BUILTIN_CD;
-	else if (ft_strncmp(value, "pwd", 3) == 0)
+	else if (ft_strncmp(value, "pwd", 4) == 0)
 		*type = BUILTIN_PWD;
 	else if (ft_strncmp(value, "export", 7) == 0)
 		*type = BUILTIN_EXPORT;
 	else if (ft_strncmp(value, "unset", 6) == 0)
 		*type = BUILTIN_UNSET;
-	else if (ft_strncmp(value, "env", 3) == 0)
+	else if (ft_strncmp(value, "env", 4) == 0)
 		*type = BUILTIN_ENV;
-	else if (ft_strncmp(value, "exit", 4) == 0)
+	else if (ft_strncmp(value, "exit", 5) == 0)
 		*type = BUILTIN_EXIT;
 	else
 		res = 0;

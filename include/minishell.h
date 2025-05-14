@@ -69,7 +69,12 @@ int				quote_mode(t_token **token_lst, char **value,
 int				find_dolar_pos(t_token *token_lst);
 int				is_dolar(char *value);
 int				var_mode(t_token **token_lst, char **value, char *value_start);
-int				is_word_join(char **abs_value);
+int				is_word_join(char **abs_value, int is_start);
+int				var_mode(t_token **token_lst, char **value, char *value_start);
+int				quote_mode(t_token **token_lst, char **value,
+					char *quoted_value, char quote);
+int				regular_mode(t_token **token_lst, char **value, 
+					char *value_start, int i);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
@@ -78,11 +83,13 @@ void			set_extra_meta_chars(t_token *token, char *value_start,
 void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
 void			var_expansion(t_token **token_lst);
 void			quotes_var_expansion(t_token **token_lst);
+void			quote_removal(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
+t_token			*token_build(char **value, char *value_start,
+					size_t size, int is_start);
 t_token_type	define_type(char *value, char c, int is_join);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);
-t_token			*token_build(char **value, char *value_start, size_t size);
 
 #endif
