@@ -13,6 +13,7 @@ gcc -I \
 	minishell_test_var_quote.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
+	../src/parser_modes.c \
 	../src/token_define.c \
 	../src/var_expansion.c \
 	../src/var_quotes_expansion.c \
