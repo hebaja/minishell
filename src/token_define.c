@@ -18,7 +18,7 @@ int	is_word_join(char **abs_value, int is_start)
 	{
 		if (*(*abs_value - 1)
 			&& (*(*abs_value - 1) == '\''
-			|| *(*abs_value - 1) == '\"'))
+				|| *(*abs_value - 1) == '\"'))
 			return (1);
 	}
 	return (0);

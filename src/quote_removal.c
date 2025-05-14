@@ -33,10 +33,12 @@ void	remove_quotes(t_token *token)
 		value_len = ft_strlen(token->value);
 		new_value = ft_calloc(value_len - 1, sizeof(char));
 		while (token->value[++i])
+		{
 			if (token->value[i] != '\'' && token->value[i] != '\"')
 				ft_memcpy(&new_value[i - offset], &token->value[i], 1);
 			else
 				offset++;
+		}
 		new_value[i - offset] = '\0';
 		free(token->value);
 		token->value = new_value;
