@@ -5,7 +5,8 @@ NAME=minishell
 INC_DIR=include
 SRC_DIR=src
 SRC_FILES=main.c parser_token_build.c parser_token_char_utils.c parser_analyse.c token_define.c \
-		token_utils.c token_clear.c var_expansion.c var_quotes_expansion.c parser_token_debug.c
+		token_utils.c token_clear.c var_expansion.c var_quotes_expansion.c quote_removal.c \
+		parser_token_debug.c
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))

@@ -14,12 +14,15 @@
 
 /* TODO still to implement:
  * - quotes removal
+ * - joining tokens  
  * - checking lst integrity
 */
+
 int	analyse_token_lst(t_token **token_lst)
 {
 	var_expansion(token_lst);
 	quotes_var_expansion(token_lst);
+	quote_removal(*token_lst);
 	print_tokens(*token_lst);
 	return (1);
 }

@@ -78,6 +78,7 @@ void			set_extra_meta_chars(t_token *token, char *value_start,
 void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
 void			var_expansion(t_token **token_lst);
 void			quotes_var_expansion(t_token **token_lst);
+void			quote_removal(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
