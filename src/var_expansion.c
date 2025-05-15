@@ -77,8 +77,8 @@ void	expand_var(t_token *token)
 			token->value = ft_strdup(USER);
 		}
 	}
-	else if (token->type == WORD && dolar_pos >= 1
-		&& !single_quote_precedes(token->value, dolar_pos))
+	else if ((token->type == WORD || token->type == WORD_JOIN) 
+		&& dolar_pos >= 1 && !single_quote_precedes(token->value, dolar_pos))
 		deal_mixed_value(token, dolar_pos);
 }
 
