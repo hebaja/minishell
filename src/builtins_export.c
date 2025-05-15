@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/12 18:22:51 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:03:34 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,23 +36,6 @@ t_env	*create_new_node(t_env *env, char *searchequal, t_token *variable)
 	return(env);
 }
 
-t_env	*add_to_env_not_equal_sign(t_env *env, t_token *variable)
-{
-	t_env	*new_node;
-	int		size_key;
-
-	size_key = ft_strlen(variable->value);
-	new_node = malloc(sizeof(t_env));
-	if (!new_node)
-		return (NULL);
-	new_node->key = malloc(sizeof(size_key + 1));
-	if (!new_node->key)
-		return (NULL);
-	ft_strncpy(new_node->key, variable->value, size_key);
-	new_node->key[size_key] = '\0';
-	new_node->next = NULL;
-	ft_lstadd_back_env(&env, new_node);
-}
 
 t_env	*add_to_env_not_equal_sign(t_env *env, t_token *variable)
 {

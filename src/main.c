@@ -6,13 +6,13 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/08 19:41:57 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:59:37 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	isCommandToken(t_token *token_head, t_env *env)
+void	isCommandToken(t_token *token_head, t_env **env)
 {
 	if (token_head->type == BUILTIN_CD)
 		builtin_cd(token_head);
@@ -21,9 +21,11 @@ void	isCommandToken(t_token *token_head, t_env *env)
 	else if (token_head->type == BUILTIN_ECHO)
 		builtin_echo(token_head);
 	else if (token_head->type == BUILTIN_ENV)
-		builtin_env(env);
+		builtin_env(*env);
 	else if (token_head->type == BUILTIN_EXPORT)
-		builtin_export(token_head, env);
+		builtin_export(token_head, *env);
+	else if (token_head->type == BUILTIN_UNSET)
+		builtin_unset(env, token_head);
 
 }
 
@@ -55,7 +57,7 @@ int	main(int argc, char **argv , char **envp)
 			free(input);
 			break ;
 		}
-		isCommandToken(tokens_head, environment_variables);
+		isCommandToken(tokens_head, &environment_variables);
 		token_lst_perform(&tokens_head);/* TODO Function to carry on the command */	
 		free(input);
 		token_lst_clear(&tokens_head);

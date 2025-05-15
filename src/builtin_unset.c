@@ -6,33 +6,56 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/12 19:12:44 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/13 21:25:33 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	remove_env(t_env *env, t_token *variable)
+int	cmp(char *key, char *variable)
 {
-	
+	return (strcmp(key, variable) == 0);
 }
 
-int	check_env_exists(t_env *env, t_token *variable)
+
+void	ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)())
+{
+	t_env	*current;
+	t_env	*tmp;
+
+	if (!env || !*env || !variable)
+		return ;
+	current = *env;
+	if (cmp(current->key, variable->next->value))
+	{
+		tmp = current;
+		*env = current->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+		ft_list_remove_if(env, variable, cmp);
+	}
+	else
+		ft_list_remove_if(&current->next, variable, cmp);
+}
+
+int	check_env_exists(t_env **env, t_token *variable)
 {
 	t_env	*tmp;
 
-	tmp = env;
+	tmp = *env;
 	while (tmp)
 	{
-		if (tmp->key == variable->value)
-			return (EXIT_SUCCESS);
+		if (cmp(tmp->key, variable->next->value))
+			return (0);
 		tmp = tmp->next;
 	}
-	return (EXIT_FAILURE);
+	return (1);
 }
 
-void	builtin_unset(t_env *env, t_token *variable)
+void	builtin_unset(t_env **env, t_token *variable)
 {
+
 	if (!variable)
 	{
 		ft_printf("unset: not enough arguments\n");
@@ -44,5 +67,5 @@ void	builtin_unset(t_env *env, t_token *variable)
 		return ;
 	}
 	else
-		remove_env(env, variable);	
+		ft_list_remove_if(env, variable, cmp);	
 }

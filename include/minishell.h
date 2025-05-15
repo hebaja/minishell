@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/06 16:39:58 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:59:14 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_head);
 void			builtin_pwd(void);
 void			builtin_export(t_token *head, t_env *env);
+void			builtin_unset(t_env **env, t_token *variable);
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 void			print_tokens(t_token *tokens_head);
