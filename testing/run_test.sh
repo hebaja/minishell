@@ -11,12 +11,14 @@ gcc -I \
 	minishell_test_globals.c \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
+	minishell_test_token_join.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
 	../src/token_define.c \
 	../src/var_expansion.c \
 	../src/var_quotes_expansion.c \
+	../src/parser_analyse.c \
 	../src/token_utils.c \
 	../src/token_clear.c \
 	../src/parser_token_debug.c \

@@ -86,6 +86,7 @@ void			quotes_var_expansion(t_token **token_lst);
 void			quote_removal(t_token *token_lst);
 void			token_lst_remove_if(t_token **token_lst, t_token_type type,
 					int (*cmp)(t_token_type a, t_token_type b));
+void			token_joining(t_token **token_lst);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
