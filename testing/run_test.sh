@@ -18,7 +18,8 @@ gcc -I \
 	../src/token_define.c \
 	../src/var_expansion.c \
 	../src/var_quotes_expansion.c \
-	../src/parser_analyse.c \
+	../src/quote_removal.c \
+	../src/token_joining.c \
 	../src/token_utils.c \
 	../src/token_clear.c \
 	../src/parser_token_debug.c \
