@@ -6,13 +6,13 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/13 21:03:34 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:34:44 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_env	*create_new_node(t_env *env, char *searchequal, t_token *variable)
+int	create_new_node(t_env *env, char *searchequal, t_token *variable)
 {
 	t_env	*new_node;
 	int		size_key;
@@ -22,89 +22,66 @@ t_env	*create_new_node(t_env *env, char *searchequal, t_token *variable)
 	size_value = ft_strlen(variable->value) - size_key;
 	new_node =  malloc(sizeof(t_env));
 	if (!new_node)
-		return (NULL);
+		return (EXIT_FAILURE) ;
 	new_node->key = malloc(size_key + 1);
 	new_node->value = malloc(size_value + 1);
 	if (!new_node->key || !new_node->value)
-		return (NULL);
+		return (EXIT_FAILURE);
 	ft_strncpy(new_node->key, variable->value, size_key);
 	ft_strncpy(new_node->value, searchequal + 1, size_value);
 	new_node->key[size_key] = '\0';
 	new_node->value[size_value] = '\0';
 	new_node->next = NULL;
 	ft_lstadd_back_env(&env, new_node);
-	return(env);
+	return (EXIT_SUCCESS);
 }
 
-
-t_env	*add_to_env_not_equal_sign(t_env *env, t_token *variable)
+int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 {
-	t_env	*new_node;
-	int		size_key;
-
-	size_key = ft_strlen(variable->value);
-	new_node = malloc(sizeof(t_env));
-	if (!new_node)
-		return (NULL);
-	new_node->key = malloc(sizeof(size_key + 1));
-	if (!new_node->key)
-		return (NULL);
-	ft_strncpy(new_node->key, variable->value, size_key);
-	new_node->key[size_key] = '\0';
-	new_node->next = NULL;
-	ft_lstadd_back_env(&env, new_node);
-	return (env);
-}
-
-t_env	*add_to_env_list(t_env *env, char *searchequal, t_token *variable)
-{
-	t_env *new_node;
 	t_env	*tmp;
 
 	tmp = env;
-	/*
 	while (tmp)
 	{
-		ft_printf("antes do ft_strcmp\n");
-		if (ft_strcmp(tmp->key, variable->value) == 0)
+		if (cmp(tmp->key, variable->value))
 		{
 			ft_printf("[ERROR]: the variable already exists\n");
-			return (NULL);
+			return (EXIT_FAILURE);
 		}
-		tmp++;
+		tmp = tmp->next;
 	}
-	*/
 	if (searchequal)
 	{
-		new_node = create_new_node(env, searchequal, variable);
-		if (!new_node)
-			return (NULL);
+	
+		if (create_new_node(env, searchequal, variable))
+		{
+			ft_printf("[Error]: The new_node failed\n");	
+			return (EXIT_FAILURE);
+		}
 	}
 	else
-		new_node = add_to_env_not_equal_sign(env, variable);
-	return (new_node);
+		ft_printf("\n");
+	return (EXIT_SUCCESS);
 }
 
-t_env	*create_variable(t_token *current, t_env *env)
+int	create_variable(t_token *current, t_env *env)
 {
 	char	*searchequal;
 
 	if (current->type != WORD)
-		return (NULL);
-	searchequal = ft_strchr(current->value, '=');
-	env = add_to_env_list(env, searchequal, current);
-	if (!env)
-	{
-		ft_printf("[ERROR] falied the create in new node\n");
-		return (NULL);
+	{	
+		ft_printf("[Error]: Word not found\n");
+		return (EXIT_FAILURE);
 	}
-	return (env);
+	searchequal = ft_strchr(current->value, '=');
+	if (add_to_env_list(env, searchequal, current))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 void	builtin_export(t_token *head, t_env *env)
 {
 	t_token *current;
-	t_env	*export_head;
 	t_env	*tmp;
 
 	current = head->next;
@@ -112,16 +89,14 @@ void	builtin_export(t_token *head, t_env *env)
 	
 	if (!current || current->type != WORD)
 	{
+		ft_sort_list(tmp, ascending);
 		while (tmp)
 		{
-			if (tmp > tmp->next)
-			{
-				
-			}
 			ft_printf("%s=%s\n",tmp->key, tmp->value);
 			tmp = tmp->next;
 		}
 	}
-	else
-		export_head = create_variable(current, env);
+	else if (create_variable(current, env))
+		return ;
+	
 }

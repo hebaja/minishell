@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/13 20:59:14 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:39:43 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int				append_token(t_token **token_lst, char **value,
 					char *value_start, size_t size);
 int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
+int				cmp(char *key, char *variable);
+int				ascending(char *a, char *b);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
 void			set_extra_meta_chars(t_token *token, char *value_start);
@@ -79,11 +81,13 @@ void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
 t_env 			*fn_enviroment_variables(char **envp);
+t_env			*ft_sort_list(t_env *lst, int (*cmp)());
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_head);
 void			builtin_pwd(void);
 void			builtin_export(t_token *head, t_env *env);
 void			builtin_unset(t_env **env, t_token *variable);
+void			ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)());
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 void			print_tokens(t_token *tokens_head);
