@@ -52,7 +52,7 @@ void	deal_mixed_value(t_token *token, int dolar_pos)
 	var_key_len = ft_strlen("USER");
 	end_val_offset = ft_strlen(token->value) - (dolar_pos + var_key_len + 1);
 	new_str = ft_calloc(dolar_pos + var_val_len
-		+ end_val_offset + 1, sizeof(char));
+			+ end_val_offset + 1, sizeof(char));
 	ft_memcpy(new_str, token->value, dolar_pos);
 	ft_memcpy(&new_str[dolar_pos], USER, var_val_len);
 	ft_memcpy(&new_str[dolar_pos + var_val_len],
@@ -69,7 +69,7 @@ void	expand_var(t_token *token)
 	int		dolar_pos;
 
 	dolar_pos = find_dolar_pos(token);
-	if (token->type == VAR || token->type == VAR_JOIN)
+	if (token->type == VAR)
 	{
 		if (ft_strncmp(&token->value[1], "USER", ft_strlen("USER") + 1) == 0)
 		{
@@ -77,8 +77,8 @@ void	expand_var(t_token *token)
 			token->value = ft_strdup(USER);
 		}
 	}
-	else if (token->type == WORD && dolar_pos >= 1
-		&& !single_quote_precedes(token->value, dolar_pos))
+	else if ((token->type == WORD) 
+		&& dolar_pos >= 1 && !single_quote_precedes(token->value, dolar_pos))
 		deal_mixed_value(token, dolar_pos);
 }
 
