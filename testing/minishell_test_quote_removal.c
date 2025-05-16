@@ -8,9 +8,7 @@ Test(minishell_test_suite_quote_removal, test_single_quote_removal_1)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "hello'hello\'");
-	var_expansion(&token_lst);
-	quotes_var_expansion(&token_lst);
-	quote_removal(token_lst);
+	usual_flow(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hellohello");
 }
 
@@ -22,9 +20,7 @@ Test(minishell_test_suite_quote_removal, test_single_quote_removal_2)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "hello'$USER\'");
-	var_expansion(&token_lst);
-	quotes_var_expansion(&token_lst);
-	quote_removal(token_lst);
+	usual_flow(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello$USER");
 }
 
@@ -36,9 +32,7 @@ Test(minishell_test_suite_quote_removal, test_double_quote_removal_1)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "hello\"hello\"");
-	var_expansion(&token_lst);
-	quotes_var_expansion(&token_lst);
-	quote_removal(token_lst);
+	usual_flow(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hellohello");
 }
 
@@ -50,8 +44,6 @@ Test(minishell_test_suite_quote_removal, test_double_quote_removal_2)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "hello\"hebatist\"");
-	var_expansion(&token_lst);
-	quotes_var_expansion(&token_lst);
-	quote_removal(token_lst);
+	usual_flow(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hellohebatist");
 }

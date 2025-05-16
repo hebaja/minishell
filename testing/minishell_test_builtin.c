@@ -1,4 +1,3 @@
-#include "criterion-2.4.2/include/criterion/assert.h"
 #include "minishell_test.h"
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins)
@@ -32,6 +31,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_echo_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "echo\'hello\'");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_cd_mix)
@@ -43,6 +43,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_cd_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "cd\"hello\"");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_mix)
@@ -54,6 +55,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "pwd\'hello\'");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_export_mix)
@@ -65,6 +67,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_export_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "export\"hello\"");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_unset_mix)
@@ -76,6 +79,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_unset_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "unset\'hello\'");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_env_mix)
@@ -87,6 +91,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_env_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "env\"hello\"");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_exit_mix)
@@ -98,6 +103,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_exit_mix)
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "exit\'hello\'");
+	cr_assert_null(token_lst->next);
 }
  
 Test(minishell_test_suite_builtin, build_token_lst_test_builtin_echo)

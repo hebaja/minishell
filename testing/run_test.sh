@@ -8,6 +8,7 @@ gcc -I \
 	minishell_test_builtin.c \
 	minishell_test_quote.c \
 	minishell_test_extra_meta.c \
+	minishell_test_metacharacters.c \
 	minishell_test_globals.c \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \

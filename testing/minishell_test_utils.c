@@ -149,5 +149,14 @@ void	test_lst(t_token *token_lst, char **values, char **types)
 		token_lst = token_lst->next;
 		i++;
 	}
+	cr_assert_null(token_lst);
 	token_lst_clear(&token_lst);
+}
+
+void	usual_flow(t_token **token_lst)
+{
+	var_expansion(token_lst);
+	quotes_var_expansion(token_lst);
+	quote_removal(*token_lst);
+	token_joining(token_lst);
 }

@@ -16,8 +16,11 @@ int	is_word_join(char **abs_value, int is_start)
 {
 	if (!is_start)
 	{
-		if (*(*abs_value - 1) && !is_metacharacter(**abs_value)
-			&& (*(*abs_value - 1) == '\'' || *(*abs_value - 1) == '\"'
+		if (*(*abs_value - 1)
+			&& !is_metacharacter(**abs_value)
+			&& !is_metacharacter(*(*abs_value - 1))
+			&& (*(*abs_value - 1) == '\''
+			|| *(*abs_value - 1) == '\"'
 			|| *(*abs_value - 1) != ' '))
 			return (1);
 	}

@@ -30,6 +30,7 @@ Test(minishell_test_suite_basic, build_token_lst_word)
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(fetch_token_type(token_lst->type), "WORD");
 	cr_assert_str_eq(token_lst->value, "Hello");
+	cr_assert_null(token_lst->next);
 	token_lst_clear(&token_lst);
 }
 
