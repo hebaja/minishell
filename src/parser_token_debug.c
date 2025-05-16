@@ -60,17 +60,15 @@ char	*print_token_type(t_token_type type)
 		return ("SINGLE_QUOTED");
 	if (type == DOUBLE_QUOTED)
 		return ("DOUBLE_QUOTED");
-	if (type == WORD_JOIN)
-		return ("WORD_JOIN");
-	if (type == VAR_JOIN)
-		return ("VAR_JOIN");
 	return ("");
 }
 
 void	print(t_token *token_lst)
 {
-	printf("value = %s, type = %s, next = %p\n", token_lst->value,
+	printf("value = %s, type = %s, join = %d, next = %p\n", 
+		token_lst->value,
 		print_token_type(token_lst->type),
+		token_lst->join,
 		token_lst->next);
 }
 

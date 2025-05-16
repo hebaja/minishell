@@ -28,23 +28,22 @@ void	token_lst_clear(t_token **token_lst)
 	*token_lst = NULL;
 }
 
-void	token_lst_remove_if(t_token **token_lst, t_token_type type,
-	int (*cmp)(t_token_type a, t_token_type b))
+void	token_lst_join_remove(t_token **token_lst)
 {
 	t_token	*current;
 
 	if (token_lst == NULL || *token_lst == NULL)
 		return ;
 	current = *token_lst;
-	if (cmp(current->type, type))
+	if (current->join)
 	{
 		*token_lst = current->next;
 		token_clear(current);
-		token_lst_remove_if(token_lst, type, cmp);
+		token_lst_join_remove(token_lst);
 	}
 	else
 	{
 		current = *token_lst;
-		token_lst_remove_if(&current->next, type, cmp);
+		token_lst_join_remove(&current->next);
 	}
 }
