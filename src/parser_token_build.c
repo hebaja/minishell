@@ -32,9 +32,10 @@ t_token	*token_build(char **abs_value, char *value_start,
 		value_start++;
 	}
 	ft_strlcpy(value, value_start, size + 1);
-	token->type = define_type(value, quote, is_join);
-	set_extra_meta_chars(token, value_start, quote, is_join);
+	token->type = define_type(value, quote);
+	set_extra_meta_chars(token, value_start, quote);
 	token->value = value;
+	token->join = is_join;
 	token->next = NULL;
 	*abs_value = (*abs_value) + size;
 	return (token);
