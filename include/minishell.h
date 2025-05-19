@@ -74,6 +74,7 @@ int				quote_mode(t_token **token_lst, char **value,
 					char *quoted_value, char quote);
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
+int				define_type_builtin(char *value, t_token_type *type);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
