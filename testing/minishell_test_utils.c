@@ -159,4 +159,5 @@ void	usual_flow(t_token **token_lst)
 	quotes_var_expansion(token_lst);
 	quote_removal(*token_lst);
 	token_joining(token_lst);
+	conclude_parser(*token_lst);
 }

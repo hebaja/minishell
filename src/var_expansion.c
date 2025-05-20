@@ -16,6 +16,8 @@ int	find_dolar_pos(t_token *token_lst)
 {
 	int	dolar_pos;
 
+	if (!token_lst->value)
+		return (-1);
 	dolar_pos = -1;
 	while (token_lst->value[++dolar_pos])
 	{
@@ -68,6 +70,8 @@ void	expand_var(t_token *token)
 {
 	int		dolar_pos;
 
+	if (!token->value)
+		return ;
 	dolar_pos = find_dolar_pos(token);
 	if (token->type == VAR)
 	{

@@ -75,6 +75,7 @@ int				quote_mode(t_token **token_lst, char **value,
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
+void			conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
@@ -86,6 +87,7 @@ void			quotes_var_expansion(t_token **token_lst);
 void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
+void			builtin_recheck(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);

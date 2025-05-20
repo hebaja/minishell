@@ -23,6 +23,7 @@ gcc -I \
 	../src/token_joining.c \
 	../src/token_utils.c \
 	../src/token_clear.c \
+	../src/parser_conclusion.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \

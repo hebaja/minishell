@@ -14,7 +14,7 @@
 
 int	there_is_quote(char *value)
 {
-	if (ft_strchr(value, '\'') || ft_strchr(value, '\"'))
+	if (value && (ft_strchr(value, '\'') || ft_strchr(value, '\"')))
 		return (1);
 	return (0);
 }
