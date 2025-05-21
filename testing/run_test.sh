@@ -13,6 +13,7 @@ gcc -I \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
 	minishell_test_token_join.c \
+	minishell_test_redirect.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
@@ -24,6 +25,7 @@ gcc -I \
 	../src/token_utils.c \
 	../src/token_clear.c \
 	../src/parser_conclusion.c \
+	../src/redirect.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
