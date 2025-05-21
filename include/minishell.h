@@ -60,7 +60,6 @@ typedef struct s_env
 typedef struct s_token
 {
 	char			*value;
-	char			*export;
 	t_token_type	type;
 	int				join;
 	struct s_token	*next;
@@ -84,6 +83,8 @@ int				quote_mode(t_token **token_lst, char **value,
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
+int				check_redirect(t_token *token_lst);
+int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
 void			conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);

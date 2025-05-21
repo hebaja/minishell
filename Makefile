@@ -6,9 +6,13 @@ INC_DIR=include
 SRC_DIR=src
 SRC_FILES=main.c parser_token_build.c parser_token_char_utils.c parser_analyse.c parser_modes.c \
 		token_define.c token_utils.c token_clear.c var_expansion.c var_quotes_expansion.c \
+<<<<<<< HEAD
 		quote_removal.c token_joining.c parser_conclusion.c parser_token_debug.c \
 		builtin_exit.c builtin_unset.c builtins_export.c builtins.c extract_environment_variables.c \
 		utils_builtins.c
+=======
+		quote_removal.c token_joining.c parser_conclusion.c redirect.c parser_token_debug.c
+>>>>>>> ba690d8 (feat: 🎸 Redirect)
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
