@@ -62,3 +62,25 @@ void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
 		token_lst = next_token;
 	}
 }
+
+int	token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *))
+{
+	t_token	*next_token;
+	int		res;
+	int		tmp;
+
+	res = 0;
+	tmp = 0;
+	if (token_lst == NULL)
+		return (-1);
+	while (token_lst)
+	{
+		next_token = token_lst->next;
+		tmp = func(token_lst);
+		if (tmp == -1)
+			return (-1);
+		res += tmp;
+		token_lst = next_token;
+	}
+	return (res);
+}
