@@ -20,6 +20,7 @@ char    *fetch_token_type(t_token_type type);
 char	**fetch_tokens_type_list(t_token *token_lst);
 void	unquoted_value_test(t_token *token_lst, char *value, char quote);
 void	test_token_lst(t_token *token_lst, char *value, char *type);
+void	usual_flow(t_token **token_lst);
 void	test_lst(t_token *token_lst, char **values, char **types);
 char	**split_token_lst(t_token *token_lst);
 char	**populate_values(int size, ...);

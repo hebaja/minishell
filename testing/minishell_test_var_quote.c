@@ -10,6 +10,7 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_1)
 	cr_assert_str_eq(token_lst->value, "$USER");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "$USER");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_2)
@@ -22,6 +23,7 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_2)
 	cr_assert_str_eq(token_lst->value, "hello$USERhello");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello$USERhello");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_1)
@@ -34,6 +36,7 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_1)
 	cr_assert_str_eq(token_lst->value, "hello\'$USER\'");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello\'$USER\'");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_2)
@@ -46,6 +49,7 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_2)
 	cr_assert_str_eq(token_lst->value, "hello\'hi $USER hello\'");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello\'hi $USER hello\'");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_3)
@@ -106,6 +110,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote)
 	cr_assert_str_eq(token_lst->value, "$USER");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hebatist");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_1)
@@ -118,6 +123,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_1)
 	cr_assert_str_eq(token_lst->value, "$USER hello");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hebatist hello");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_2)
@@ -130,6 +136,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_2)
 	cr_assert_str_eq(token_lst->value, "hello $USER hello");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello hebatist hello");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_3)
@@ -142,6 +149,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_3)
 	cr_assert_str_eq(token_lst->value, "hello $USER hello");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello hebatist hello");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_4)
@@ -154,6 +162,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_4)
 	cr_assert_str_eq(token_lst->value, "hello $USER hello $USER");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hello hebatist hello hebatist");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_5)
@@ -166,6 +175,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_5)
 	cr_assert_str_eq(token_lst->value, "hello$USER");
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hellohebatist");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_1)
@@ -227,6 +237,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_4)
 	var_expansion(&token_lst);
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "echo\"hebatist\"");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_5)
@@ -240,6 +251,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_5)
 	var_expansion(&token_lst);
 	quotes_var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "echo\"hi hebatist hello\"");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_6)

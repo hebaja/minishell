@@ -10,6 +10,7 @@ Test(minishell_test_suite_var, test_var_expansion)
 	cr_assert_str_eq(token_lst->value, "$USER");
 	var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "hebatist");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_join)
@@ -22,6 +23,7 @@ Test(minishell_test_suite_var, test_var_expansion_join)
 	cr_assert_str_eq(token_lst->value, "sh$USER");
 	var_expansion(&token_lst);
 	cr_assert_str_eq(token_lst->value, "shhebatist");
+	cr_assert_null(token_lst->next);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_mix)

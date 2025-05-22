@@ -1,0 +1,144 @@
+#include "minishell_test.h"
+
+Test(minishell_test_suite_metacharacters, test_metacharacters_1)
+{
+	char	*input = ">";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, ">");
+	cr_assert_eq(token_lst->type, REDIRECT_OUT);
+	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_metacharacters, test_metacharacters_2)
+{
+	char	*input = "<";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "<");
+	cr_assert_eq(token_lst->type, REDIRECT_IN);
+	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_metacharacters, test_metacharacters_3)
+{
+	char	*input = "|";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "|");
+	cr_assert_eq(token_lst->type, PIPE);
+	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_metacharacters, test_metacharacters_4)
+{
+	char	*input = ">>";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, ">>");
+	cr_assert_eq(token_lst->type, APPEND);
+	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_metacharacters, test_metacharacters_5)
+{
+	char	*input = "<<";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "<<");
+	cr_assert_eq(token_lst->type, HEREDOC);
+	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_metacharacters, test_mix_metacharacters_1)
+{
+	char	*input = "echo > file";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "echo");
+	cr_assert_str_eq(token_lst->next->value, ">");
+	cr_assert_str_eq(token_lst->next->next->value, "file");
+	cr_assert_eq(token_lst->type, BUILTIN_ECHO);
+	cr_assert_eq(token_lst->next->type, REDIRECT_OUT);
+	cr_assert_eq(token_lst->next->next->type, WORD);
+}
+
+Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_1)
+{
+	char	*input = "echo>file";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "echo");
+	cr_assert_str_eq(token_lst->next->value, ">");
+	cr_assert_str_eq(token_lst->next->next->value, "file");
+	cr_assert_eq(token_lst->type, BUILTIN_ECHO);
+	cr_assert_eq(token_lst->next->type, REDIRECT_OUT);
+	cr_assert_eq(token_lst->next->next->type, WORD);
+}
+
+Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_2)
+{
+	char	*input = "echo>>file";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "echo");
+	cr_assert_str_eq(token_lst->next->value, ">>");
+	cr_assert_str_eq(token_lst->next->next->value, "file");
+	cr_assert_eq(token_lst->type, BUILTIN_ECHO);
+	cr_assert_eq(token_lst->next->type, APPEND);
+	cr_assert_eq(token_lst->next->next->type, WORD);
+}
+
+Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
+{
+	char	*input = "cat << EOF > file";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "cat");
+	cr_assert_str_eq(token_lst->next->value, "<<");
+	cr_assert_str_eq(token_lst->next->next->value, "EOF");
+	cr_assert_str_eq(token_lst->next->next->next->value, ">");
+	cr_assert_str_eq(token_lst->next->next->next->next->value, "file");
+	cr_assert_eq(token_lst->type, WORD);
+	cr_assert_eq(token_lst->next->type, HEREDOC);
+	cr_assert_eq(token_lst->next->next->type, WORD);
+	cr_assert_eq(token_lst->next->next->next->type, REDIRECT_OUT);
+	cr_assert_eq(token_lst->next->next->next->next->type, WORD);
+}
+
+Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_2)
+{
+	char	*input = "cat<<EOF>file";
+
+	res = token_lst_build(&token_lst, input);
+	cr_assert_eq(res, 1);
+	usual_flow(&token_lst);
+	cr_assert_str_eq(token_lst->value, "cat");
+	cr_assert_str_eq(token_lst->next->value, "<<");
+	cr_assert_str_eq(token_lst->next->next->value, "EOF");
+	cr_assert_str_eq(token_lst->next->next->next->value, ">");
+	cr_assert_str_eq(token_lst->next->next->next->next->value, "file");
+	cr_assert_eq(token_lst->type, WORD);
+	cr_assert_eq(token_lst->next->type, HEREDOC);
+	cr_assert_eq(token_lst->next->next->type, WORD);
+	cr_assert_eq(token_lst->next->next->next->type, REDIRECT_OUT);
+	cr_assert_eq(token_lst->next->next->next->next->type, WORD);
+}
