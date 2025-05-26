@@ -85,7 +85,7 @@ int				regular_mode(t_token **token_lst, char **value,
 int				define_type_builtin(char *value, t_token_type *type);
 int				check_redirect(t_token *token_lst);
 int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
-void			conclude_parser(t_token *token_lst);
+int				conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,
