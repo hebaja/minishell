@@ -1,5 +1,5 @@
 CC=cc
-CC_FLAGS=-Wall -Wextra -Werror
+CC_FLAGS=-Wall -Wextra -Werror -g
 READLINE_FLAG=-lreadline
 NAME=minishell
 INC_DIR=include
