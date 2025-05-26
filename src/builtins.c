@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:32:44 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/05 20:27:04 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:54:47 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	builtin_cd(t_token *token_lst)
 {
-	char	buf[100];
+	char	buf[300];
 
-	getcwd(buf, 100);
+	getcwd(buf, 300);
 	ft_printf("%s\n", buf);
 	if (chdir(token_lst->next->value) == -1)
 		perror("chdir");
@@ -24,9 +24,9 @@ void	builtin_cd(t_token *token_lst)
 
 void	builtin_pwd(void)
 {
-	char	buf[100];
+	char	buf[300];
 
-	getcwd(buf, 100);
+	getcwd(buf, 300);
 	ft_printf("%s\n", buf);
 }
 
@@ -34,6 +34,11 @@ void	builtin_echo(t_token *token_lst)
 {
 	t_token *current;
 
+	if (!token_lst || !token_lst->next)
+	{
+		ft_printf("\n");
+		return ;
+	}
 	current = token_lst->next;
 	if (ft_strcmp(current->value, "-n") == 0)
 	{

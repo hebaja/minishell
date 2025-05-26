@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/15 19:34:44 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:43:38 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	create_new_node(t_env *env, char *searchequal, t_token *variable)
 	ft_strncpy(new_node->value, searchequal + 1, size_value);
 	new_node->key[size_key] = '\0';
 	new_node->value[size_value] = '\0';
+	new_node->printed = 0;
 	new_node->next = NULL;
 	ft_lstadd_back_env(&env, new_node);
 	return (EXIT_SUCCESS);
@@ -86,16 +87,8 @@ void	builtin_export(t_token *head, t_env *env)
 
 	current = head->next;
 	tmp = env;
-	
 	if (!current || current->type != WORD)
-	{
-		ft_sort_list(tmp, ascending);
-		while (tmp)
-		{
-			ft_printf("%s=%s\n",tmp->key, tmp->value);
-			tmp = tmp->next;
-		}
-	}
+		ft_printed(tmp);
 	else if (create_variable(current, env))
 		return ;
 	

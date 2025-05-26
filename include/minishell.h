@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/15 19:39:43 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:54:27 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef enum e_token_type
 
 typedef struct s_env
 {
+	int				printed;
 	char			*value;
 	char			*key;
 	struct s_env	*next;
@@ -81,13 +82,14 @@ void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
 t_env 			*fn_enviroment_variables(char **envp);
-t_env			*ft_sort_list(t_env *lst, int (*cmp)());
+void			ft_printed(t_env *lst);
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_head);
 void			builtin_pwd(void);
 void			builtin_export(t_token *head, t_env *env);
 void			builtin_unset(t_env **env, t_token *variable);
 void			ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)());
+void			builtin_exit(t_token *lst);
 size_t			token_lst_size(t_token *token_lst);
 t_token_type	define_type(char *value);
 void			print_tokens(t_token *tokens_head);

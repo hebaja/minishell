@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/13 20:59:37 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:55:52 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	isCommandToken(t_token *token_head, t_env **env)
 		builtin_export(token_head, *env);
 	else if (token_head->type == BUILTIN_UNSET)
 		builtin_unset(env, token_head);
+	else if (token_head->type == BUILTIN_EXIT)
+		builtin_exit(token_head);
 
 }
 

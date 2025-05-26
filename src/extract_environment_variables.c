@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:27:27 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/05 20:12:21 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/19 18:56:38 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ t_env *extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
 		return (NULL);
 	new_node->key = malloc(size_key + 1);
 	new_node->value = malloc(size_value + 1);
+	new_node->printed = 0;
 	if (!new_node->key || !new_node->value)
 		return (NULL);
 	ft_strncpy(new_node->key, *envp, size_key);

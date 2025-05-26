@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:41:03 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/15 20:16:12 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/19 19:43:59 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 int	cmp(char *key, char *variable)
 {
 	return (ft_strcmp(key, variable) == 0);
-}
-
-int	ascending(char *a, char *b)
-{
-	return (ft_strcmp(a, b) <= 0);
 }
 
 void	ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)())
@@ -43,29 +38,60 @@ void	ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)())
 		ft_list_remove_if(&current->next, variable, cmp);
 }
 
-t_env	*ft_sort_list(t_env *lst, int (*cmp)())
+int	ft_list_size(t_env *lst)
+{
+	int count;
+
+	count = 0;
+	while (lst)
+	{
+		count++;
+		lst = lst->next;
+	}
+	return (count);
+}
+
+void	reset_env_printed(t_env *env_lst)
+{
+	env_lst->printed = 0;
+}
+
+void	env_iter(t_env *lst_env, void (*f)())
+{
+	if (!lst_env)
+		return ;
+	while (lst_env)
+	{
+		(f)(lst_env);
+		lst_env = lst_env->next;
+	}
+}
+
+void	ft_printed(t_env *lst)
 {
 	t_env	*start;
-	char	*tmp_key;
-	char	*tmp_value;
+	t_env	*tmp;
+	int		size;
 
 	start = lst;
+	size = ft_list_size(lst);
 	if (!lst->next)
-		return (lst);
-	while (lst->next)
+		return ;
+	while (size)
 	{
-		if (!(cmp)(lst->key, lst->next->key))
-		{
-			tmp_key = lst->key;
-			lst->key = lst->next->key;
-			lst->next->key = tmp_key;
-			tmp_value = lst->value;
-			lst->value = lst->next->value;
-			lst->next->value = tmp_value;
-			lst = start;
-		}
-		else
+		while (lst->printed == 1)
 			lst = lst->next;
+		tmp = lst->next;
+		while (tmp)
+		{
+			if (ft_strcmp(lst->key, tmp->key) > 0 && tmp->printed == 0)
+				lst = tmp;
+			tmp = tmp->next;
+		}
+		ft_printf("%s=%s\n",lst->key, lst->value);
+		lst->printed = 1;
+		lst = start;
+		size--;
 	}
-	return (lst);
+	env_iter(lst, reset_env_printed);
 }
