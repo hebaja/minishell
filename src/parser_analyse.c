@@ -31,7 +31,6 @@ int	analyse_token_lst(t_token **token_lst)
 	quotes_var_expansion(token_lst);
 	quote_removal(*token_lst);
 	token_joining(token_lst);
-	conclude_parser(*token_lst);
 	res = check_redirect(*token_lst);
 	if (res == -1)
 		ft_putstr_fd("Syntax error\n", 2);
@@ -41,5 +40,8 @@ int	analyse_token_lst(t_token **token_lst)
 		if ((*token_lst)->type == BUILTIN_ECHO)
 			builtin_echo(*token_lst);
 	}
+	if (!conclude_parser(*token_lst))
+		return (0);
+	print_tokens(*token_lst);
 	return (1);
 }
