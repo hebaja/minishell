@@ -12,7 +12,6 @@
 
 #include "../include/minishell.h"
 
-
 /* TODO think about proper error msg when token integrity fails */
 int	analyse_token_lst(t_token **token_lst)
 {
@@ -20,7 +19,8 @@ int	analyse_token_lst(t_token **token_lst)
 	quotes_var_expansion(token_lst);
 	quote_removal(*token_lst);
 	token_joining(token_lst);
-	conclude_parser(*token_lst);
+	if (!conclude_parser(*token_lst))
+		return (0);
 	print_tokens(*token_lst);
 	return (1);
 }
