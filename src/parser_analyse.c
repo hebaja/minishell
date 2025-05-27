@@ -31,14 +31,12 @@ void	iscommandToken(t_token *token_head, t_env **env)
 }
 
 /* TODO think about proper error msg when token integrity fails */
-int	analyse_token_lst(t_token **token_lst, t_env *environment_variables)
+int	analyse_token_lst(t_token **token_lst)
 {
 	var_expansion(token_lst);
 	quotes_var_expansion(token_lst);
 	quote_removal(*token_lst);
 	token_joining(token_lst);
-	if ((*token_lst)->type == BUILTIN_ECHO)
-		builtin_echo(*token_lst);
 	if (!conclude_parser(*token_lst))
 		return (0);
 	print_tokens(*token_lst);

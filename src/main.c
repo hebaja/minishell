@@ -23,9 +23,9 @@ int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_token *token_lst;
-	t_env	*environment_variables;
+	t_env	*env_lst;
 
-	environment_variables = fn_enviroment_variables(argc, argv, envp);
+	env_lst = build_env_lst(argc, argv, envp);
 	token_lst = NULL;
 	using_history();
 	input = readline(TERMINAL_PROMPT);
@@ -42,11 +42,19 @@ int	main(int argc, char **argv, char **envp)
 			clean_prompt(&token_lst, &input);
 		else
 		{
-			analyse_token_lst(&token_lst, environment_variables);
+			if (analyse_token_lst(&token_lst))
+			{
+				if (token_lst->type == BUILTIN_ECHO)
+					builtin_echo(token_lst);
+				if (token_lst->type == BUILTIN_ENV)
+					builtin_env(env_lst);
+			}
 			clean_prompt(&token_lst, &input);
 		}
 	}
 	if (token_lst)
 		token_lst_clear(&token_lst);
+	if (env_lst)
+		env_lst_clear(&env_lst);
 	return (0);
 }

@@ -27,8 +27,8 @@ int	create_new_node(t_env *env, char *searchequal, t_token *variable)
 	new_node->value = malloc(size_value + 1);
 	if (!new_node->key || !new_node->value)
 		return (EXIT_FAILURE);
-	ft_strncpy(new_node->key, variable->value, size_key);
-	ft_strncpy(new_node->value, searchequal + 1, size_value);
+	ft_strlcpy(new_node->key, variable->value, size_key);
+	ft_strlcpy(new_node->value, searchequal + 1, size_value);
 	new_node->key[size_key] = '\0';
 	new_node->value[size_value] = '\0';
 	new_node->printed = 0;
@@ -44,7 +44,7 @@ int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 	tmp = env;
 	while (tmp)
 	{
-		if (comper(tmp->key, variable->value))
+		if (compare(tmp->key, variable->value))
 		{
 			ft_printf("[ERROR]: the variable already exists\n");
 			return (EXIT_FAILURE);
@@ -88,7 +88,7 @@ void	builtin_export(t_token *head, t_env *env)
 	current = head->next;
 	tmp = env;
 	if (!current || current->type != WORD)
-		ft_printed(tmp);
+		print_env_sort(tmp);
 	else if (create_variable(current, env))
 		return ;
 }

@@ -66,7 +66,7 @@ typedef struct s_token
 }	t_token;
 
 int				token_lst_build(t_token **token_lst, char *value);
-int				analyse_token_lst(t_token **token_lst, t_env *environment_variables);
+int				analyse_token_lst(t_token **token_lst);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
 int				append_token(t_token **token_lst, char **value,
@@ -97,31 +97,33 @@ void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			builtin_recheck(t_token *token_lst);
-void			iscommandToken(t_token *token_head, t_env **env);
+void			iscommandToken(t_token *token_lst, t_env **env);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
 t_token_type	define_type(char *value, char c);
-/* DEGUB */
-void			print_tokens(t_token *token_lst);
 int     		cmp(t_token_type a, t_token_type b);
-void			token_lst_clear(t_token **token_lst_head);
-void			token_lst_add_back(t_token **token_lst_head, t_token *token);
+void			token_lst_clear(t_token **token_lst);
+void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
-t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
-t_env 			*fn_enviroment_variables(int argc, char **argv, char **envp);
-void			ft_printed(t_env *lst);
+t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_lst);
+t_env 			*build_env_lst(int argc, char **argv, char **envp);
+void			print_env_sort(t_env *env_lst);
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
-void			builtin_env(t_env *env_head);
+void			builtin_env(t_env *env_lst);
 void			builtin_pwd(void);
-void			builtin_export(t_token *head, t_env *env);
-void			builtin_unset(t_env **env, t_token *variable);
-void			ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)());
-void			builtin_exit(t_token *lst);
+void			builtin_export(t_token *token_lst, t_env *env_lst);
+void			builtin_unset(t_env **env_lst, t_token *token_lst);
+void			ft_list_remove_if(t_env **env_lst, t_token *token_lst , int (*cmp)());
+void			builtin_exit(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
-void			print_tokens(t_token *tokens_head);
+void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);
-int				comper(char *key, char *variable);
+int				compare(char *key, char *variable);
+void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
+void			env_lst_clear(t_env **env_lst);
+/* DEGUB */
+void			print_tokens(t_token *token_lst);
 
 #endif
