@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-Test(minishell_test_suite_metacharacters, test_metacharacters_1)
+Test(minishell_test_suite_metacharacters, test_metacharacters_1, .init = redirect_stdout_err)
 {
 	char	*input = ">";
 
@@ -12,7 +12,7 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_1)
 	cr_assert_null(token_lst->next);
 }
 
-Test(minishell_test_suite_metacharacters, test_metacharacters_2)
+Test(minishell_test_suite_metacharacters, test_metacharacters_2, .init = redirect_stdout_err)
 {
 	char	*input = "<";
 
@@ -24,7 +24,7 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_2)
 	cr_assert_null(token_lst->next);
 }
 
-Test(minishell_test_suite_metacharacters, test_metacharacters_3)
+Test(minishell_test_suite_metacharacters, test_metacharacters_3, .init = redirect_stdout_err)
 {
 	char	*input = "|";
 
@@ -36,7 +36,7 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_3)
 	cr_assert_null(token_lst->next);
 }
 
-Test(minishell_test_suite_metacharacters, test_metacharacters_4)
+Test(minishell_test_suite_metacharacters, test_metacharacters_4, .init = redirect_stdout_err)
 {
 	char	*input = ">>";
 
@@ -48,7 +48,7 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_4)
 	cr_assert_null(token_lst->next);
 }
 
-Test(minishell_test_suite_metacharacters, test_metacharacters_5)
+Test(minishell_test_suite_metacharacters, test_metacharacters_5, .init = redirect_stdout_err)
 {
 	char	*input = "<<";
 

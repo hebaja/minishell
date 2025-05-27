@@ -1,5 +1,4 @@
 #include "minishell_test.h"
-#include "criterion-2.4.2/include/criterion/assert.h"
 
 Test(minishell_test_suite_basic, token_lst_one_size)
 {
@@ -91,15 +90,13 @@ Test(minishell_test_suite_basic, build_token_lst_word_with_n_flag)
 	test_lst(token_lst, values, types);
 }
 
-Test(minishell_test_suite_basic, build_token_lst_null)
+Test(minishell_test_suite_basic, build_token_lst_null, .init = redirect_stdout_err)
 {
 	char	*input = "msg";
 	
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	token_lst->value = NULL;
-	// usual_flow(&token_lst);
 	cr_assert_null(token_lst->value);
-	// test_lst(token_lst, values, types);
 	conclude_parser(token_lst);
 }

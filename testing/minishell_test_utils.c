@@ -6,6 +6,10 @@ void redirect_all_stdout(void)
 	cr_redirect_stderr();
 }
 
+void redirect_stdout_err(void) {
+    freopen("/dev/null", "w", stderr);
+}
+
 char    *fetch_token_type(t_token_type type)
 {
 	if (type == WORD)
