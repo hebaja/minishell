@@ -82,7 +82,7 @@ t_env *save_env_keys_and_value(char **envp)
 			{
 				while (env_head)
 				{
-					free(env_head);
+					// free(env_head);
 					env_head = env_head->next;
 				}
 			}
