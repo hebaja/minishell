@@ -6,13 +6,13 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:41:03 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/19 19:43:59 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:33:51 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	cmp(char *key, char *variable)
+int	comper(char *key, char *variable)
 {
 	return (ft_strcmp(key, variable) == 0);
 }

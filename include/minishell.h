@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 17:53:15 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:19:41 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ typedef struct s_token
 }	t_token;
 
 int				token_lst_build(t_token **token_lst, char *value);
-int				analyse_token_lst(t_token **tokens_head);
+int				analyse_token_lst(t_token **token_lst, t_env *environment_variables);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
 int				append_token(t_token **token_lst, char **value,
@@ -86,32 +86,30 @@ int				regular_mode(t_token **token_lst, char **value,
 int				define_type_builtin(char *value, t_token_type *type);
 void			conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
-void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
-void			set_extra_meta_chars(t_token *token, char *value_start,
-					char quote);
-void			token_lst_iterate(t_token *tokens_lst, void(func)(t_token *));
+void			set_extra_meta_chars(t_token *token,
+				char *value_start, char quote);
+void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
 void			var_expansion(t_token **token_lst);
 void			quotes_var_expansion(t_token **token_lst);
 void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			builtin_recheck(t_token *token_lst);
+void			iscommandToken(t_token *token_head, t_env **env);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
 t_token_type	define_type(char *value, char c);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
-int				cmp(char *key, char *variable);
-int				ascending(char *a, char *b);
+int     		cmp(t_token_type a, t_token_type b);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
-void			set_extra_meta_chars(t_token *token, char *value_start);
 void			builtin_cd(t_token *token_lst);
 void			builtin_echo(t_token *token_lst);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
-t_env 			*fn_enviroment_variables(char **envp);
+t_env 			*fn_enviroment_variables(int argc, char **argv, char **envp);
 void			ft_printed(t_env *lst);
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_head);
@@ -121,8 +119,8 @@ void			builtin_unset(t_env **env, t_token *variable);
 void			ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)());
 void			builtin_exit(t_token *lst);
 size_t			token_lst_size(t_token *token_lst);
-t_token_type	define_type(char *value);
 void			print_tokens(t_token *tokens_head);
 char			*print_token_type(t_token_type type);
+int				comper(char *key, char *variable);
 
 #endif

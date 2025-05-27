@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/15 19:37:48 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:48:33 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_env_exists(t_env **env, t_token *variable)
 	tmp = *env;
 	while (tmp)
 	{
-		if (cmp(tmp->key, variable->next->value))
+		if (comper(tmp->key, variable->next->value))
 			return (0);
 		tmp = tmp->next;
 	}
@@ -40,5 +40,5 @@ void	builtin_unset(t_env **env, t_token *variable)
 		return ;
 	}
 	else
-		ft_list_remove_if(env, variable, cmp);
+		ft_list_remove_if(env, variable, comper);
 }

@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/19 19:43:38 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:20:45 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 	tmp = env;
 	while (tmp)
 	{
-		if (cmp(tmp->key, variable->value))
+		if (comper(tmp->key, variable->value))
 		{
 			ft_printf("[ERROR]: the variable already exists\n");
 			return (EXIT_FAILURE);
@@ -91,5 +91,4 @@ void	builtin_export(t_token *head, t_env *env)
 		ft_printed(tmp);
 	else if (create_variable(current, env))
 		return ;
-	
 }

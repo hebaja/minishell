@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:32:44 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/21 18:54:47 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:44:40 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,26 @@ void	builtin_echo(t_token *token_lst)
 	current = token_lst->next;
 	if (ft_strcmp(current->value, "-n") == 0)
 	{
-		if (current->next->type == WORD)
-			ft_printf("%s", token_lst->next->next->value);
-		return ;
+		while (current->next->type == WORD)
+		{
+			ft_printf("%s ", current->next->value);
+			if (current->next == NULL)
+				return ;
+			current = current->next;
+		}
 	}
 	else if (current->type == WORD)
 	{
-		ft_printf("%s\n", token_lst->next->value);
+		while (current->value)
+		{
+			ft_printf("%s ", current->value);
+			if (current->next == NULL)
+			{
+				ft_printf("\n");	
+				return ;
+			}
+			current = current->next;
+		}
 		return ;
 	}
 	else
