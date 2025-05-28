@@ -48,6 +48,16 @@ int	main(int argc, char **argv, char **envp)
 					builtin_echo(token_lst);
 				if (token_lst->type == BUILTIN_ENV)
 					builtin_env(env_lst);
+				if (token_lst->type == BUILTIN_CD)
+					builtin_cd(token_lst, env_lst);
+				if (token_lst->type == BUILTIN_PWD)
+					builtin_pwd();
+				if (token_lst->type == BUILTIN_EXPORT)
+					builtin_export(token_lst, env_lst);
+				if (token_lst->type == BUILTIN_UNSET)
+					builtin_unset(token_lst, &env_lst);
+				if (token_lst->type == BUILTIN_EXIT)
+					builtin_exit(token_lst);
 			}
 			clean_prompt(&token_lst, &input);
 		}

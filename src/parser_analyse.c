@@ -12,25 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	iscommandToken(t_token *token_head, t_env **env)
-{
-	if (token_head->type == BUILTIN_CD)
-		builtin_cd(token_head);
-	else if (token_head->type == BUILTIN_PWD)
-		builtin_pwd();
-	else if (token_head->type == BUILTIN_ECHO)
-		builtin_echo(token_head);
-	else if (token_head->type == BUILTIN_ENV)
-		builtin_env(*env);
-	else if (token_head->type == BUILTIN_EXPORT)
-		builtin_export(token_head, *env);
-	else if (token_head->type == BUILTIN_UNSET)
-		builtin_unset(env, token_head);
-	else if (token_head->type == BUILTIN_EXIT)
-		builtin_exit(token_head);
-}
-
-/* TODO think about proper error msg when token integrity fails */
 int	analyse_token_lst(t_token **token_lst)
 {
 	var_expansion(token_lst);
@@ -39,6 +20,6 @@ int	analyse_token_lst(t_token **token_lst)
 	token_joining(token_lst);
 	if (!conclude_parser(*token_lst))
 		return (0);
-	print_tokens(*token_lst);
+	// print_tokens(*token_lst);
 	return (1);
 }

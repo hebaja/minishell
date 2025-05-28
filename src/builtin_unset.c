@@ -12,30 +12,29 @@
 
 #include "../include/minishell.h"
 
-int	check_env_exists(t_env *env_lst, t_token *token_lst)
+char	*find_var_and_get_value(t_env *env_lst, char *var_key)
 {
 	while (env_lst)
 	{
-		if (compare(env_lst->key, token_lst->next->value))
-			return (0);
+		if (compare(env_lst->key, var_key))
+			return (env_lst->value);
 		env_lst = env_lst->next;
 	}
-	return (1);
+	return (NULL);
 }
 
-void	builtin_unset(t_env **env, t_token *variable)
+void	builtin_unset(t_token *token_lst, t_env **env_lst)
 {
-
-	if (!variable)
+	if (!token_lst)
 	{
 		ft_printf("unset: not enough arguments\n");
 		return ;
 	}
-	else if (check_env_exists(*env, variable))
+	else if (find_var_and_get_value(*env_lst, token_lst->next->value) == NULL)
 	{
 		ft_printf("[ERROR]: Environment variable not found\n");
 		return ;
 	}
 	else
-		ft_list_remove_if(env, variable, compare);
+		env_lst_remove_if(env_lst, token_lst, compare);
 }

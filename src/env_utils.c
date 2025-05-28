@@ -5,6 +5,8 @@ int	compare(char *key, char *variable)
 	return (ft_strcmp(key, variable) == 0);
 }
 
+
+
 void	env_clear(t_env *env)
 {
 	if (!env)
@@ -22,7 +24,8 @@ void	env_lst_clear(t_env **env_lst)
 	*env_lst = NULL;
 }
 
-void	ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)(char *s1, char *s2))
+void	env_lst_remove_if(t_env **env, t_token *variable,
+	int cmp(char *s1, char *s2))
 {
 	t_env	*current;
 	t_env	*tmp;
@@ -37,8 +40,8 @@ void	ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)(char *s1, cha
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
-		ft_list_remove_if(env, variable, cmp);
+		env_lst_remove_if(env, variable, cmp);
 	}
 	else
-		ft_list_remove_if(&current->next, variable, cmp);
+		env_lst_remove_if(&current->next, variable, cmp);
 }

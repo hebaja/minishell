@@ -12,13 +12,13 @@
 
 #include "../include/minishell.h"
 
-int	create_new_node(t_env *env, char *searchequal, t_token *variable)
+int	create_new_node(t_env *env, char *search_equal, t_token *variable)
 {
 	t_env	*new_node;
 	int		size_key;
 	int		size_value;
 
-	size_key = searchequal - variable->value;
+	size_key = search_equal - variable->value;
 	size_value = ft_strlen(variable->value) - size_key;
 	new_node =  malloc(sizeof(t_env));
 	if (!new_node)
@@ -27,8 +27,8 @@ int	create_new_node(t_env *env, char *searchequal, t_token *variable)
 	new_node->value = malloc(size_value + 1);
 	if (!new_node->key || !new_node->value)
 		return (EXIT_FAILURE);
-	ft_strlcpy(new_node->key, variable->value, size_key);
-	ft_strlcpy(new_node->value, searchequal + 1, size_value);
+	ft_strlcpy(new_node->key, variable->value, size_key + 1);
+	ft_strlcpy(new_node->value, search_equal + 1, size_value);
 	new_node->key[size_key] = '\0';
 	new_node->value[size_value] = '\0';
 	new_node->printed = 0;
@@ -37,7 +37,7 @@ int	create_new_node(t_env *env, char *searchequal, t_token *variable)
 	return (EXIT_SUCCESS);
 }
 
-int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
+int	add_to_env_list(t_env *env, char *search_equal, t_token *variable)
 {
 	t_env	*tmp;
 
@@ -51,10 +51,10 @@ int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 		}
 		tmp = tmp->next;
 	}
-	if (searchequal)
+	if (search_equal)
 	{
 	
-		if (create_new_node(env, searchequal, variable))
+		if (create_new_node(env, search_equal, variable))
 		{
 			ft_printf("[Error]: The new_node failed\n");	
 			return (EXIT_FAILURE);
@@ -67,15 +67,15 @@ int	add_to_env_list(t_env *env, char *searchequal, t_token *variable)
 
 int	create_variable(t_token *current, t_env *env)
 {
-	char	*searchequal;
+	char	*search_equal;
 
 	if (current->type != WORD)
 	{	
 		ft_printf("[Error]: Word not found\n");
 		return (EXIT_FAILURE);
 	}
-	searchequal = ft_strchr(current->value, '=');
-	if (add_to_env_list(env, searchequal, current))
+	search_equal = ft_strchr(current->value, '=');
+	if (add_to_env_list(env, search_equal, current))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

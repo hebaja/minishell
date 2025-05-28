@@ -12,26 +12,31 @@
 
 #include "../include/minishell.h"
 
-void	builtin_exit(t_token *lst)
+void	builtin_exit(t_token *token_lst)
 {
-	if (!lst->next || !lst->next->next)
+	if (!token_lst->next || !token_lst->next->next)
 	{
 		ft_printf("exit\n");
 		exit(0);
 	}
-	else if (ft_strcmp(lst->next->value, "$") == 0 && ft_strcmp(lst->next->next->value, "?") == 0 )
+	else if (ft_strcmp(token_lst->next->value, "$") == 0
+		&& ft_strcmp(token_lst->next->next->value, "?") == 0)
 	{
 		ft_printf("exit\n");
 		exit(1);
 	}
-	else if (ft_strcmp(lst->next->value, "$") != 0 && ft_strcmp(lst->next->next->value, "?") == 0 )
+	else if (ft_strcmp(token_lst->next->value, "$") != 0
+		&& ft_strcmp(token_lst->next->next->value, "?") == 0)
 	{
-		ft_printf("command found %s%s\n",lst->next->value, lst->next->next->value);
+		ft_printf("command found %s%s\n",token_lst->next->value,
+			token_lst->next->next->value);
 		return ;
 	}
-	else if (ft_strcmp(lst->next->value, "$") == 0 && ft_strcmp(lst->next->next->value, "?") != 0 )
+	else if (ft_strcmp(token_lst->next->value, "$") == 0
+		&& ft_strcmp(token_lst->next->next->value, "?") != 0)
 	{
-		ft_printf("command found %s%s\n",lst->next->value, lst->next->next->value);
+		ft_printf("command found %s%s\n", token_lst->next->value,
+			token_lst->next->next->value);
 		return ;
 	}
 }

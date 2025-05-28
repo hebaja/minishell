@@ -41,13 +41,13 @@ void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 	}
 }
 
-t_env *extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
+t_env *extract_key_and_value(char **envp, char *search_equal, t_env *env_head)
 {
 	t_env	*new_node;
 	int		size_key;
 	int		size_value;
 
-	size_key = searchequal - *envp;
+	size_key = search_equal - *envp;
 	size_value = ft_strlen(*envp) + size_key;
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
@@ -66,25 +66,22 @@ t_env *extract_key_and_value(char **envp, char *searchequal, t_env *env_head)
 	return (env_head);
 }
 
-t_env *save_env_keys_and_value(char **envp)
+t_env *save_env_keys_and_values(char **envp)
 {
 	t_env	*env_head;
-	char	*searchequal;
+	char	*search_equal;
 
 	env_head = NULL;
 	while (*envp)
 	{
-		searchequal = ft_strchr(*envp, '=');
-		if (searchequal)
+		search_equal = ft_strchr(*envp, '=');
+		if (search_equal)
 		{
-			env_head = extract_key_and_value(envp, searchequal, env_head);
+			env_head = extract_key_and_value(envp, search_equal, env_head);
 			if (!env_head)
 			{
 				while (env_head)
-				{
-					// free(env_head);
 					env_head = env_head->next;
-				}
 			}
 		}
 		envp++;
@@ -98,6 +95,6 @@ t_env	*build_env_lst(int argc, char **argv, char **envp)
 	
 	(void)argc;
 	(void)argv;
-	env_head = save_env_keys_and_value(envp);
+	env_head = save_env_keys_and_values(envp);
 	return (env_head);
 }

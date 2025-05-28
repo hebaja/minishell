@@ -105,7 +105,7 @@ t_token_type	define_type(char *value, char c);
 int     		cmp(t_token_type a, t_token_type b);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
-void			builtin_cd(t_token *token_lst);
+void			builtin_cd(t_token *token_lst, t_env *env_lst);
 void			builtin_echo(t_token *token_lst);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_lst);
 t_env 			*build_env_lst(int argc, char **argv, char **envp);
@@ -114,8 +114,8 @@ void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_lst);
 void			builtin_pwd(void);
 void			builtin_export(t_token *token_lst, t_env *env_lst);
-void			builtin_unset(t_env **env_lst, t_token *token_lst);
-void			ft_list_remove_if(t_env **env_lst, t_token *token_lst , int (*cmp)());
+void			builtin_unset(t_token *token_lst, t_env **env_lst);
+void			env_lst_remove_if(t_env **env_lst, t_token *token_lst, int cmp(char *s1, char *s2));
 void			builtin_exit(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
 void			print_tokens(t_token *token_lst);
@@ -123,6 +123,7 @@ char			*print_token_type(t_token_type type);
 int				compare(char *key, char *variable);
 void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
 void			env_lst_clear(t_env **env_lst);
+char			*find_var_and_get_value(t_env *env_lst, char *var_key);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 

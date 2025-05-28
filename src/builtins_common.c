@@ -12,12 +12,20 @@
 
 #include "../include/minishell.h"
 
-void	builtin_cd(t_token *token_lst)
+void	builtin_cd(t_token *token_lst, t_env *env_lst)
 {
-	char	buf[300];
+	char	buf[256];
+	char	*home_path;
 
-	getcwd(buf, 300);
-	ft_printf("%s\n", buf);
+
+	if (!token_lst->next)
+	{
+		home_path = find_var_and_get_value(env_lst, "HOME");
+		chdir(home_path);
+		return ;
+	}
+
+	getcwd(buf, 256);
 	if (chdir(token_lst->next->value) == -1)
 		perror("chdir");
 }
@@ -32,7 +40,8 @@ void	builtin_pwd(void)
 
 void	builtin_echo(t_token *token_lst)
 {
-	t_token *current;
+	t_token	*current;
+	int		is_break_line;
 
 	if (!token_lst || !token_lst->next)
 	{
@@ -40,31 +49,18 @@ void	builtin_echo(t_token *token_lst)
 		return ;
 	}
 	current = token_lst->next;
+	is_break_line = 1;
 	if (ft_strcmp(current->value, "-n") == 0)
 	{
-		while (current->next->type == WORD)
-		{
-			ft_printf("%s ", current->next->value);
-			if (current->next == NULL)
-				return ;
-			current = current->next;
-		}
+		current = current->next;
+		is_break_line = 0;
 	}
-	else if (current->type == WORD)
+	while (current)
 	{
-		while (current->value)
-		{
-			ft_printf("%s ", current->value);
-			if (current->next == NULL)
-			{
-				ft_printf("\n");	
-				return ;
-			}
-			current = current->next;
-		}
-		return ;
+		ft_printf("%s ", current->value);
+		current = current->next;
 	}
-	else
+	if (is_break_line)
 		ft_printf("\n");
 }
 

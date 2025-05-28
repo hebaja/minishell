@@ -7,7 +7,7 @@ SRC_DIR=src
 SRC_FILES=main.c parser_token_build.c parser_token_char_utils.c parser_analyse.c parser_modes.c \
 		token_define.c token_utils.c token_clear.c var_expansion.c var_quotes_expansion.c \
 		quote_removal.c token_joining.c parser_conclusion.c builtin_exit.c builtin_unset.c \
-		builtins_export.c builtins.c env_build.c env_utils.c env_print_sort.c parser_token_debug.c
+		builtin_export.c builtins_common.c env_build.c env_utils.c env_print_sort.c parser_token_debug.c
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
