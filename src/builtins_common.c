@@ -16,18 +16,38 @@ void	builtin_cd(t_token *token_lst, t_env *env_lst)
 {
 	char	buf[256];
 	char	*home_path;
+	char	*abs_path;
+	char	*old_path;
 
-
+	abs_path = NULL;
 	if (!token_lst->next)
 	{
 		home_path = find_var_and_get_value(env_lst, "HOME");
-		chdir(home_path);
-		return ;
+		getcwd(buf, 256);
+		old_path = ft_strjoin("OLDPWD=", buf);
+		if (chdir(home_path) == -1)
+		{
+			perror("chdir");
+			return ;
+		}
+		abs_path = ft_strjoin("PWD=", home_path);
 	}
-
-	getcwd(buf, 256);
-	if (chdir(token_lst->next->value) == -1)
-		perror("chdir");
+	else
+	{
+		getcwd(buf, 256);
+		old_path = ft_strjoin("OLDPWD=", buf);
+		if (chdir(token_lst->next->value) == -1)
+		{
+			perror("chdir");
+			return ;
+		}
+		getcwd(buf, 256);
+		abs_path = ft_strjoin("PWD=", buf);
+	}
+	update_env_lst(abs_path, env_lst);
+	update_env_lst(old_path, env_lst);
+	free(abs_path);
+	free(old_path);
 }
 
 void	builtin_pwd(void)

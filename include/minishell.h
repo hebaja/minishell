@@ -115,7 +115,7 @@ void			builtin_env(t_env *env_lst);
 void			builtin_pwd(void);
 void			builtin_export(t_token *token_lst, t_env *env_lst);
 void			builtin_unset(t_token *token_lst, t_env **env_lst);
-void			env_lst_remove_if(t_env **env_lst, t_token *token_lst, int cmp(char *s1, char *s2));
+void			env_lst_remove_if(t_env **env_lst, char *value, int cmp(char *s1, char *s2));
 void			builtin_exit(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
 void			print_tokens(t_token *token_lst);
@@ -124,6 +124,7 @@ int				compare(char *key, char *variable);
 void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
 void			env_lst_clear(t_env **env_lst);
 char			*find_var_and_get_value(t_env *env_lst, char *var_key);
+int				update_env_lst(char *value, t_env *env_lst);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 

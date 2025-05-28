@@ -36,5 +36,5 @@ void	builtin_unset(t_token *token_lst, t_env **env_lst)
 		return ;
 	}
 	else
-		env_lst_remove_if(env_lst, token_lst, compare);
+		env_lst_remove_if(env_lst, token_lst->next->value, compare);
 }

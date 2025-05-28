@@ -24,24 +24,25 @@ void	env_lst_clear(t_env **env_lst)
 	*env_lst = NULL;
 }
 
-void	env_lst_remove_if(t_env **env, t_token *variable,
+
+void	env_lst_remove_if(t_env **env, char *key,
 	int cmp(char *s1, char *s2))
 {
 	t_env	*current;
 	t_env	*tmp;
 
-	if (!env || !*env || !variable)
+	if (!env || !*env || !key)
 		return ;
 	current = *env;
-	if (cmp(current->key, variable->next->value))
+	if (cmp(current->key, key))
 	{
 		tmp = current;
 		*env = current->next;
 		free(tmp->key);
 		free(tmp->value);
 		free(tmp);
-		env_lst_remove_if(env, variable, cmp);
+		env_lst_remove_if(env, key, cmp);
 	}
 	else
-		env_lst_remove_if(&current->next, variable, cmp);
+		env_lst_remove_if(&current->next, key, cmp);
 }

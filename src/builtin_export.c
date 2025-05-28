@@ -12,51 +12,31 @@
 
 #include "../include/minishell.h"
 
-int	create_new_node(t_env *env, char *search_equal, t_token *variable)
+int	create_new_node(t_env *env, char **var_val)
 {
 	t_env	*new_node;
-	int		size_key;
-	int		size_value;
 
-	size_key = search_equal - variable->value;
-	size_value = ft_strlen(variable->value) - size_key;
 	new_node =  malloc(sizeof(t_env));
 	if (!new_node)
 		return (EXIT_FAILURE) ;
-	new_node->key = malloc(size_key + 1);
-	new_node->value = malloc(size_value + 1);
-	if (!new_node->key || !new_node->value)
-		return (EXIT_FAILURE);
-	ft_strlcpy(new_node->key, variable->value, size_key + 1);
-	ft_strlcpy(new_node->value, search_equal + 1, size_value);
-	new_node->key[size_key] = '\0';
-	new_node->value[size_value] = '\0';
+	new_node->key = ft_strdup(var_val[0]);
+	new_node->value = ft_strdup(var_val[1]);
 	new_node->printed = 0;
 	new_node->next = NULL;
+	if (!new_node->key || !new_node->value)
+		return (0);
 	ft_lstadd_back_env(&env, new_node);
-	return (EXIT_SUCCESS);
+	return (1);
 }
 
-int	add_to_env_list(t_env *env, char *search_equal, t_token *variable)
+int	add_to_env_lst(t_env *env_lst, char **var_val)
 {
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
+	env_lst_remove_if(&env_lst, var_val[0], compare);
+	if (var_val[1])
 	{
-		if (compare(tmp->key, variable->value))
+		if (!create_new_node(env_lst, var_val))
 		{
-			ft_printf("[ERROR]: the variable already exists\n");
-			return (EXIT_FAILURE);
-		}
-		tmp = tmp->next;
-	}
-	if (search_equal)
-	{
-	
-		if (create_new_node(env, search_equal, variable))
-		{
-			ft_printf("[Error]: The new_node failed\n");	
+			ft_putstr_fd("[Error]: The new_node failed\n", 2);
 			return (EXIT_FAILURE);
 		}
 	}
@@ -65,30 +45,20 @@ int	add_to_env_list(t_env *env, char *search_equal, t_token *variable)
 	return (EXIT_SUCCESS);
 }
 
-int	create_variable(t_token *current, t_env *env)
+int	update_env_lst(char *value, t_env *env_lst)
 {
-	char	*search_equal;
+	char	**var_val;
 
-	if (current->type != WORD)
-	{	
-		ft_printf("[Error]: Word not found\n");
-		return (EXIT_FAILURE);
-	}
-	search_equal = ft_strchr(current->value, '=');
-	if (add_to_env_list(env, search_equal, current))
+	var_val = ft_split(value, '=');
+	if (add_to_env_lst(env_lst, var_val))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
-void	builtin_export(t_token *head, t_env *env)
+void	builtin_export(t_token *token_lst, t_env *env_lst)
 {
-	t_token *current;
-	t_env	*tmp;
-
-	current = head->next;
-	tmp = env;
-	if (!current || current->type != WORD)
-		print_env_sort(tmp);
-	else if (create_variable(current, env))
+	if (!token_lst->next)
+		print_env_sort(env_lst);
+	else if (update_env_lst(token_lst->next->value, env_lst))
 		return ;
 }
