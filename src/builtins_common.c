@@ -12,6 +12,7 @@
 
 #include "../include/minishell.h"
 
+/* TODO Refactor to another file */
 void	builtin_cd(t_token *token_lst, t_env *env_lst)
 {
 	char	buf[256];
