@@ -6,13 +6,13 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:58:42 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:08 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:40:35 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	iscommandToken(t_token *token_head, t_env **env)
+void	iscommandtoken(t_token *token_head, t_env **env)
 {
 	if (token_head->type == BUILTIN_CD)
 		builtin_cd(token_head);
@@ -33,11 +33,18 @@ void	iscommandToken(t_token *token_head, t_env **env)
 /* TODO think about proper error msg when token integrity fails */
 int	analyse_token_lst(t_token **token_lst, t_env *environment_variables)
 {
+	t_token *tmp;
+
+	tmp = *token_lst;
 	quotes_var_expansion(token_lst);
+	create_redicter(token_lst);
+	token_lst = &tmp;
+	ft_printf("%d\n", (*token_lst)->fd);
 	quote_removal(*token_lst);
 	token_joining(token_lst);
 	conclude_parser(*token_lst);
-	iscommandToken(*token_lst, &environment_variables);
+	iscommandtoken(*token_lst, &environment_variables);
+	execute(*token_lst);
 	print_tokens(*token_lst);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:41 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:40:14 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,15 @@ typedef struct s_env
 	struct s_env	*next;
 } t_env;
 
+
+
 typedef struct s_token
 {
 	char			*value;
 	char			*export;
 	t_token_type	type;
 	int				join;
+	int				fd;
 	struct s_token	*next;
 }	t_token;
 
@@ -96,7 +99,7 @@ void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			builtin_recheck(t_token *token_lst);
-void			iscommandToken(t_token *token_head, t_env **env);
+void			iscommandtoken(t_token *token_head, t_env **env);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
@@ -104,6 +107,7 @@ t_token_type	define_type(char *value, char c);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 int     		cmp(t_token_type a, t_token_type b);
+void			create_redicter(t_token **token_lst);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
 void			builtin_cd(t_token *token_lst);
@@ -122,5 +126,5 @@ size_t			token_lst_size(t_token *token_lst);
 void			print_tokens(t_token *tokens_head);
 char			*print_token_type(t_token_type type);
 int				comper(char *key, char *variable);
-
+void			execute(t_token *token_lst);
 #endif
