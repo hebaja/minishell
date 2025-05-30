@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/28 19:40:14 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:38:55 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,15 @@ typedef struct s_token
 	int				fd;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_sent
+{
+	char	**args;
+	struct s_sent	*next;
+	
+} t_sent;
+
+
 
 int				token_lst_build(t_token **token_lst, char *value);
 int				analyse_token_lst(t_token **token_lst, t_env *environment_variables);
