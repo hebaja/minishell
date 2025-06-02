@@ -5,8 +5,6 @@ int	compare(char *key, char *variable)
 	return (ft_strcmp(key, variable) == 0);
 }
 
-
-
 void	env_clear(t_env *env)
 {
 	if (!env)
@@ -24,6 +22,16 @@ void	env_lst_clear(t_env **env_lst)
 	*env_lst = NULL;
 }
 
+char	*get_var_value(t_env *env_lst, char *var_key)
+{
+	while (env_lst)
+	{
+		if (compare(env_lst->key, var_key))
+			return (env_lst->value);
+		env_lst = env_lst->next;
+	}
+	return (NULL);
+}
 
 void	env_lst_remove_if(t_env **env, char *key,
 	int cmp(char *s1, char *s2))

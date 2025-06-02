@@ -17,10 +17,14 @@ gcc -I \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
-	../src/token_define.c \
 	../src/var_expansion.c \
 	../src/var_quotes_expansion.c \
+	../src/var_expansion_utils.c \
+	../src/env_build.c \
+	../src/env_utils.c \
+	../src/env_print_sort.c \
 	../src/quote_removal.c \
+	../src/token_define.c \
 	../src/token_joining.c \
 	../src/token_utils.c \
 	../src/token_clear.c \

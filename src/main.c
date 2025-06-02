@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 			clean_prompt(&token_lst, &input);
 		else
 		{
-			if (analyse_token_lst(&token_lst))
+			if (analyse_token_lst(&token_lst, env_lst))
 			{
 				if (token_lst->type == BUILTIN_ECHO)
 					builtin_echo(token_lst);
