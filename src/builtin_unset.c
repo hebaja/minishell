@@ -1,25 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_analyse.c                                   :+:      :+:    :+:   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/07 14:58:42 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:08 by alda-sil         ###   ########.fr       */
+/*   Created: 2025/05/12 18:23:14 by alda-sil          #+#    #+#             */
+/*   Updated: 2025/05/26 18:48:33 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	analyse_token_lst(t_token **token_lst, t_env *env_lst)
+
+void	builtin_unset(t_token *token_lst, t_env **env_lst)
 {
-	var_expansion(token_lst, env_lst);
-	quotes_var_expansion(token_lst, env_lst);
-	quote_removal(*token_lst);
-	token_joining(token_lst);
-	if (!conclude_parser(*token_lst))
-		return (0);
-	// print_tokens(*token_lst);
-	return (1);
+	if (!token_lst)
+	{
+		ft_printf("unset: not enough arguments\n");
+		return ;
+	}
+	else if (get_var_value(*env_lst, token_lst->next->value) == NULL)
+	{
+		ft_printf("Environment variable not found\n");
+		return ;
+	}
+	else
+		env_lst_remove_if(env_lst, token_lst->next->value, compare);
 }
