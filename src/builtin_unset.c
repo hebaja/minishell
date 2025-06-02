@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 18:48:33 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:54:28 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int	check_env_exists(t_env **env, t_token *variable)
 	return (1);
 }
 
-void	builtin_unset(t_env **env, t_token *variable)
+int	builtin_unset(t_env **env, t_token *variable)
 {
-
 	if (!variable)
 	{
 		ft_printf("unset: not enough arguments\n");
-		return ;
+		return (1);
 	}
 	else if (check_env_exists(env, variable))
 	{
 		ft_printf("[ERROR]: Environment variable not found\n");
-		return ;
+		return (1);
 	}
 	else
 		ft_list_remove_if(env, variable, comper);
+	return (0);
 }

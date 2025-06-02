@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_quotes_expansion.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 02:28:19 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/09 02:28:22 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:21:46 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	check_double_quoted(t_token *token_lst)
 	}
 }
 
-void	quotes_var_expansion(t_token **token_lst)
+int		quotes_var_expansion(t_token **token_lst)
 {
-	token_lst_iterate(*token_lst, check_double_quoted);
+	int	value;
+
+	value = token_lst_iterate(*token_lst, check_double_quoted);
+	return (value);
 }

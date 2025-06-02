@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 19:20:45 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:54:39 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	create_variable(t_token *current, t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-void	builtin_export(t_token *head, t_env *env)
+int	builtin_export(t_token *head, t_env *env)
 {
 	t_token *current;
 	t_env	*tmp;
@@ -88,7 +88,11 @@ void	builtin_export(t_token *head, t_env *env)
 	current = head->next;
 	tmp = env;
 	if (!current || current->type != WORD)
+	{
 		ft_printed(tmp);
+		return (0);
+	}	
 	else if (create_variable(current, env))
-		return ;
+		return (1);
+	return (0);
 }

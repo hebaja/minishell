@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/29 20:38:55 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:50:12 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,
 				char *value_start, char quote);
-void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
+int				token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
 void			var_expansion(t_token **token_lst);
-void			quotes_var_expansion(t_token **token_lst);
+int				quotes_var_expansion(t_token **token_lst);
 void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			builtin_recheck(t_token *token_lst);
-void			iscommandtoken(t_token *token_head, t_env **env);
+int				iscommandtoken(t_token *token_head, t_env **env);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
@@ -119,16 +119,17 @@ int     		cmp(t_token_type a, t_token_type b);
 void			create_redicter(t_token **token_lst);
 void			token_lst_clear(t_token **token_lst_head);
 void			token_lst_add_back(t_token **token_lst_head, t_token *token);
-void			builtin_cd(t_token *token_lst);
-void			builtin_echo(t_token *token_lst);
+int				builtin_cd(t_token *token_lst);
+int				builtin_echo(t_token *token_lst);
+int				exit_status(int	status);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_head);
 t_env 			*fn_enviroment_variables(int argc, char **argv, char **envp);
 void			ft_printed(t_env *lst);
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			builtin_env(t_env *env_head);
-void			builtin_pwd(void);
-void			builtin_export(t_token *head, t_env *env);
-void			builtin_unset(t_env **env, t_token *variable);
+int				builtin_pwd(void);
+int				builtin_export(t_token *head, t_env *env);
+int				builtin_unset(t_env **env, t_token *variable);
 void			ft_list_remove_if(t_env **env, t_token *variable , int (*cmp)());
 void			builtin_exit(t_token *lst);
 size_t			token_lst_size(t_token *token_lst);

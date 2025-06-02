@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_token_utils.c                               :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:44 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/06 14:29:48 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:16:27 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,17 @@ size_t	token_lst_size(t_token *token_lst)
 	return (size);
 }
 
-void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
+int	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
 {
 	t_token	*next_token;
 
 	if (token_lst == NULL)
-		return ;
+		return (1);
 	while (token_lst)
 	{
 		next_token = token_lst->next;
 		func(token_lst);
 		token_lst = next_token;
 	}
+	return (0);
 }
