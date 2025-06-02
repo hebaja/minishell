@@ -12,56 +12,16 @@
 
 #include "../include/minishell.h"
 
-/* TODO Refactor to another file */
-void	builtin_cd(t_token *token_lst, t_env *env_lst)
-{
-	char	buf[256];
-	char	*home_path;
-	char	*abs_path;
-	char	*old_path;
-
-	abs_path = NULL;
-	if (!token_lst->next)
-	{
-		home_path = find_var_and_get_value(env_lst, "HOME");
-		getcwd(buf, 256);
-		old_path = ft_strjoin("OLDPWD=", buf);
-		if (chdir(home_path) == -1)
-		{
-			perror("chdir");
-			return ;
-		}
-		abs_path = ft_strjoin("PWD=", home_path);
-	}
-	else
-	{
-		getcwd(buf, 256);
-		old_path = ft_strjoin("OLDPWD=", buf);
-		if (chdir(token_lst->next->value) == -1)
-		{
-			perror("chdir");
-			return ;
-		}
-		getcwd(buf, 256);
-		abs_path = ft_strjoin("PWD=", buf);
-	}
-	update_env_lst(abs_path, env_lst);
-	update_env_lst(old_path, env_lst);
-	free(abs_path);
-	free(old_path);
-}
-
 void	builtin_pwd(void)
 {
-	char	buf[300];
+	char	buf[256];
 
-	getcwd(buf, 300);
+	getcwd(buf, 256);
 	ft_printf("%s\n", buf);
 }
 
 void	builtin_echo(t_token *token_lst)
 {
-	t_token	*current;
 	int		is_break_line;
 
 	if (!token_lst || !token_lst->next)
@@ -69,30 +29,27 @@ void	builtin_echo(t_token *token_lst)
 		ft_printf("\n");
 		return ;
 	}
-	current = token_lst->next;
+	token_lst = token_lst->next;
 	is_break_line = 1;
-	if (ft_strcmp(current->value, "-n") == 0)
+	if (ft_strcmp(token_lst->value, "-n") == 0)
 	{
-		current = current->next;
+		token_lst = token_lst->next;
 		is_break_line = 0;
 	}
-	while (current)
+	while (token_lst)
 	{
-		ft_printf("%s ", current->value);
-		current = current->next;
+		ft_printf("%s ", token_lst->value);
+		token_lst = token_lst->next;
 	}
 	if (is_break_line)
 		ft_printf("\n");
 }
 
-void	builtin_env(t_env *env_head)
+void	builtin_env(t_env *env_lst)
 {
-	t_env	*temp;
-
-	temp = env_head;
-	while (temp)
+	while (env_lst)
 	{
-		ft_printf("%s=%s\n",temp->key, temp->value);
-		temp = temp->next;
+		ft_printf("%s=%s\n",env_lst->key, env_lst->value);
+		env_lst = env_lst->next;
 	}
 }

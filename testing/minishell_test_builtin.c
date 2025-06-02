@@ -207,102 +207,118 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed_2)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_1)
 {
+	t_env	*env_lst;
 	char	*input = "ec\"ho\"";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "ec\"ho\"");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "echo");
 	cr_assert_eq(token_lst->type, BUILTIN_ECHO);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_2)
 {
+	t_env	*env_lst;
 	char	*input = "p\'wd\'";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "p\'wd\'");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "pwd");
 	cr_assert_eq(token_lst->type, BUILTIN_PWD);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_3)
 {
+	t_env	*env_lst;
 	char	*input = "c\"d\"";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "c\"d\"");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "cd");
 	cr_assert_eq(token_lst->type, BUILTIN_CD);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_4)
 {
+	t_env	*env_lst;
 	char	*input = "exp\'ort\'";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "exp\'ort\'");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "export");
 	cr_assert_eq(token_lst->type, BUILTIN_EXPORT);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_5)
 {
+	t_env	*env_lst;
 	char	*input = "un\"set\"";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "un\"set\"");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "unset");
 	cr_assert_eq(token_lst->type, BUILTIN_UNSET);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_6)
 {
+	t_env	*env_lst;
 	char	*input = "en\'v\'";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "en\'v\'");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "env");
 	cr_assert_eq(token_lst->type, BUILTIN_ENV);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_7)
 {
+	t_env	*env_lst;
 	char	*input = "exi\"t\"";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "exi\"t\"");
 	cr_assert_eq(token_lst->type, WORD);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, "exit");
 	cr_assert_eq(token_lst->type, BUILTIN_EXIT);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_all)
 {
+	t_env	*env_lst;
 	char	*input = "ec\"ho\" \'c\'d pw\"d\" exp\'ort\' un\"set\" en\'v\' ex\"it\"";
 
+	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	cr_assert_eq(res, 1);
-	usual_flow(&token_lst);
+	usual_flow(&token_lst, env_lst);
 	values = populate_values(7, "echo", "cd", "pwd", "export", "unset", "env", "exit");
 	types = fetch_tokens_type_list(token_lst);
 	test_lst(token_lst, values, types);

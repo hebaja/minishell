@@ -20,7 +20,6 @@
 # include "../libft/include/libft.h"
 
 # define TERMINAL_PROMPT "🚀 $: "
-# define USER "hebatist"
 
 typedef enum e_token_type
 {
@@ -66,7 +65,7 @@ typedef struct s_token
 }	t_token;
 
 int				token_lst_build(t_token **token_lst, char *value);
-int				analyse_token_lst(t_token **token_lst);
+int				analyse_token_lst(t_token **token_lst, t_env *env_lst);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
 int				append_token(t_token **token_lst, char **value,
@@ -84,21 +83,24 @@ int				regular_mode(t_token **token_lst, char **value,
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
 int				check_redirect(t_token *token_lst);
-int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
 int				conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,
 				char *value_start, char quote);
 void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
-void			var_expansion(t_token **token_lst);
-void			quotes_var_expansion(t_token **token_lst);
+int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
+void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *));
+void			var_expansion(t_token **token_lst, t_env *env_lst);
+void			join_value(char *key, t_token *token, t_env *env_lst, int dolar_pos);
+void			quotes_var_expansion(t_token **token_lst, t_env *env_lst);
 void			quote_removal(t_token *token_lst);
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			builtin_recheck(t_token *token_lst);
 void			iscommandToken(t_token *token_lst, t_env **env);
 size_t			token_lst_size(t_token *token_lst);
+char			*extract_var_key(t_token *token, int dolar_pos);
 t_token			*token_build(char **value, char *value_start,
 					size_t size, int is_start);
 t_token_type	define_type(char *value, char c);
@@ -123,8 +125,8 @@ char			*print_token_type(t_token_type type);
 int				compare(char *key, char *variable);
 void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
 void			env_lst_clear(t_env **env_lst);
-char			*find_var_and_get_value(t_env *env_lst, char *var_key);
-int				update_env_lst(char *value, t_env *env_lst);
+char			*get_var_value(t_env *env_lst, char *var_key);
+void			update_env_lst(char *value, t_env *env_lst);
 /* DEGUB */
 void			print_tokens(t_token *token_lst);
 
