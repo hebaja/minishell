@@ -1,13 +1,14 @@
 #ifndef MINISHELL_TEST_H
 # define MINISHELL_TEST_H
 
-# include "criterion-2.4.2/include/criterion/assert.h"
-# include "criterion-2.4.2/include/criterion/criterion.h"
-# include "criterion-2.4.2/include/criterion/redirect.h"
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 # include "../include/minishell.h"
+# include "criterion-2.4.2/include/criterion/assert.h"
+# include "criterion-2.4.2/include/criterion/criterion.h"
+# include "criterion-2.4.2/include/criterion/redirect.h"
 
 extern t_token	*token_lst;
 extern size_t	size;
@@ -19,6 +20,8 @@ extern int		i;
 
 void	clean_values(char **values);
 void	redirect_all_stdout(void);
+void	redirect_stdout(void);
+void	redirect_stderr(void);
 char    *fetch_token_type(t_token_type type);
 char	**fetch_tokens_type_list(t_token *token_lst);
 void	unquoted_value_test(t_token *token_lst, char *value, char quote);

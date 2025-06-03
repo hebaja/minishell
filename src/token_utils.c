@@ -63,8 +63,6 @@ void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
 	}
 }
 
-<<<<<<< HEAD
-=======
 void	token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *))
 {
 	t_token	*next_token;
@@ -79,7 +77,6 @@ void	token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_to
 	}
 }
 
->>>>>>> development
 int	token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *))
 {
 	t_token	*next_token;

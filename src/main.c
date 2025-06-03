@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 				if (token_lst->type == BUILTIN_UNSET)
 					builtin_unset(token_lst, &env_lst);
 				if (token_lst->type == BUILTIN_EXIT)
-					builtin_exit(token_lst);
+					builtin_exit(&token_lst, &env_lst);
 			}
 			clean_prompt(&token_lst, &input);
 		}
