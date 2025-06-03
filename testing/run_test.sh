@@ -13,6 +13,10 @@ gcc -I \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
 	minishell_test_token_join.c \
+	minishell_test_builtin_cd.c \
+	minishell_test_builtin_echo.c \
+	minishell_test_builtin_export.c \
+	minishell_test_builtin_unset.c \
 	minishell_test_redirect.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
@@ -29,6 +33,10 @@ gcc -I \
 	../src/token_utils.c \
 	../src/token_clear.c \
 	../src/parser_conclusion.c \
+	../src/builtins_common.c \
+	../src/builtin_cd.c \
+	../src/builtin_export.c \
+	../src/builtin_unset.c \
 	../src/redirect.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \

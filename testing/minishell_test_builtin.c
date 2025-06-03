@@ -22,18 +22,6 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_not)
 	test_lst(token_lst, values, types);
 }
 
-Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_echo_mix)
-{
-	char	*input = "echo\'hello\'";
-
-	values = ft_split(input, ' ');
-	res = token_lst_build(&token_lst, input);
-	types = fetch_tokens_type_list(token_lst);
-	cr_assert_eq(res, 1);
-	cr_assert_str_eq(token_lst->value, "echo\'hello\'");
-	cr_assert_null(token_lst->next);
-}
-
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_cd_mix)
 {
 	char	*input = "cd\"hello\"";
@@ -44,6 +32,41 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_cd_mix)
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "cd\"hello\"");
 	cr_assert_null(token_lst->next);
+}
+
+Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd, .init=redirect_stdout)
+{
+	t_env	*env_lst;
+	char	*input = "pwd";
+
+	env_lst = build_envp();
+	values = ft_split(input, ' ');
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	cr_assert_str_eq(token_lst->value, "pwd");
+	cr_assert_null(token_lst->next);
+	usual_flow(&token_lst, env_lst);
+	chdir("/home");
+	builtin_pwd();
+	cr_assert_stdout_eq_str("/home\n");
+}
+
+Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_more, .init=redirect_stdout)
+{
+	t_env	*env_lst;
+	char	*input = "pwd more";
+
+	env_lst = build_envp();
+	values = ft_split(input, ' ');
+	res = token_lst_build(&token_lst, input);
+	types = fetch_tokens_type_list(token_lst);
+	cr_assert_eq(res, 1);
+	cr_assert_str_eq(token_lst->value, "pwd");
+	usual_flow(&token_lst, env_lst);
+	chdir("/home");
+	builtin_pwd();
+	cr_assert_stdout_eq_str("/home\n");
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_mix)
@@ -104,17 +127,6 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_exit_mix)
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(token_lst->value, "exit\'hello\'");
 	cr_assert_null(token_lst->next);
-}
- 
-Test(minishell_test_suite_builtin, build_token_lst_test_builtin_echo)
-{
-	char	*input = "echo -n Hello";
-	
-	values = ft_split(input, ' ');
-	res = token_lst_build(&token_lst, input);
-	types = fetch_tokens_type_list(token_lst);
-	cr_assert_eq(res, 1);
-	test_lst(token_lst, values, types);
 }
 
 Test(minishell_test_suite_builtin, build_token_lst_test_builting_cd)

@@ -119,7 +119,7 @@ void			builtin_pwd(void);
 void			builtin_export(t_token *token_lst, t_env *env_lst);
 void			builtin_unset(t_token *token_lst, t_env **env_lst);
 void			env_lst_remove_if(t_env **env_lst, char *value, int cmp(char *s1, char *s2));
-void			builtin_exit(t_token *token_lst);
+int				builtin_exit(t_token **token_lst, t_env **env_lst);
 size_t			token_lst_size(t_token *token_lst);
 void			print_tokens(t_token *token_lst);
 char			*print_token_type(t_token_type type);
