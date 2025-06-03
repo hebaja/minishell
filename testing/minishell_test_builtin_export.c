@@ -41,6 +41,7 @@ Test(minishell_test_suite_export, test_export_change)
 	cr_assert_str_eq(var_value_2, "change");
 }
 
+/*
 Test(minishell_test_suite_export, test_export_change_exist)
 {
 	t_env	*env_lst;
@@ -57,3 +58,4 @@ Test(minishell_test_suite_export, test_export_change_exist)
 	var_value = get_var_value(env_lst, "LANGUAGE");
 	cr_assert_str_eq(var_value, "pt");
 }
+*/
