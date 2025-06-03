@@ -301,7 +301,7 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_5)
 	cr_assert_str_eq(token_lst->value, "echo\"hi $USER hello\"");
 	var_expansion(&token_lst, env_lst);
 	quotes_var_expansion(&token_lst, env_lst);
-	out_value = multi_str_join(4, "echo" "\"hi ", get_var_value(env_lst, "USER"), " hello");
+	out_value = multi_str_join(3, "echo\"hi ", get_var_value(env_lst, "USER"), " hello\"");
 	cr_assert_str_eq(token_lst->value, out_value);
 	cr_assert_null(token_lst->next);
 }

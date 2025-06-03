@@ -38,8 +38,10 @@ void	builtin_echo(t_token *token_lst)
 	}
 	while (token_lst)
 	{
-		ft_printf("%s ", token_lst->value);
+		ft_printf("%s", token_lst->value);
 		token_lst = token_lst->next;
+		if (token_lst)
+			ft_printf(" ");
 	}
 	if (is_break_line)
 		ft_printf("\n");

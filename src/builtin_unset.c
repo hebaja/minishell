@@ -15,16 +15,9 @@
 
 void	builtin_unset(t_token *token_lst, t_env **env_lst)
 {
-	if (!token_lst)
-	{
-		ft_printf("unset: not enough arguments\n");
+	if (!token_lst->next
+		|| get_var_value(*env_lst, token_lst->next->value) == NULL)
 		return ;
-	}
-	else if (get_var_value(*env_lst, token_lst->next->value) == NULL)
-	{
-		ft_printf("Environment variable not found\n");
-		return ;
-	}
 	else
 		env_lst_remove_if(env_lst, token_lst->next->value, compare);
 }

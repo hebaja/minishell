@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-TestSuite(minishell_test_suite_redirect, .init=redirect_stdout_err);
+TestSuite(minishell_test_suite_redirect, .init = redirect_stderr);
 
 Test(minishell_test_suite_redirect, test_redirect_out)
 {
@@ -66,6 +66,7 @@ Test(minishell_test_suite_redirect, test_redirect_out_error_1)
 	cr_assert_eq(res, 1);
 	usual_flow(&token_lst, env_lst);
 	cr_assert_eq(conclude_parser(token_lst), 0);
+
 }
 
 Test(minishell_test_suite_redirect, test_redirect_out_error_2)
