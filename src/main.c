@@ -22,6 +22,7 @@ void	clean_prompt(t_token **token_lst, char **input)
 char	**split_path(t_env *env_lst)
 {
 	// char	**paths;
+	(void)env_lst;
 	return (NULL);
 }
 
