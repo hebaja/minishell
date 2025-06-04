@@ -185,16 +185,16 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_3)
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_4)
 {
 	t_env	*env_lst;
-	char	*input = "\"hello $USER hello $USER\"";
+	char	*input = "\"hello $USER hello $TERM\"";
 	char	*out_value;
 
 	env_lst = build_envp();
 	res = token_lst_build(&token_lst, input);
 	types = fetch_tokens_type_list(token_lst);
 	cr_assert_eq(res, 1);
-	cr_assert_str_eq(token_lst->value, "hello $USER hello $USER");
+	cr_assert_str_eq(token_lst->value, "hello $USER hello $TERM");
 	quotes_var_expansion(&token_lst, env_lst);
-	out_value = multi_str_join(4, "hello ", get_var_value(env_lst, "USER"), " hello ", get_var_value(env_lst, "USER"));
+	out_value = multi_str_join(4, "hello ", get_var_value(env_lst, "USER"), " hello ", get_var_value(env_lst, "TERM"));
 	cr_assert_str_eq(token_lst->value, out_value);
 	cr_assert_null(token_lst->next);
 }
