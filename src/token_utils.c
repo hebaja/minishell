@@ -63,7 +63,8 @@ void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
 	}
 }
 
-void	token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *))
+void	token_lst_env_iterate(t_token *token_lst, t_env *env_lst,
+	void (*func)(t_token *, t_env *))
 {
 	t_token	*next_token;
 

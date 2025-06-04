@@ -27,7 +27,6 @@ typedef enum e_token_type
 	AND,
 	VAR,
 	WORD,
-	FLAG,
 	PIPE,
 	DOLAR,
 	APPEND,
@@ -64,8 +63,26 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_cmd
+{
+	int				fd[2];
+	char			*path;
+	char			**args;
+	struct s_cmd	*next;
+}	t_cmd;
+/*
+typedef struct s_cmd
+{
+	int				fd[2];
+	t_token			*token_lst;
+	struct s_cmd	*left;
+	struct s_cmd	*right;
+}	t_cmd;
+*/
+
 int				token_lst_build(t_token **token_lst, char *value);
 int				analyse_token_lst(t_token **token_lst, t_env *env_lst);
+int				cmd_lst_build(t_token *token_lst);
 int				is_metacharacter(char c);
 int				is_meta_token(char *value);
 int				append_token(t_token **token_lst, char **value,
@@ -85,6 +102,7 @@ int				define_type_builtin(char *value, t_token_type *type);
 int				check_redirect(t_token *token_lst);
 int				conclude_parser(t_token *token_lst);
 void			token_clear(t_token *token);
+void			cmd_clear(t_cmd *cmd);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,
 				char *value_start, char quote);

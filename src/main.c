@@ -19,6 +19,12 @@ void	clean_prompt(t_token **token_lst, char **input)
 	*input = readline(TERMINAL_PROMPT);
 }
 
+char	**split_path(t_env *env_lst)
+{
+	// char	**paths;
+	return (NULL);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
@@ -46,18 +52,27 @@ int	main(int argc, char **argv, char **envp)
 			{
 				if (token_lst->type == BUILTIN_ECHO)
 					builtin_echo(token_lst);
-				if (token_lst->type == BUILTIN_ENV)
+				else if (token_lst->type == BUILTIN_ENV)
 					builtin_env(env_lst);
-				if (token_lst->type == BUILTIN_CD)
+				else if (token_lst->type == BUILTIN_CD)
 					builtin_cd(token_lst, env_lst);
-				if (token_lst->type == BUILTIN_PWD)
+				else if (token_lst->type == BUILTIN_PWD)
 					builtin_pwd();
-				if (token_lst->type == BUILTIN_EXPORT)
+				else if (token_lst->type == BUILTIN_EXPORT)
 					builtin_export(token_lst, env_lst);
-				if (token_lst->type == BUILTIN_UNSET)
+				else if (token_lst->type == BUILTIN_UNSET)
 					builtin_unset(token_lst, &env_lst);
-				if (token_lst->type == BUILTIN_EXIT)
+				else if (token_lst->type == BUILTIN_EXIT)
 					builtin_exit(&token_lst, &env_lst);
+				else
+				{
+
+					char	*env_path = get_var_value(env_lst, "PATH");
+
+					ft_printf("%s\n", env_path);
+
+					cmd_lst_build(token_lst);
+				}
 			}
 			clean_prompt(&token_lst, &input);
 		}
