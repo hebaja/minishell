@@ -12,28 +12,17 @@
 
 #include "../include/minishell.h"
 
-void	clean_prompt(t_token **token_lst, char **input)
-{
-	free(*input);
-	token_lst_clear(token_lst);
-	*input = readline(TERMINAL_PROMPT);
-}
-
-char	**split_path(t_env *env_lst)
-{
-	// char	**paths;
-	(void)env_lst;
-	return (NULL);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_token *token_lst;
 	t_env	*env_lst;
+	t_cmd	*cmd_lst;
+	char	**paths;
 
 	env_lst = build_env_lst(argc, argv, envp);
 	token_lst = NULL;
+	cmd_lst = NULL;
 	using_history();
 	input = readline(TERMINAL_PROMPT);
 	while (input)
@@ -46,9 +35,10 @@ int	main(int argc, char **argv, char **envp)
 		if (input)
 			add_history(input);
 		if (!token_lst_build(&token_lst, input) || !token_lst)
-			clean_prompt(&token_lst, &input);
+			clean_prompt(&token_lst, &input, paths);
 		else
 		{
+			paths = split_path(env_lst);
 			if (analyse_token_lst(&token_lst, env_lst))
 			{
 				if (token_lst->type == BUILTIN_ECHO)
@@ -66,16 +56,9 @@ int	main(int argc, char **argv, char **envp)
 				else if (token_lst->type == BUILTIN_EXIT)
 					builtin_exit(&token_lst, &env_lst);
 				else
-				{
-
-					char	*env_path = get_var_value(env_lst, "PATH");
-
-					ft_printf("%s\n", env_path);
-
-					cmd_lst_build(token_lst);
-				}
+					cmd_lst_build(&cmd_lst, token_lst, paths);
 			}
-			clean_prompt(&token_lst, &input);
+			clean_prompt(&token_lst, &input, paths);
 		}
 	}
 	if (token_lst)
