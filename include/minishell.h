@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:41 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/04 20:36:32 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
+#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
@@ -61,6 +62,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	int				join;
+	int				fd;
 	struct s_token	*next;
 }	t_token;
 
@@ -128,6 +130,7 @@ void			env_lst_clear(t_env **env_lst);
 char			*get_var_value(t_env *env_lst, char *var_key);
 void			update_env_lst(char *value, t_env *env_lst);
 /* DEGUB */
+void			create_redirect(t_token **token_lst);
 void			print_tokens(t_token *token_lst);
 
 #endif

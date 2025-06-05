@@ -1,37 +1,54 @@
-// #include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/04 19:46:08 by alda-sil          #+#    #+#             */
+/*   Updated: 2025/06/04 21:04:02 by alda-sil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-// int	is_not_redirect(t_token *token)
-// {
-// 	if (token->type != REDIRECT_OUT && token->type != REDIRECT_IN
-// 		&& token->type != APPEND && token->type && token->type != PIPE)
-// 		return (1);
-// 	return (0);
-// 		
-// }
+#include "../include/minishell.h"
 
-// int	is_redirect(t_token *token_lst)
-// {
-// 	if (token_lst->type == REDIRECT_OUT || token_lst->type == REDIRECT_IN)
-// 	{
-// 		if (token_lst->next && ft_strlen(token_lst->value) == 1
-// 			&& is_not_redirect(token_lst->next))
-// 			return (1);
-// 		return (-1);
-// 	}
-// 	if (token_lst->type == HEREDOC || token_lst->type == APPEND)
-// 	{
-// 		if (token_lst->next && ft_strlen(token_lst->value) == 2
-// 			&& is_not_redirect(token_lst->next))
-// 			return (1);
-// 		return (-1);
-// 	}
-// 	return (0);
-// }
+static int 	create_heredoc(char *eof)
+{
+	char	*line;
+	int		fd[2];
 
-// int	check_redirect(t_token *token_lst)
-// {
-// 	int	res;
 
-// 	res = token_lst_iterate_check(token_lst, is_redirect);
-// 	return (res);
-// }
+	pipe(fd);
+	line = readline(">");
+	while (line)
+	{	
+		if (ft_strcmp(line, eof) == 0)
+			break;
+		if (line && line[0])
+			write(fd[1], line, ft_strlen(line));
+		write(fd[1],"\n", 1);
+		line = readline(">");
+	}
+	return (fd[1]);
+}
+
+void	create_redirect(t_token **token_lst)
+{
+	t_token *current;
+
+	current = *token_lst;
+	while (current)
+	{
+		if (current->type == REDIRECT_IN)
+			current->fd = open(current->next->value, O_RDONLY, 0644);
+		else if (current->type == REDIRECT_OUT)
+			current->fd = open(current->next->value, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		else if (current->type == APPEND)
+			current->fd = open(current->next->value, O_CREAT | O_RDWR | O_APPEND, 0644);
+		else if (current->type == HEREDOC)
+			current->fd = create_heredoc(current->next->value);	
+		current = current->next;
+	}
+	
+	
+}

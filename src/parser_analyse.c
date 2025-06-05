@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:58:42 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:08 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/04 20:19:13 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,19 @@
 
 int	analyse_token_lst(t_token **token_lst, t_env *env_lst)
 {
+
+	// t_token *tmp;
+
+	// tmp = *token_lst;
 	var_expansion(token_lst, env_lst);
 	quotes_var_expansion(token_lst, env_lst);
+	create_redirect(token_lst);
+	// token_lst = &tmp;
 	quote_removal(*token_lst);
 	token_joining(token_lst);
 	if (!conclude_parser(*token_lst))
 		return (0);
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	// print_tokens(*token_lst);
 	return (1);
 }
