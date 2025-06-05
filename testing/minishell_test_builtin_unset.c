@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-Test(minishell_test_suite_unset, test_unset)
+Test(minishell_test_suite_unset, test_unset, .fini=clean_test)
 {
 	char	*input = "unset LANGUAGE";
 	char	*var_value;
@@ -15,7 +15,7 @@ Test(minishell_test_suite_unset, test_unset)
 	cr_assert_null(var_value);
 }
 
-Test(minishell_test_suite_unset, test_unset_create, .init=redirect_stdout)
+Test(minishell_test_suite_unset, test_unset_create, .init=redirect_stdout, .fini=clean_test)
 {
 	char	*input = "export TEST=test";
 	char	*var_value;
@@ -29,7 +29,6 @@ Test(minishell_test_suite_unset, test_unset_create, .init=redirect_stdout)
 	var_value = get_var_value(env_lst, "TEST");
 	cr_assert_str_eq(var_value, "test");
 	token_lst = NULL;
-	free(var_value);
 	var_value = NULL;
 	token_lst_build(&token_lst, "unset TEST");
 	usual_flow(&token_lst, env_lst);

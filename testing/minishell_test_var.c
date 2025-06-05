@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_var, .fini=clean_test);
+
 Test(minishell_test_suite_var, test_var_expansion)
 {
 	char	*input = "$USER";
@@ -14,7 +16,7 @@ Test(minishell_test_suite_var, test_var_expansion)
 	var_expansion(&token_lst, env_lst);
 	cr_assert_str_eq(token_lst->value, var_value);
 	cr_assert_null(token_lst->next);
-	free(var_value);
+	// free(var_value);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_join)

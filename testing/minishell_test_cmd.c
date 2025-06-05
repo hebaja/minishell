@@ -2,6 +2,8 @@
 
 /* TODO More tests with file redirections when ready */
 
+TestSuite(minishell_test_suite_cmd, .fini=clean_test);
+
 Test(minishell_test_suite_cmd, test_cmd_lst_1)
 {
 	char	*input = "ls -l";

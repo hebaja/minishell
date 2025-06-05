@@ -37,8 +37,10 @@ char	**populate_values(int size, ...);
 char	*multi_str_join(int size, ...);
 t_env	*build_envp(void);
 void	clean_envp(void);
+void	clean_test(void);
 void	setup(void);
 void	clean(void);
 void	setup_redirect_err(void);
+void	clean_split_path(char **paths);
 
 #endif

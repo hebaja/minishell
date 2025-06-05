@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_builtin, .fini=clean_test);
+
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins)
 {
 	char	*input = "echo cd pwd export unset env exit";

@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-TestSuite(minishell_test_suite_redirect, .init = redirect_stderr);
+TestSuite(minishell_test_suite_redirect, .init = redirect_stderr, .fini=clean_test);
 
 Test(minishell_test_suite_redirect, test_redirect_out)
 {

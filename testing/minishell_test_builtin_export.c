@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_export, .fini=clean_test);
+
 Test(minishell_test_suite_export, test_export)
 {
 	char	*input = "export TEST=test";
