@@ -29,10 +29,6 @@ void	redirect_stderr(void)
 	cr_redirect_stderr();
 }
 
-void redirect_stdout_err(void) {
-    freopen("/dev/null", "w", stderr);
-}
-
 char    *fetch_token_type(t_token_type type)
 {
 	if (type == WORD)
@@ -116,20 +112,24 @@ char	*multi_str_join(int size, ...)
 	va_list	args;
 	va_list copy_args;
 
-	i = -1;
+	i = 0;
 	str_len = 0;
 	offset = 0;
 	va_start(args, size);
 	va_copy(copy_args, args);
-	while (++i < size)
+	while (i < size)
+	{	
 		str_len += ft_strlen(va_arg(copy_args, char *));
+		i++;
+	}
 	str = (char *)malloc(sizeof(char) * (str_len + 1));
-	i = -1;
-	while (++i < size)
+	i = 0;
+	while (i < size)
 	{
 		tmp = va_arg(args, char *);
 		ft_memmove(&str[offset], tmp, ft_strlen(tmp));
 		offset += ft_strlen(tmp);
+		i++;
 	}
 	va_end(args);
 	va_end(copy_args);

@@ -33,7 +33,6 @@ char	**split_token_lst(t_token *token_lst);
 char	**populate_values(int size, ...);
 char	*multi_str_join(int size, ...);
 t_env	*build_envp(void);
-// void	build_envp_r(void);
 void	clean_envp(void);
 void	setup(void);
 void	clean(void);

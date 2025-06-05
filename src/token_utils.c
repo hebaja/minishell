@@ -12,6 +12,37 @@
 
 #include "../include/minishell.h"
 
+/* TODO Not sure if this is necessary
+char	*set_arg(t_token *token_lst)
+{
+	char	*arg;
+
+	if (token_lst->type != SINGLE_QUOTED && token_lst->type != DOUBLE_QUOTED)
+		arg = ft_strtrim(token_lst->value, " \t");
+	else
+		arg = ft_strdup(token_lst->value);
+	return (arg);
+}
+*/
+
+char	**split_token_value(t_token *token_lst, size_t cmd_size)
+{
+	int		i;
+	char	**args;
+
+	i = 0;
+	args = (char **)malloc(sizeof(char *) * (cmd_size + 1));
+	while (cmd_size)
+	{
+		args[i] = ft_strdup(token_lst->value);
+		token_lst = token_lst->next;
+		cmd_size--;
+		i++;
+	}
+	args[i] = NULL;
+	return (args);
+}
+
 t_token	*token_lst_last(t_token *token_lst)
 {
 	t_token	*current_token;

@@ -89,12 +89,7 @@ t_token_type	define_type(char *value, char c)
 {
 	t_token_type	type;
 
-	if (ft_strncmp(value, "-", 1) == 0)
-	{
-		if (ft_strncmp(value + 1, " ", 1) != 0)
-			return (FLAG);
-	}
-	else if (ft_strncmp(value, "&&", 2) == 0)
+	if (ft_strncmp(value, "&&", 2) == 0)
 		return (AND);
 	else if (ft_strncmp(value, "||", 2) == 0)
 		return (OR);

@@ -40,6 +40,7 @@ gcc -I \
 	../src/builtin_unset.c \
 	../src/builtin_exit.c \
 	../src/redirect.c \
+	../src/iterate_utils.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
