@@ -2,7 +2,6 @@
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_1)
 {
-	t_env	*env_lst;
 	char	*input = "\'$USER\'";
 
 	env_lst = build_envp();
@@ -17,7 +16,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_1)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_2)
 {
-	t_env	*env_lst;
 	char	*input = "\'hello$USERhello\'";
 
 	env_lst = build_envp();
@@ -32,7 +30,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_2)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_1)
 {
-	t_env	*env_lst;
 	char	*input = "hello\'$USER\'";
 
 	env_lst = build_envp();
@@ -47,7 +44,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_1)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_2)
 {
-	t_env	*env_lst;
 	char	*input = "hello\'hi $USER hello\'";
 
 	env_lst = build_envp();
@@ -62,7 +58,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_2)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_3)
 {
-	t_env	*env_lst;
 	char	*input = "\'hello\'hello";
 
 	env_lst = build_envp();
@@ -80,7 +75,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_3)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_4)
 {
-	t_env	*env_lst;
 	char	*input = "\'hello\'$USER";
 
 	env_lst = build_envp();
@@ -98,7 +92,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_4)
 
 Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_5)
 {
-	t_env	*env_lst;
 	char	*input = "\'$USER\'$USER";
 
 	env_lst = build_envp();
@@ -116,7 +109,6 @@ Test(minishell_test_suite_var, test_var_no_expansion_quote_and_raw_5)
 
 Test(minishell_test_suite_var, test_var_expansion_quote)
 {
-	t_env	*env_lst;
 	char	*input = "\"$USER\"";
 	char	*out_value;
 
@@ -133,7 +125,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_1)
 {
-	t_env	*env_lst;
 	char	*input = "\"$USER hello\"";
 	char	*out_value;
 
@@ -150,7 +141,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_1)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_2)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello $USER hello\"";
 	char	*out_value;
 
@@ -167,7 +157,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_2)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_3)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello $USER hello\"";
 	char	*out_value;
 
@@ -184,7 +173,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_3)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_4)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello $USER hello $TERM\"";
 	char	*out_value;
 
@@ -201,7 +189,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_4)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mix_5)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello$USER\"";
 	char	*out_value;
 
@@ -218,7 +205,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mix_5)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_1)
 {
-	t_env	*env_lst;
 	char	*input = "echo \"$USER\"";
 
 	env_lst = build_envp();
@@ -236,7 +222,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_1)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_2)
 {
-	t_env	*env_lst;
 	char	*input = "echo \" $USER\"";
 
 	env_lst = build_envp();
@@ -254,7 +239,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_2)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_3)
 {
-	t_env	*env_lst;
 	char	*input = "echo \"hello $USER hello $USER\"";
 
 	env_lst = build_envp();
@@ -272,7 +256,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_3)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_4)
 {
-	t_env	*env_lst;
 	char	*input = "echo\"$USER\"";
 	char	*out_value;
 
@@ -290,7 +273,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_4)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_5)
 {
-	t_env	*env_lst;
 	char	*input = "echo\"hi $USER hello\"";
 	char	*out_value;
 
@@ -308,7 +290,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_5)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_6)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello\"hello";
 
 	env_lst = build_envp();
@@ -326,7 +307,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_6)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_7)
 {
-	t_env	*env_lst;
 	char	*input = "\"$USER\"$USER";
 
 	env_lst = build_envp();
@@ -344,7 +324,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_7)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_8)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello $USER hello\"$USER";
 
 	env_lst = build_envp();
@@ -362,7 +341,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_and_raw_8)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mult)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello\"\"hello\"";
 
 	env_lst = build_envp();
@@ -380,7 +358,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mult)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_mult_raw)
 {
-	t_env	*env_lst;
 	char	*input = "\"hello\"$USER\"hello\"";
 
 	env_lst = build_envp();
@@ -398,7 +375,6 @@ Test(minishell_test_suite_var, test_var_expansion_quote_mult_raw)
 
 Test(minishell_test_suite_var, test_var_expansion_quote_go_crazy)
 {
-	t_env	*env_lst;
 	char	*input = "hello $USER \'$USER\'>\"$USER\"<< \'nice$USER\' | \"hello $USER $USER\" hello \'$USER\'\"$USER\"";
 
 	env_lst = build_envp();

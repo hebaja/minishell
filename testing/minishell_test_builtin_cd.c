@@ -1,10 +1,9 @@
 #include "minishell_test.h"
 
-TestSuite(minishell_test_suite_cd, .init=redirect_stdout_err);
+TestSuite(minishell_test_suite_cd, .init=redirect_stderr);
 
 Test(minishell_test_suite_cd, builtin_cd_1)
 {
-	t_env	*env_lst;
 	char	*input = "cd";
 	char	*old_pwd;
 
@@ -24,7 +23,6 @@ Test(minishell_test_suite_cd, builtin_cd_1)
 
 Test(minishell_test_suite_cd, builtin_cd_2)
 {
-	t_env	*env_lst;
 	char	*input = "cd /home";
 	char	*old_pwd;
 
@@ -44,7 +42,6 @@ Test(minishell_test_suite_cd, builtin_cd_2)
 
 Test(minishell_test_suite_cd, builtin_cd_3)
 {
-	t_env	*env_lst;
 	char	*input = "cd directory";
 	char	*pwd;
 	char	*old_pwd;
@@ -67,7 +64,6 @@ Test(minishell_test_suite_cd, builtin_cd_3)
 
 Test(minishell_test_suite_cd, builtin_cd_4)
 {
-	t_env	*env_lst;
 	char	*input = "cd directory";
 	char	*pwd;
 	char	*old_pwd;
@@ -92,7 +88,6 @@ Test(minishell_test_suite_cd, builtin_cd_4)
 
 Test(minishell_test_suite_cd, builtin_cd_5)
 {
-	t_env	*env_lst;
 	char	*input = "cd file";
 	char	*pwd;
 	char	*old_pwd;
@@ -117,7 +112,6 @@ Test(minishell_test_suite_cd, builtin_cd_5)
 
 Test(minishell_test_suite_cd, builtin_cd_6)
 {
-	t_env	*env_lst;
 	char	*input = "cd /home /usr";
 	char	*pwd;
 	char	*old_pwd;

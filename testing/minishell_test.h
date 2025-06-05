@@ -11,11 +11,14 @@
 # include "criterion-2.4.2/include/criterion/redirect.h"
 
 extern t_token	*token_lst;
+extern t_cmd	*cmd_lst;
+extern t_env	*env_lst;
 extern size_t	size;
 extern char		**values;
 extern char		**types;
-extern char		*out_value_1;
+extern char		**paths;
 extern int		res;
+extern int		cmd_res;
 extern int		i;
 
 void	clean_values(char **values);

@@ -2,7 +2,6 @@
 
 Test(minishell_test_suite_var, test_var_expansion)
 {
-	t_env	*env_lst;
 	char	*input = "$USER";
 	char	*var_value;
 
@@ -20,7 +19,6 @@ Test(minishell_test_suite_var, test_var_expansion)
 
 Test(minishell_test_suite_var, test_var_expansion_join)
 {
-	t_env	*env_lst;
 	char	*input = "sh$USER";
 	char	*out_value;
 
@@ -56,7 +54,6 @@ Test(minishell_test_suite_var, test_var_expansion_mix)
 
 Test(minishell_test_suite_var, test_var_expansion_mix_mult)
 {
-	t_env	*env_lst;
 	char	*input = "echo $USER hello $USER";
 
 	env_lst = build_envp();
@@ -73,7 +70,6 @@ Test(minishell_test_suite_var, test_var_expansion_mix_mult)
 
 Test(minishell_test_suite_var, test_var_expansion_mix_no_space)
 {
-	t_env	*env_lst;
 	char	*input = "echo>>$USER";
 
 	env_lst = build_envp();

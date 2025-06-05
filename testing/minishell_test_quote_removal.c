@@ -2,7 +2,6 @@
 
 Test(minishell_test_suite_quote_removal, test_single_quote_removal_1)
 {
-	t_env	*env_lst;
 	char	*input = "hello\'hello\'";
 
 	env_lst = build_envp();
@@ -16,7 +15,6 @@ Test(minishell_test_suite_quote_removal, test_single_quote_removal_1)
 
 Test(minishell_test_suite_quote_removal, test_single_quote_removal_2)
 {
-	t_env	*env_lst;
 	char	*input = "hello\'$USER\'";
 
 	env_lst = build_envp();
@@ -30,7 +28,6 @@ Test(minishell_test_suite_quote_removal, test_single_quote_removal_2)
 
 Test(minishell_test_suite_quote_removal, test_double_quote_removal_1)
 {
-	t_env	*env_lst;
 	char	*input = "hello\"hello\"";
 
 	env_lst = build_envp();
@@ -44,7 +41,6 @@ Test(minishell_test_suite_quote_removal, test_double_quote_removal_1)
 
 Test(minishell_test_suite_quote_removal, test_double_quote_removal_2)
 {
-	t_env	*env_lst;
 	char	*input = "hello\"$USER\"";
 
 	env_lst = build_envp();

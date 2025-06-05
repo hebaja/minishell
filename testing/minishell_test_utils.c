@@ -29,6 +29,16 @@ void	redirect_stderr(void)
 	cr_redirect_stderr();
 }
 
+char	**split_path(t_env *env_lst)
+{
+	char	**paths;
+	char	*env_path;
+
+	env_path = get_var_value(env_lst, "PATH");
+	paths = ft_split(env_path, ':');
+	return (paths);
+}
+
 char    *fetch_token_type(t_token_type type)
 {
 	if (type == WORD)

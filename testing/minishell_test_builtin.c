@@ -36,7 +36,6 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_cd_mix)
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd, .init=redirect_stdout)
 {
-	t_env	*env_lst;
 	char	*input = "pwd";
 
 	env_lst = build_envp();
@@ -54,7 +53,6 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd, .init=
 
 Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_more, .init=redirect_stdout)
 {
-	t_env	*env_lst;
 	char	*input = "pwd more";
 
 	env_lst = build_envp();
@@ -219,7 +217,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed_2)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_1)
 {
-	t_env	*env_lst;
 	char	*input = "ec\"ho\"";
 
 	env_lst = build_envp();
@@ -234,7 +231,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_1)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_2)
 {
-	t_env	*env_lst;
 	char	*input = "p\'wd\'";
 
 	env_lst = build_envp();
@@ -249,7 +245,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_2)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_3)
 {
-	t_env	*env_lst;
 	char	*input = "c\"d\"";
 
 	env_lst = build_envp();
@@ -264,7 +259,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_3)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_4)
 {
-	t_env	*env_lst;
 	char	*input = "exp\'ort\'";
 
 	env_lst = build_envp();
@@ -279,7 +273,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_4)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_5)
 {
-	t_env	*env_lst;
 	char	*input = "un\"set\"";
 
 	env_lst = build_envp();
@@ -294,7 +287,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_5)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_6)
 {
-	t_env	*env_lst;
 	char	*input = "en\'v\'";
 
 	env_lst = build_envp();
@@ -309,7 +301,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_6)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_7)
 {
-	t_env	*env_lst;
 	char	*input = "exi\"t\"";
 
 	env_lst = build_envp();
@@ -324,7 +315,6 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_7)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_recheck_all)
 {
-	t_env	*env_lst;
 	char	*input = "ec\"ho\" \'c\'d pw\"d\" exp\'ort\' un\"set\" en\'v\' ex\"it\"";
 
 	env_lst = build_envp();

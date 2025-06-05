@@ -87,7 +87,7 @@ int	cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths)
 	}
 	if(!append_cmd(cmd_lst, start_token, cmd_size, paths))
 		return (0);
-	print_cmd_lst(*cmd_lst);
-	cmd_lst_clear(cmd_lst);
+	// print_cmd_lst(*cmd_lst);
+	// cmd_lst_clear(cmd_lst);
 	return (1);
 }

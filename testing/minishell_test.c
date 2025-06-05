@@ -90,7 +90,7 @@ Test(minishell_test_suite_basic, build_token_lst_word_with_n_flag)
 	test_lst(token_lst, values, types);
 }
 
-Test(minishell_test_suite_basic, build_token_lst_null, .init = redirect_stdout_err)
+Test(minishell_test_suite_basic, build_token_lst_null, .init = redirect_stderr)
 {
 	char	*input = "msg";
 	
