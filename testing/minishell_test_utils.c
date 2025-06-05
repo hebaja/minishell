@@ -29,6 +29,27 @@ void	redirect_stderr(void)
 	cr_redirect_stderr();
 }
 
+void	clean_test(void)
+{
+	if (token_lst != NULL)
+		token_lst_clear(&token_lst);
+	if (env_lst != NULL)
+		env_lst_clear(&env_lst);
+	if (paths != NULL)
+		clean_split_path(paths);	
+}
+
+void	clean_split_path(char **paths)
+{
+	int	i;
+
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	paths = NULL;
+}
+
 char	**split_path(t_env *env_lst)
 {
 	char	**paths;

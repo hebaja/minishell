@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_quote_removal, .fini=clean_test);
+
 Test(minishell_test_suite_quote_removal, test_single_quote_removal_1)
 {
 	char	*input = "hello\'hello\'";

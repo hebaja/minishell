@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-TestSuite(minishell_test_suite_metacharacters, .init=redirect_stderr);
+TestSuite(minishell_test_suite_metacharacters, .init=redirect_stderr, .fini=clean_test);
 
 Test(minishell_test_suite_metacharacters, test_metacharacters_1)
 {

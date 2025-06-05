@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-Test(minishell_test_suite_exit, test_exit_42, .exit_code = 42)
+Test(minishell_test_suite_exit, test_exit_42, .exit_code = 42, .fini=clean_test)
 {
 	char	*input = "exit 42";
 
