@@ -33,7 +33,9 @@ int	main(int argc, char **argv, char **envp)
 	{
 		if (input)
 			add_history(input);
-		if (!token_lst_build(&token_lst, input) || !token_lst)
+		if (!token_lst_build(&token_lst, input) || !token_lst || ft_signal())
+			if (!token_lst)
+				exit_status(127);
 			clean_prompt(&token_lst, &input);
 		else
 		{

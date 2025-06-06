@@ -18,6 +18,7 @@
 # include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "../libft/include/libft.h"
 
 # define TERMINAL_PROMPT "🚀 $: "
@@ -129,6 +130,7 @@ void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
 void			env_lst_clear(t_env **env_lst);
 char			*get_var_value(t_env *env_lst, char *var_key);
 void			update_env_lst(char *value, t_env *env_lst);
+int    		ft_signal(void);
 /* DEGUB */
 void			create_redirect(t_token **token_lst);
 void			print_tokens(t_token *token_lst);
