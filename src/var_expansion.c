@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_expansion.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:58:58 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/07 14:58:59 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:25:18 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,12 @@ void	expand_var(t_token *token, t_env *env_lst)
 	if (!token->value)
 		return ;
 	dolar_pos = find_dolar_pos(token);
-	if (token->type == VAR)
+	if (ft_strncmp(&token->value[1], "?", ft_strlen("?") + 1) == 0)
+	{
+		free(token->value);
+		token->value = ft_itoa(exit_status(-1));
+	}
+	else if (token->type == VAR)
 	{
 		value = get_var_value(env_lst, &token->value[1]);
 		if (value != NULL)

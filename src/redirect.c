@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:46:08 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/04 21:04:02 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:59:31 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,4 @@ void	create_redirect(t_token **token_lst)
 			current->fd = create_heredoc(current->next->value);	
 		current = current->next;
 	}
-	
-	
 }

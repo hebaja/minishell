@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/04 20:36:32 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:01:14 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include <stdio.h>
 # include <unistd.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
@@ -84,8 +84,8 @@ int				quote_mode(t_token **token_lst, char **value,
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
-int				check_redirect(t_token *token_lst);
 int				conclude_parser(t_token *token_lst);
+int				exit_status(int	status);
 void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,

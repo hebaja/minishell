@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   builtins_common.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:32:44 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 19:44:40 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:00:00 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	builtin_echo(t_token *token_lst)
 	if (!token_lst || !token_lst->next)
 	{
 		ft_printf("\n");
+		exit_status(0);
 		return ;
 	}
 	token_lst = token_lst->next;
@@ -45,6 +46,7 @@ void	builtin_echo(t_token *token_lst)
 	}
 	if (is_break_line)
 		ft_printf("\n");
+	exit_status(0);
 }
 
 void	builtin_env(t_env *env_lst)

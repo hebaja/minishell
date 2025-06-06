@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:06:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/21 21:19:18 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:53:16 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,11 @@ int	builtin_exit(t_token **token_lst, t_env **env_lst)
 			exit(2);
 		}
 		exit_value = ft_atoi((*token_lst)->next->value);
+		exit_status(exit_value);
 		clean_content(token_lst, env_lst);
 		exit(exit_value);
 	}
+	ft_printf("exit\n");
+	exit(2);
 	return (0);
 }

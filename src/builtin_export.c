@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins_export.c                                  :+:      :+:    :+:   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 19:20:45 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:34:58 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,13 @@ void	add_to_env_lst(t_env *env_lst, char **var_val)
 	if (var_val[1])
 	{
 		if (!create_env_node(env_lst, var_val))
+		{
 			ft_putstr_fd("Export failed\n", 2);
+		}
 	}
 	else
 		ft_printf("\n");
+
 }
 
 void	clean_var_val(char **var_val)
@@ -69,4 +72,5 @@ void	builtin_export(t_token *token_lst, t_env *env_lst)
 		print_env_sort(env_lst);
 	else
 		update_env_lst(token_lst->next->value, env_lst);
+	exit_status(0);
 }

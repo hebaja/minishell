@@ -60,8 +60,15 @@ int	conclude_parser(t_token *token_lst)
 {
 	token_lst_iterate(token_lst, builtin_recheck);
 	if (!check_token_integrity(token_lst))
+	{
+		exit_status(0);
 		return (0);
+	}	
 	if (!redirect_validate(token_lst))
+	{
+		exit_status(0);
 		return (0);
+	}
+	exit_status(1);
 	return (1);
 }

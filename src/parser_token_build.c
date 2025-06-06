@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_token_build.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 14:29:26 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/20 11:22:48 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:42:05 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,34 @@ int	default_build(t_token **token_lst,
 	if (*value_start == '\'')
 	{
 		if (!quote_mode(token_lst, value, value_start, '\''))
+		{
+			exit_status(0);
 			return (0);
+		}
 	}
 	else if (*value_start == '\"')
 	{
 		if (!quote_mode(token_lst, value, value_start, '\"'))
+		{
+			exit_status(0);
 			return (0);
+		}	
 	}
 	else if (is_dolar(*value))
 	{
 		if (!var_mode(token_lst, value, value_start))
+		{
+			exit_status(0);
 			return (0);
+		}	
 	}
 	else
 		if (!regular_mode(token_lst, value, value_start, i))
+		{
+			exit_status(0);
 			return (0);
+		}
+	exit_status(1);
 	return (1);
 }
 

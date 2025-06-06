@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/04 20:57:00 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:40:31 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,6 @@ int	main(int argc, char **argv, char **envp)
 	input = readline(TERMINAL_PROMPT);
 	while (input)
 	{
-		if (ft_strncmp(input, "quit", 5) == 0)
-		{
-			free(input);
-			break ;
-		}
 		if (input)
 			add_history(input);
 		if (!token_lst_build(&token_lst, input) || !token_lst)
