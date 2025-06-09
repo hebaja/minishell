@@ -11,37 +11,41 @@ void	clean_matrix(char **paths)
 	paths = NULL;
 }
 
-char	**split_path(t_env *env_lst)
+char	**split_path(t_ms *ms)
 {
 	char	**paths;
 	char	*env_path;
 
-	env_path = get_var_value(env_lst, "PATH");
+	env_path = get_var_value(ms->env_lst, "PATH");
 	paths = ft_split(env_path, ':');
+	if (!paths)
+		clean_all(ms);
 	return (paths);
 }
 
-void	clean_all(t_token **token_lst, char **input, t_cmd **cmd_lst,
-	char **split_paths)
+void	clean_all(t_ms *ms)
 {
-	free(*input);
-	if (*token_lst)
-		token_lst_clear(token_lst);
-	if (*cmd_lst)
-		cmd_lst_clear(cmd_lst);
-	if (split_paths)
-		clean_matrix(split_paths);
+	if (ms->token_lst)
+		token_lst_clear(&ms->token_lst);
+	if (ms->cmd_lst)
+		cmd_lst_clear(&ms->cmd_lst);
+	if (ms->env_lst)
+		env_lst_clear(&ms->env_lst);
+	if (ms->paths)
+		clean_matrix(ms->paths);
+	free(ms->input);
+	free(ms);
+	ms = NULL;
 }
 
-void	clean_prompt(t_token **token_lst, char **input, t_cmd **cmd_lst,
-	char **split_paths)
+void	clean_prompt(t_ms *ms)
 {
-	free(*input);
-	if (*token_lst)
-		token_lst_clear(token_lst);
-	if (*cmd_lst)
-		cmd_lst_clear(cmd_lst);
-	if (split_paths)
-		clean_matrix(split_paths);
-	*input = readline(TERMINAL_PROMPT);
+	free(ms->input);
+	if (ms->token_lst)
+		token_lst_clear(&ms->token_lst);
+	if (ms->cmd_lst)
+		cmd_lst_clear(&ms->cmd_lst);
+	if (ms->paths)
+		clean_matrix(ms->paths);
+	ms->input = readline(TERMINAL_PROMPT);
 }

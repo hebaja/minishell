@@ -93,7 +93,7 @@ int	default_build(t_token **token_lst,
 	return (1);
 }
 
-int	token_lst_build(t_token **token_lst, char *value)
+int	token_lst_build(t_ms *ms, char *value)
 {
 	size_t		i;
 	char		*value_start;
@@ -106,12 +106,12 @@ int	token_lst_build(t_token **token_lst, char *value)
 		{
 			while (i < 2 && (is_metacharacter(value[i])))
 				i++;
-			if (!append_token(token_lst, &value, value_start, i))
+			if (!append_token(&ms->token_lst, &value, value_start, i))
 				return (0);
 		}
 		else
 		{
-			if (!default_build(token_lst, &value, value_start, i))
+			if (!default_build(&ms->token_lst, &value, value_start, i))
 				return (0);
 		}
 		while (value && ft_isspace(*value))

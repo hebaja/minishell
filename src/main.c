@@ -12,42 +12,47 @@
 
 #include "../include/minishell.h"
 
+void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
+{
+	*ms = (t_ms *)malloc(sizeof(t_ms));
+	if (!ms)
+		exit(EXIT_FAILURE);
+	(*ms)->token_lst = NULL;
+	(*ms)->env_lst = build_env_lst(argc, argv, envp);
+	(*ms)->cmd_lst = NULL;
+	(*ms)->paths = NULL;
+	(*ms)->status = 0;
+	(*ms)->is_exit = 0;
+	using_history();
+	(*ms)->input = readline(TERMINAL_PROMPT);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_token *token_lst;
-	t_env	*env_lst;
-	t_cmd	*cmd_lst;
-	char	**paths;
-	int		status_ctrl[2];
+	t_ms	*ms;
+	int		status;
 
-	env_lst = build_env_lst(argc, argv, envp);
-	token_lst = NULL;
-	cmd_lst = NULL;
-	status_ctrl[0] = 0;
-	status_ctrl[1] = 0;
-	using_history();
-	input = readline(TERMINAL_PROMPT);
-	while (input)
+	init_ms(&ms, argc, argv, envp);
+	while (ms->input)
 	{
-		paths = split_path(env_lst);
-		if (input)
-			add_history(input);
-		if (!token_lst_build(&token_lst, input) || !token_lst)
-			clean_prompt(&token_lst, &input, &cmd_lst, paths);
+		ms->paths = split_path(ms);
+		if (ms->input)
+			add_history(ms->input);
+		if (!token_lst_build(ms, ms->input) || !ms->token_lst)
+			clean_prompt(ms);
 		else
 		{
-			if (analyse_token_lst(&token_lst, env_lst))
+			if (analyse_token_lst(ms))
 			{
-				cmd_lst_build(&cmd_lst, token_lst, paths);
-				exec_cmd(cmd_lst, env_lst, status_ctrl);
-				if (status_ctrl[1] == 1)
+				cmd_lst_build(ms, ms->token_lst);
+				exec_cmd(ms, ms->cmd_lst);
+				if (ms->is_exit)
 					break ;
 			}
-			clean_prompt(&token_lst, &input, &cmd_lst, paths);
+			clean_prompt(ms);
 		}
 	}
-	env_lst_clear(&env_lst);
-	clean_all(&token_lst, &input, &cmd_lst, paths);
-	return (status_ctrl[0]);
+	status = ms->status;
+	clean_all(ms);
+	return (status);
 }
