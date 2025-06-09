@@ -1,9 +1,63 @@
 #include "minishell_test.h"
-	
+
+extern char		**environ;
+
+t_env	*build_envp(void)
+{
+	int		i;
+	char	**env;
+
+	i = 0;
+	env = environ;
+
+	return (build_env_lst(0, NULL, env));
+}
+
 void redirect_all_stdout(void)
 {
 	cr_redirect_stdout();
 	cr_redirect_stderr();
+}
+
+void	redirect_stdout(void)
+{
+	cr_redirect_stdout();
+}
+
+void	redirect_stderr(void)
+{
+	cr_redirect_stderr();
+}
+
+void	clean_test(void)
+{
+	if (token_lst != NULL)
+		token_lst_clear(&token_lst);
+	if (env_lst != NULL)
+		env_lst_clear(&env_lst);
+	if (paths != NULL)
+		clean_split_path(paths);	
+}
+
+void	clean_split_path(char **paths)
+{
+	int	i;
+
+	i = -1;
+	while (paths[++i])
+		free(paths[i]);
+	free(paths);
+	paths = NULL;
+}
+
+char	**split_path(t_env *env_lst)
+{
+	char	**paths;
+	char	*env_path;
+
+	env_path = get_var_value(env_lst, "PATH");
+	paths = ft_split(env_path, ':');
+	return (paths);
 }
 
 char    *fetch_token_type(t_token_type type)
@@ -79,6 +133,41 @@ char	**populate_values(int size, ...)
 	return (strs);
 }
 
+char	*multi_str_join(int size, ...)
+{
+	int		i;
+	char	*str;
+	char	*tmp;
+	int		str_len;
+	int		offset;
+	va_list	args;
+	va_list copy_args;
+
+	i = 0;
+	str_len = 0;
+	offset = 0;
+	va_start(args, size);
+	va_copy(copy_args, args);
+	while (i < size)
+	{	
+		str_len += ft_strlen(va_arg(copy_args, char *));
+		i++;
+	}
+	str = (char *)malloc(sizeof(char) * (str_len + 1));
+	i = 0;
+	while (i < size)
+	{
+		tmp = va_arg(args, char *);
+		ft_memmove(&str[offset], tmp, ft_strlen(tmp));
+		offset += ft_strlen(tmp);
+		i++;
+	}
+	va_end(args);
+	va_end(copy_args);
+	str[offset + 1] = '\0';
+	return (str);
+}
+
 char	**split_token_lst(t_token *token_lst)
 {
 	char	**split_values;
@@ -149,5 +238,15 @@ void	test_lst(t_token *token_lst, char **values, char **types)
 		token_lst = token_lst->next;
 		i++;
 	}
+	cr_assert_null(token_lst);
 	token_lst_clear(&token_lst);
+}
+
+void	usual_flow(t_token **token_lst, t_env *env_lst)
+{
+	var_expansion(token_lst, env_lst);
+	quotes_var_expansion(token_lst, env_lst);
+	quote_removal(*token_lst);
+	token_joining(token_lst);
+	conclude_parser(*token_lst);
 }
