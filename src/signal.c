@@ -1,13 +1,13 @@
 #include "../include/minishell.h"
 
-int    handling_contrl(int sig)
+void    handling_contrl(int sig)
 {
     if (sig == SIGINT)
     {
         ft_printf("^C\n");
         sleep(500);
         exit_status(130);
-        return (1);
+        return ;
     }
     else if (sig == SIGQUIT)
     {
@@ -15,13 +15,12 @@ int    handling_contrl(int sig)
         exit_status(0);
         exit(2);
     }
-    return (0);
 }
 
 int    ft_signal(void)
 {
-    if (signal(SIGINT, handling_contrl) ||
+    if (signal(SIGINT, handling_contrl) == 0 ||
         signal(SIGQUIT, handling_contrl))
-        return (1)
+        return (1);
     return (0);
 }

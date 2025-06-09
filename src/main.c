@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/05 20:40:31 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:59:47 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	main(int argc, char **argv, char **envp)
 		if (input)
 			add_history(input);
 		if (!token_lst_build(&token_lst, input) || !token_lst || ft_signal())
+		{	
 			if (!token_lst)
 				exit_status(127);
 			clean_prompt(&token_lst, &input);
+		}
 		else
 		{
 			if (analyse_token_lst(&token_lst, env_lst))
