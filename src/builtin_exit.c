@@ -30,6 +30,7 @@ int	builtin_exit(t_cmd *cmd_lst)
 {
 	int	exit_value;
 
+	exit_value = 0;
 	if (cmd_lst->args[1])
 	{
 		if (!is_numeric(cmd_lst->args[1]))
