@@ -6,20 +6,19 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:58:42 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/05 18:06:55 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:26:15 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	analyse_token_lst(t_token **token_lst, t_env *env_lst)
+int	analyse_token_lst(t_ms *ms)
 {
-	var_expansion(token_lst, env_lst);
-	quotes_var_expansion(token_lst, env_lst);
-	create_redirect(token_lst);
-	quote_removal(*token_lst);
-	token_joining(token_lst);
-	if (!conclude_parser(*token_lst))
+	var_expansion(&ms->token_lst, ms->env_lst);
+	quotes_var_expansion(&ms->token_lst, ms->env_lst);
+	quote_removal(ms->token_lst);
+	token_joining(&ms->token_lst);
+	if (!conclude_parser(ms->token_lst))
 		return (0);
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 	// print_tokens(*token_lst);

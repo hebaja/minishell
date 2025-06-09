@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/09 16:18:01 by alda-sil          #+#    #+#             */
+/*   Updated: 2025/06/09 16:18:06 by alda-sil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	change_dir(char *path)
@@ -30,22 +42,19 @@ int	cd_home(t_env *env_lst, char **pwd)
 	return (1);
 }
 
-int	cd_path(t_token *token_lst, char **pwd)
+int	cd_path(char *path, char **pwd)
 {
 	char	buf[256];
 
-	if (!change_dir(token_lst->next->value))
-	{
-		exit_status(1);	
+	if (!change_dir(path))
 		return (0);
-	}
 	getcwd(buf, 256);
 	*pwd = ft_strjoin("PWD=", buf);
 	exit_status(0);
 	return (1);
 }
 
-void	builtin_cd(t_token *token_lst, t_env *env_lst)
+int	builtin_cd(t_cmd *cmd_lst, t_env *env_lst)
 {
 	char	buf[256];
 	char	*pwd;
@@ -54,22 +63,21 @@ void	builtin_cd(t_token *token_lst, t_env *env_lst)
 	getcwd(buf, 256);
 	pwd = NULL;
 	old_pwd = ft_strjoin("OLDPWD=", buf);
-	if (token_lst->value && !token_lst->next)
+	if (cmd_lst->args[0] && !cmd_lst->args[1])
 	{
 		if (!cd_home(env_lst, &pwd))
-			return ;
+			return (1);
 	}
-	else if (token_lst->value && token_lst->next->value
-		&& !token_lst->next->next)
-	{	
-		if (!cd_path(token_lst, &pwd))
-			return ;
+	else if (cmd_lst->args[0] && cmd_lst->args[1] && !cmd_lst->args[2])
+	{
+		if (!cd_path(cmd_lst->args[1], &pwd))
+			return (1);
 	}
 	else
 	{
 		ft_putstr_fd("chdir: too many arguments\n", 2);
-		exit_status(1);
-		return ;
+		return (1);
 	}
 	update_vars(env_lst, pwd, old_pwd);
+	return (0);
 }

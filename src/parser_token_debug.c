@@ -14,8 +14,6 @@
 
 char	*print_token_type(t_token_type type)
 {
-	if (type == FLAG)
-		return "FLAG";
 	if (type == WORD)
 		return ("WORD");
 	if (type == PIPE)
@@ -75,4 +73,20 @@ void	print(t_token *token_lst)
 void	print_tokens(t_token *tokens_head)
 {
 	token_lst_iterate(tokens_head, print);
+}
+
+void	print_cmd(t_cmd *cmd_lst)
+{
+	int	i;
+
+	i = -1;
+	ft_printf("path: %s - ", cmd_lst->path);
+	while (cmd_lst->args[++i])
+		ft_printf("%s -> ", cmd_lst->args[i]);
+	ft_printf("\n");
+}
+
+void	print_cmd_lst(t_cmd *cmd_lst)
+{
+	cmd_lst_iterate(cmd_lst, print_cmd);
 }

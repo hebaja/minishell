@@ -6,18 +6,17 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/05 20:31:52 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:26:18 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
 
-void	builtin_unset(t_token *token_lst, t_env **env_lst)
+int	builtin_unset(t_cmd *cmd_lst, t_env **env_lst)
 {
-	if (!token_lst->next
-		|| get_var_value(*env_lst, token_lst->next->value) == NULL)
-			return ;
-	else
-		env_lst_remove_if(env_lst, token_lst->next->value, compare);
+	if (cmd_lst->args[1]
+		&& get_var_value(*env_lst, cmd_lst->args[1]) != NULL)
+		env_lst_remove_if(env_lst, cmd_lst->args[1], compare);
+	return (1);
 }

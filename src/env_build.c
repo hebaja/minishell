@@ -12,20 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	env_lst_iterate(t_env *env_lst, void (*func)(t_env *env_lst))
-{
-	t_env	*next_env;
-
-	if (!env_lst)
-		return ;
-	while (env_lst)
-	{
-		next_env = env_lst->next;
-		func(env_lst);
-		env_lst = next_env;
-	}
-}
-
 void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 {
 	t_env *tmp;

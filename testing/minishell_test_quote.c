@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_quote, .fini=clean_test);
+
 Test(minishell_test_suite_quote, build_token_lst_double_quote_1)
 {
 	char	*input = "echo \"message\"";

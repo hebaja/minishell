@@ -1,5 +1,7 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_join, .fini=clean_test);
+
 Test(minishell_test_suite_join, test_single_quote_token_join_1)
 {
 	t_env	*env_lst;

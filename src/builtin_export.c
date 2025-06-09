@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 20:49:07 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/05 20:34:58 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:26:52 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,20 +57,33 @@ void	clean_var_val(char **var_val)
 	free(var_val);
 }
 
-void	update_env_lst(char *value, t_env *env_lst)
+int	update_env_lst(char *value, t_env *env_lst)
 {
+	int		i;
 	char	**var_val;
 
+	i = -1;
 	var_val = ft_split(value, '=');
+	while (var_val[0][++i])
+	{
+		if ((i == 0 && (!ft_isalpha(var_val[0][0]) && var_val[0][0] != '_'))
+			|| (i != 0 && (!ft_isalnum(var_val[0][i]) && var_val[0][i] != '_')))
+		{
+			ft_putstr_fd("export: not a valid identifier\n", 2);
+			return (0);
+		}
+	}
 	add_to_env_lst(env_lst, var_val);
 	clean_var_val(var_val);
+	return (1);
 }
 
-void	builtin_export(t_token *token_lst, t_env *env_lst)
+int	builtin_export(t_cmd *cmd_lst, t_env *env_lst)
 {
-	if (!token_lst->next)
+	if (!cmd_lst->args[1])
 		print_env_sort(env_lst);
 	else
-		update_env_lst(token_lst->next->value, env_lst);
-	exit_status(0);
+		if (!update_env_lst(cmd_lst->args[1], env_lst))
+			return (1);
+	return (0);
 }

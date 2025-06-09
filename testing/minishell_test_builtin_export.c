@@ -1,8 +1,9 @@
 #include "minishell_test.h"
 
+TestSuite(minishell_test_suite_export, .fini=clean_test);
+
 Test(minishell_test_suite_export, test_export)
 {
-	t_env	*env_lst;
 	char	*input = "export TEST=test";
 	char	*var_value;
 
@@ -18,7 +19,6 @@ Test(minishell_test_suite_export, test_export)
 
 Test(minishell_test_suite_export, test_export_change)
 {
-	t_env	*env_lst;
 	char	*input = "export TEST=test";
 	char	*var_value;
 

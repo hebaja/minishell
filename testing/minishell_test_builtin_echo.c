@@ -1,6 +1,6 @@
 #include "minishell_test.h"
 
-TestSuite(minishell_test_suite_echo_redirect, .init=redirect_stdout);
+TestSuite(minishell_test_suite_echo_redirect, .init=redirect_stdout, .fini=clean_test);
 
 Test(minishell_test_suite_echo_redirect, build_token_lst_test_all_builtins_echo_mix)
 {

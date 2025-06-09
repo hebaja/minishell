@@ -6,7 +6,7 @@ void	setup_alloc_mem(void)
 	types = malloc(sizeof(char *) * 4);
 }
 
-TestSuite(minishell_test_extra_meta_test_alloc, .init = setup_alloc_mem);
+TestSuite(minishell_test_extra_meta_test_alloc, .init = setup_alloc_mem, .fini=clean_test);
 
 Test(minishell_test_extra_meta_test_alloc, build_token_lst_test_dolar_var)
 {
