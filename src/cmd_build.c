@@ -12,39 +12,6 @@
 
 #include "../include/minishell.h"
 
-int	valid_abs_path(char *abs_pth)
-{
-	if (!abs_pth)
-		return (0);
-	if (access(abs_pth, F_OK) == 0 && access(abs_pth, X_OK) == 0)
-		return (1);
-	free(abs_pth);
-	abs_pth = NULL;
-	return (0);
-}
-
-char	*set_path(t_token *token_lst, char **paths)
-{
-	int		i;
-	char	*tmp_pth;
-	char	*abs_pth;
-
-	i = -1;
-	if (*token_lst->value != '/' && access(token_lst->value, F_OK) < 0)
-	{
-		while (paths[++i])
-		{
-			tmp_pth = ft_strjoin("/", token_lst->value);
-			abs_pth = ft_strjoin(paths[i], tmp_pth);
-			free(tmp_pth);
-			if (valid_abs_path(abs_pth))
-				return (abs_pth);
-		}
-	}
-	abs_pth = ft_strdup(token_lst->value);
-	return (abs_pth);
-}
-
 t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 {
 	t_cmd	*cmd;
@@ -52,6 +19,7 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	cmd->args = split_token_value(start_token, cmd_size);
 	cmd->path = set_path(start_token, paths);
+	cmd->main_type = start_token->type;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -78,28 +46,70 @@ int	append_cmd(t_cmd **cmd_lst, t_token *start_token, size_t cmd_size,
 	return (1);
 }
 
+int	set_start_middle_cmd_attrs(t_cmd **cmd_lst, int pipe_flag)
+{
+	t_cmd	*current_cmd;
+
+	current_cmd = cmd_lst_last(*cmd_lst);
+	if (pipe_flag)
+	{
+		if (!pipe_fds(current_cmd))
+			return (0);
+	}
+	else
+		current_cmd->is_piped = 0;
+	current_cmd->is_single = 0;
+	current_cmd->is_end = 0;
+	return (1);
+}
+
+int	set_end_cmd_attrs(t_cmd **cmd_lst, int pipe_flag)
+{
+	t_cmd	*current_cmd;
+
+	current_cmd = cmd_lst_last(*cmd_lst);
+	if (pipe_flag)
+	{
+		if (!pipe_fds(current_cmd))
+			return (0);
+		current_cmd->is_single = 0;
+		current_cmd->is_piped = 1;
+	}
+	else
+	{
+		current_cmd->is_single = 1;
+		current_cmd->is_piped = 0;
+	}
+	current_cmd->is_end = 1;
+	return (1);
+}
+
 int	cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths)
 {
 	t_token	*start_token;
 	int		cmd_size;
+	int		pipe_flag;
 
 	start_token = token_lst;
 	cmd_size = 0;
+	pipe_flag = 0;
 	while (token_lst)
 	{
 		if (token_lst->type == PIPE)
 		{
-			if(!append_cmd(cmd_lst, start_token, cmd_size, paths))
+			if(!append_cmd(cmd_lst, start_token, cmd_size, paths)
+				|| !set_start_middle_cmd_attrs(cmd_lst, pipe_flag))
 				return (0);
 			start_token = token_lst->next;
 			cmd_size = -1;
+			pipe_flag = 1;
 		}
 		token_lst = token_lst->next;
 		cmd_size++;
 	}
-	if(!append_cmd(cmd_lst, start_token, cmd_size, paths))
+	if(!append_cmd(cmd_lst, start_token, cmd_size, paths) || 
+		!set_end_cmd_attrs(cmd_lst, pipe_flag))
 		return (0);
 	// print_cmd_lst(*cmd_lst);
-	// cmd_lst_clear(cmd_lst);
 	return (1);
 }

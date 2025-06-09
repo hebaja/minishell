@@ -1,6 +1,6 @@
 #include "../include/minishell.h"
 
-void	clean_split_path(char **paths)
+void	clean_matrix(char **paths)
 {
 	int	i;
 
@@ -21,10 +21,27 @@ char	**split_path(t_env *env_lst)
 	return (paths);
 }
 
-void	clean_prompt(t_token **token_lst, char **input, char **split_paths)
+void	clean_all(t_token **token_lst, char **input, t_cmd **cmd_lst,
+	char **split_paths)
 {
 	free(*input);
-	token_lst_clear(token_lst);
-	clean_split_path(split_paths);
+	if (*token_lst)
+		token_lst_clear(token_lst);
+	if (*cmd_lst)
+		cmd_lst_clear(cmd_lst);
+	if (split_paths)
+		clean_matrix(split_paths);
+}
+
+void	clean_prompt(t_token **token_lst, char **input, t_cmd **cmd_lst,
+	char **split_paths)
+{
+	free(*input);
+	if (*token_lst)
+		token_lst_clear(token_lst);
+	if (*cmd_lst)
+		cmd_lst_clear(cmd_lst);
+	if (split_paths)
+		clean_matrix(split_paths);
 	*input = readline(TERMINAL_PROMPT);
 }

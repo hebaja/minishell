@@ -29,18 +29,18 @@ int	cd_home(t_env *env_lst, char **pwd)
 	return (1);
 }
 
-int	cd_path(t_token *token_lst, char **pwd)
+int	cd_path(char *path, char **pwd)
 {
 	char	buf[256];
 
-	if (!change_dir(token_lst->next->value))
+	if (!change_dir(path))
 		return (0);
 	getcwd(buf, 256);
 	*pwd = ft_strjoin("PWD=", buf);
 	return (1);
 }
 
-void	builtin_cd(t_token *token_lst, t_env *env_lst)
+int	builtin_cd(t_cmd *cmd_lst, t_env *env_lst)
 {
 	char	buf[256];
 	char	*pwd;
@@ -49,21 +49,21 @@ void	builtin_cd(t_token *token_lst, t_env *env_lst)
 	getcwd(buf, 256);
 	pwd = NULL;
 	old_pwd = ft_strjoin("OLDPWD=", buf);
-	if (token_lst->value && !token_lst->next)
+	if (cmd_lst->args[0] && !cmd_lst->args[1])
 	{
 		if (!cd_home(env_lst, &pwd))
-			return ;
+			return (1);
 	}
-	else if (token_lst->value && token_lst->next->value
-		&& !token_lst->next->next)
+	else if (cmd_lst->args[0] && cmd_lst->args[1] && !cmd_lst->args[2])
 	{
-		if (!cd_path(token_lst, &pwd))
-			return ;
+		if (!cd_path(cmd_lst->args[1], &pwd))
+			return (1);
 	}
 	else
 	{
 		ft_putstr_fd("chdir: too many arguments\n", 2);
-		return ;
+		return (1);
 	}
 	update_vars(env_lst, pwd, old_pwd);
+	return (0);
 }
