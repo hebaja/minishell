@@ -24,24 +24,23 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 	return (cmd);
 }
 
-int	append_cmd(t_cmd **cmd_lst, t_token *start_token, size_t cmd_size,
-	char **paths)
+int	append_cmd(t_ms *ms, t_token *start_token, size_t cmd_size)
 {
 	t_cmd	*new_cmd;
 
-	if (*cmd_lst == NULL || cmd_lst == NULL)
+	if (ms->cmd_lst == NULL)
 	{
-		new_cmd = cmd_build(start_token, cmd_size, paths);
+		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
 		if (!new_cmd)
 			return (0);
-		*cmd_lst = new_cmd;
+		ms->cmd_lst = new_cmd;
 	}
 	else
 	{
-		new_cmd = cmd_build(start_token, cmd_size, paths);
+		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
 		if (!new_cmd)
 			return (0);
-		cmd_lst_add_back(cmd_lst, new_cmd);
+		cmd_lst_add_back(&ms->cmd_lst, new_cmd);
 	}
 	return (1);
 }
@@ -84,7 +83,7 @@ int	set_end_cmd_attrs(t_cmd **cmd_lst, int pipe_flag)
 	return (1);
 }
 
-int	cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths)
+int	cmd_lst_build(t_ms *ms, t_token *token_lst)
 {
 	t_token	*start_token;
 	int		cmd_size;
@@ -97,8 +96,8 @@ int	cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths)
 	{
 		if (token_lst->type == PIPE)
 		{
-			if(!append_cmd(cmd_lst, start_token, cmd_size, paths)
-				|| !set_start_middle_cmd_attrs(cmd_lst, pipe_flag))
+			if(!append_cmd(ms, start_token, cmd_size)
+				|| !set_start_middle_cmd_attrs(&ms->cmd_lst, pipe_flag))
 				return (0);
 			start_token = token_lst->next;
 			cmd_size = -1;
@@ -107,8 +106,8 @@ int	cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths)
 		token_lst = token_lst->next;
 		cmd_size++;
 	}
-	if(!append_cmd(cmd_lst, start_token, cmd_size, paths) || 
-		!set_end_cmd_attrs(cmd_lst, pipe_flag))
+	if(!append_cmd(ms, start_token, cmd_size) || 
+		!set_end_cmd_attrs(&ms->cmd_lst, pipe_flag))
 		return (0);
 	// print_cmd_lst(*cmd_lst);
 	return (1);

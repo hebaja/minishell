@@ -76,6 +76,17 @@ typedef struct s_cmd
 	char			**args;
 	struct s_cmd	*next;
 }	t_cmd;
+
+typedef struct	s_ms
+{
+	t_token *token_lst;
+	t_env	*env_lst;
+	t_cmd	*cmd_lst;
+	char	**paths;
+	char	*input;
+	int		status;
+	int		is_exit;
+}	t_ms;
 /*
 typedef struct s_cmd
 {
@@ -86,9 +97,9 @@ typedef struct s_cmd
 }	t_cmd;
 */
 
-int				token_lst_build(t_token **token_lst, char *value);
-int				analyse_token_lst(t_token **token_lst, t_env *env_lst);
-int				cmd_lst_build(t_cmd **cmd_lst, t_token *token_lst, char **paths);
+int				token_lst_build(t_ms *ms, char *value);
+int				analyse_token_lst(t_ms *ms);
+int				cmd_lst_build(t_ms *ms, t_token *token_lst);
 int				pipe_fds(t_cmd *cmd);
 int				valid_abs_path(char *abs_pth);
 char			*set_path(t_token *token_lst, char **paths);
@@ -111,10 +122,10 @@ int				quote_mode(t_token **token_lst, char **value,
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
-int				exec_builtin(t_cmd *cmd, t_env *env_lst);
+int				exec_builtin(t_cmd *cmd_lst, t_env *env_lst);
 int				check_redirect(t_token *token_lst);
 int				conclude_parser(t_token *token_lst);
-void			exec_cmd(t_cmd *cmd_lst, t_env *env_lst, int *status_ctrl);
+void			exec_cmd(t_ms *ms, t_cmd *cmd_lst);
 void			token_clear(t_token *token);
 void			cmd_lst_clear(t_cmd **cmd_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
@@ -122,11 +133,9 @@ void			cmd_lst_add_back(t_cmd **cmd_lst, t_cmd *cmd);
 void			set_extra_meta_chars(t_token *token,
 				char *value_start, char quote);
 void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
-char			**split_path(t_env *env_lst);
-void			clean_prompt(t_token **token_lst, char **input, t_cmd **cmd_lst,
-					char **split_paths);
-void			clean_all(t_token **token_lst, char **input, t_cmd **cmd_lst,
-					char **split_paths);
+char			**split_path(t_ms *ms);
+void			clean_prompt(t_ms *ms);
+void			clean_all(t_ms *ms);
 void			clean_matrix(char **paths);
 int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
 void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *));

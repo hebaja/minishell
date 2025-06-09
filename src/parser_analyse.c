@@ -12,13 +12,13 @@
 
 #include "../include/minishell.h"
 
-int	analyse_token_lst(t_token **token_lst, t_env *env_lst)
+int	analyse_token_lst(t_ms *ms)
 {
-	var_expansion(token_lst, env_lst);
-	quotes_var_expansion(token_lst, env_lst);
-	quote_removal(*token_lst);
-	token_joining(token_lst);
-	if (!conclude_parser(*token_lst))
+	var_expansion(&ms->token_lst, ms->env_lst);
+	quotes_var_expansion(&ms->token_lst, ms->env_lst);
+	quote_removal(ms->token_lst);
+	token_joining(&ms->token_lst);
+	if (!conclude_parser(ms->token_lst))
 		return (0);
 	// print_tokens(*token_lst);
 	return (1);
