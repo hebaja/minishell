@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/09 16:21:19 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:54:38 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_ms	*ms;
 	int		status;
-
+	
+	ft_signal();
 	init_ms(&ms, argc, argv, envp);
 	while (ms->input)
 	{

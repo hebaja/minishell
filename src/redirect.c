@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:46:08 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/05 20:59:31 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:48:23 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ static int 	create_heredoc(char *eof)
 
 
 	pipe(fd);
+	signal(SIGINT, handling_contrl_heor);
 	line = readline(">");
 	while (line)
-	{	
+	{
 		if (ft_strcmp(line, eof) == 0)
 			break;
 		if (line && line[0])
@@ -32,7 +33,7 @@ static int 	create_heredoc(char *eof)
 	return (fd[1]);
 }
 
-void	create_redirect(t_token **token_lst)
+int	create_redirect(t_token **token_lst)
 {
 	t_token *current;
 
@@ -49,4 +50,7 @@ void	create_redirect(t_token **token_lst)
 			current->fd = create_heredoc(current->next->value);	
 		current = current->next;
 	}
+	if (current->fd != 0)
+		return (1);
+	return (0);
 }

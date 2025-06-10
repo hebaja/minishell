@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/09 16:17:15 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:06:36 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,14 +180,15 @@ void			env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));
 void			env_lst_clear(t_env **env_lst);
 int				env_lst_size(t_env *lst);
 char			*get_var_value(t_env *env_lst, char *var_key);
-void			update_env_lst(char *value, t_env *env_lst);
 int    			ft_signal(void);
+int				ft_signal_exec(void);
 int				update_env_lst(char *value, t_env *env_lst);
 char			**split_token_value(t_token *token_lst, size_t cmd_size);
 /* DEGUB */
-void			create_redirect(t_token **token_lst);
+int				create_redirect(t_token **token_lst);
 void			print_tokens(t_token *token_lst);
 void			print_cmd(t_cmd *cmd_lst);
 void			print_cmd_lst(t_cmd *cmd_lst);
+void    		handling_contrl_heor(int sig);
 
 #endif

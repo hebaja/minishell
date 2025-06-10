@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:46:13 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/04 23:46:15 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:17:02 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	int		pid;
 	int		status;
 
+	ft_signal_exec();
 	pid = fork();
 	if (pid < 0)
 	{
@@ -100,6 +101,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	}
 	waitpid(pid, &status, 0);
 	ms->status = status;
+	ft_signal();
 	return (1);
 }
 

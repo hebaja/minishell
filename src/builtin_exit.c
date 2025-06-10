@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:06:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/09 16:19:09 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:39:15 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	builtin_exit(t_cmd *cmd_lst)
 {
 	int	exit_value;
 
+	exit_value = 0;
 	if (cmd_lst->args[1])
 	{
 		if (!is_numeric(cmd_lst->args[1]))
