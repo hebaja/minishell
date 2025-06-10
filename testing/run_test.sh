@@ -11,6 +11,7 @@ gcc -I \
 	minishell_test_builtin_echo.c \
 	minishell_test_builtin_export.c \
 	minishell_test_builtin_unset.c \
+	minishell_test_builtin_exit.c \
 	minishell_test_cmd.c \
 	minishell_test_extra_meta.c \
 	minishell_test_metacharacters.c \

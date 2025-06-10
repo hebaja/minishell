@@ -103,18 +103,21 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	return (1);
 }
 
-void	exec_cmd(t_ms *ms, t_cmd *cmd_lst)
+void	exec_cmd(t_ms *ms)
 {
-	if (!cmd_lst->next && is_builtin(cmd_lst->main_type))
+	t_cmd	*cmd_curr;
+
+	cmd_curr = ms->cmd_lst;
+	if (!cmd_curr->next && is_builtin(cmd_curr->main_type))
 	{
-		ms->status = exec_builtin(cmd_lst, ms->env_lst);
-		if (cmd_lst->main_type == BUILTIN_EXIT)
+		ms->status = exec_builtin(cmd_curr, ms->env_lst);
+		if (cmd_curr->main_type == BUILTIN_EXIT)
 			ms->is_exit = 1;
 		return ;
 	}
-	while (cmd_lst)
+	while (cmd_curr)
 	{
-		prep_child_exec(ms, cmd_lst);
-		cmd_lst = cmd_lst->next;
+		prep_child_exec(ms, cmd_curr);
+		cmd_curr = cmd_curr->next;
 	}
 }

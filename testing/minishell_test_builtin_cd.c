@@ -7,9 +7,10 @@ Test(minishell_test_suite_cd, builtin_cd_1)
 	char	*input = "cd";
 	char	*old_pwd;
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_null(ms->token_lst->next);
@@ -25,9 +26,10 @@ Test(minishell_test_suite_cd, builtin_cd_2)
 	char	*input = "cd /home";
 	char	*old_pwd;
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "/home");
@@ -44,10 +46,11 @@ Test(minishell_test_suite_cd, builtin_cd_3)
 	char	*pwd;
 	char	*old_pwd;
 
+	ms->input = input;
 	ms->env_lst = build_envp();
-	res = token_lst_build(ms, input);
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "directory");
@@ -66,10 +69,11 @@ Test(minishell_test_suite_cd, builtin_cd_4)
 	char	*pwd;
 	char	*old_pwd;
 
+	ms->input = input;
 	ms->env_lst = build_envp();
-	res = token_lst_build(ms, input);
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "directory");
@@ -90,10 +94,11 @@ Test(minishell_test_suite_cd, builtin_cd_5)
 	char	*pwd;
 	char	*old_pwd;
 
+	ms->input = input;
 	ms->env_lst = build_envp();
-	res = token_lst_build(ms, input);
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "file");
@@ -114,10 +119,11 @@ Test(minishell_test_suite_cd, builtin_cd_6)
 	char	*pwd;
 	char	*old_pwd;
 
+	ms->input = input;
 	ms->env_lst = build_envp();
-	res = token_lst_build(ms, input);
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "/home");

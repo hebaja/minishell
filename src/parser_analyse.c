@@ -20,6 +20,5 @@ int	analyse_token_lst(t_ms *ms)
 	token_joining(&ms->token_lst);
 	if (!conclude_parser(ms->token_lst))
 		return (0);
-	// print_tokens(*token_lst);
 	return (1);
 }

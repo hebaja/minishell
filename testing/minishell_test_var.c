@@ -7,7 +7,8 @@ Test(minishell_test_suite_var, test_var_expansion)
 	char	*input = "$USER";
 	char	*var_value;
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	var_value = get_var_value(ms->env_lst, "USER");
 	cr_assert_eq(res, 1);
@@ -15,7 +16,6 @@ Test(minishell_test_suite_var, test_var_expansion)
 	var_expansion(&ms->token_lst, ms->env_lst);
 	cr_assert_str_eq(ms->token_lst->value, var_value);
 	cr_assert_null(ms->token_lst->next);
-	// free(var_value);
 }
 
 Test(minishell_test_suite_var, test_var_expansion_join)
@@ -23,7 +23,8 @@ Test(minishell_test_suite_var, test_var_expansion_join)
 	char	*input = "sh$USER";
 	char	*out_value;
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_str_eq(ms->token_lst->value, "sh$USER");
@@ -39,7 +40,8 @@ Test(minishell_test_suite_var, test_var_expansion_mix)
 	char	*input = "echo $USER hello";
 	char	*out_value;
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	values = populate_values(3, "echo", "$USER", "hello");
@@ -54,7 +56,8 @@ Test(minishell_test_suite_var, test_var_expansion_mix_mult)
 {
 	char	*input = "echo $USER hello $USER";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	values = populate_values(4, "echo", "$USER", "hello", "$USER");
@@ -69,7 +72,8 @@ Test(minishell_test_suite_var, test_var_expansion_mix_no_space)
 {
 	char	*input = "echo>>$USER";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	values = populate_values(3, "echo", ">>", "$USER");

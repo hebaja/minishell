@@ -23,14 +23,14 @@ int	main(int argc, char **argv, char **envp)
 		ms->paths = split_path(ms);
 		if (ms->input)
 			add_history(ms->input);
-		if (!token_lst_build(ms, ms->input) || !ms->token_lst)
+		if (!token_lst_build(ms) || !ms->token_lst)
 			clean_prompt(ms);
 		else
 		{
 			if (analyse_token_lst(ms))
 			{
-				cmd_lst_build(ms, ms->token_lst);
-				exec_cmd(ms, ms->cmd_lst);
+				cmd_lst_build(ms);
+				exec_cmd(ms);
 				if (ms->is_exit)
 					break ;
 			}
