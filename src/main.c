@@ -12,21 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
-{
-	*ms = (t_ms *)malloc(sizeof(t_ms));
-	if (!ms)
-		exit(EXIT_FAILURE);
-	(*ms)->token_lst = NULL;
-	(*ms)->env_lst = build_env_lst(argc, argv, envp);
-	(*ms)->cmd_lst = NULL;
-	(*ms)->paths = NULL;
-	(*ms)->status = 0;
-	(*ms)->is_exit = 0;
-	using_history();
-	(*ms)->input = readline(TERMINAL_PROMPT);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_ms	*ms;

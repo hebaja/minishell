@@ -4,13 +4,29 @@ extern char		**environ;
 
 t_env	*build_envp(void)
 {
-	int		i;
 	char	**env;
 
-	i = 0;
 	env = environ;
-
 	return (build_env_lst(0, NULL, env));
+}
+
+void	setup_alloc_mem(void)
+{
+	values = malloc(sizeof(char *) * 4);
+	types = malloc(sizeof(char *) * 4);
+}
+
+void	init_ms_test(int argc, char **argv, char **envp)
+{
+	ms = (t_ms *)malloc(sizeof(t_ms));
+	if (!ms)
+		exit(EXIT_FAILURE);
+	ms->token_lst = NULL;
+	ms->env_lst = build_env_lst(argc, argv, envp);
+	ms->cmd_lst = NULL;
+	ms->paths = NULL;
+	ms->status = 0;
+	ms->is_exit = 0;
 }
 
 void redirect_all_stdout(void)
@@ -29,14 +45,45 @@ void	redirect_stderr(void)
 	cr_redirect_stderr();
 }
 
+void	init_test(void)
+{
+	t_env *env_lst;
+	char	**env;
+
+	env = environ;
+	env_lst = build_env_lst(0, NULL, env);
+	init_ms_test(0, NULL, split_env(env_lst));
+}
+
+void	init_test_redirect_stderr(void)
+{
+	init_test();
+	redirect_stderr();
+}
+
+void	init_test_redirect_stdout(void)
+{
+	init_test();
+	redirect_stdout();
+}
+
+void	init_test_alloc_mem(void)
+{
+	init_test();
+	setup_alloc_mem();
+}
+
 void	clean_test(void)
 {
-	if (token_lst != NULL)
-		token_lst_clear(&token_lst);
-	if (env_lst != NULL)
-		env_lst_clear(&env_lst);
+	if (ms->token_lst != NULL)
+		token_lst_clear(&ms->token_lst);
+	if (ms->env_lst != NULL)
+		env_lst_clear(&ms->env_lst);
 	if (paths != NULL)
-		clean_split_path(paths);	
+		clean_split_path(ms->paths);
+	if (ms)
+		free(ms);
+	ms = NULL;
 }
 
 void	clean_split_path(char **paths)
@@ -50,7 +97,7 @@ void	clean_split_path(char **paths)
 	paths = NULL;
 }
 
-char	**split_path(t_env *env_lst)
+char	**split_path_test(t_env *env_lst)
 {
 	char	**paths;
 	char	*env_path;
@@ -164,7 +211,7 @@ char	*multi_str_join(int size, ...)
 	}
 	va_end(args);
 	va_end(copy_args);
-	str[offset + 1] = '\0';
+	str[offset] = '\0';
 	return (str);
 }
 
@@ -242,11 +289,14 @@ void	test_lst(t_token *token_lst, char **values, char **types)
 	token_lst_clear(&token_lst);
 }
 
-void	usual_flow(t_token **token_lst, t_env *env_lst)
+void	usual_flow(t_ms *ms, char *input)
 {
-	var_expansion(token_lst, env_lst);
-	quotes_var_expansion(token_lst, env_lst);
-	quote_removal(*token_lst);
-	token_joining(token_lst);
-	conclude_parser(*token_lst);
+	var_expansion(&ms->token_lst, ms->env_lst);
+	quotes_var_expansion(&ms->token_lst, ms->env_lst);
+	quote_removal(ms->token_lst);
+	token_joining(&ms->token_lst);
+	conclude_parser(ms->token_lst);
+	ms->input = input;
+	ms->paths = split_path_test(ms->env_lst);
+	cmd_lst_build(ms, ms->token_lst);
 }

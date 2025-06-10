@@ -109,6 +109,6 @@ int	cmd_lst_build(t_ms *ms, t_token *token_lst)
 	if(!append_cmd(ms, start_token, cmd_size) || 
 		!set_end_cmd_attrs(&ms->cmd_lst, pipe_flag))
 		return (0);
-	// print_cmd_lst(*cmd_lst);
+	// print_cmd_lst(ms->cmd_lst);
 	return (1);
 }

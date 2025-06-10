@@ -97,6 +97,7 @@ typedef struct s_cmd
 }	t_cmd;
 */
 
+void			init_ms(t_ms **ms, int argc, char **argv, char **envp);
 int				token_lst_build(t_ms *ms, char *value);
 int				analyse_token_lst(t_ms *ms);
 int				cmd_lst_build(t_ms *ms, t_token *token_lst);

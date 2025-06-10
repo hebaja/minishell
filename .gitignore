@@ -2,6 +2,7 @@ minishell
 package.json
 testing/tests
 .vscode
+valgrind.supp
 *.swp
 *.out
 *.o
