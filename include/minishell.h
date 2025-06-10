@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/09 20:06:36 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:55:19 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ int				ft_signal_exec(void);
 int				update_env_lst(char *value, t_env *env_lst);
 char			**split_token_value(t_token *token_lst, size_t cmd_size);
 /* DEGUB */
-int				create_redirect(t_token **token_lst);
+void			create_redirect(t_token **token_lst);
 void			print_tokens(t_token *token_lst);
 void			print_cmd(t_cmd *cmd_lst);
 void			print_cmd_lst(t_cmd *cmd_lst);
