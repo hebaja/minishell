@@ -98,9 +98,9 @@ typedef struct s_cmd
 */
 
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);
-int				token_lst_build(t_ms *ms, char *value);
+int				token_lst_build(t_ms *ms);
 int				analyse_token_lst(t_ms *ms);
-int				cmd_lst_build(t_ms *ms, t_token *token_lst);
+int				cmd_lst_build(t_ms *ms);
 int				pipe_fds(t_cmd *cmd);
 int				valid_abs_path(char *abs_pth);
 char			*set_path(t_token *token_lst, char **paths);
@@ -126,7 +126,7 @@ int				define_type_builtin(char *value, t_token_type *type);
 int				exec_builtin(t_cmd *cmd_lst, t_env *env_lst);
 int				check_redirect(t_token *token_lst);
 int				conclude_parser(t_token *token_lst);
-void			exec_cmd(t_ms *ms, t_cmd *cmd_lst);
+void			exec_cmd(t_ms *ms);
 void			token_clear(t_token *token);
 void			cmd_lst_clear(t_cmd **cmd_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);

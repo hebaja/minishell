@@ -79,8 +79,10 @@ void	clean_test(void)
 		token_lst_clear(&ms->token_lst);
 	if (ms->env_lst != NULL)
 		env_lst_clear(&ms->env_lst);
-	if (paths != NULL)
+	if (ms->paths != NULL)
 		clean_split_path(ms->paths);
+	if (ms->cmd_lst)
+		cmd_lst_clear(&ms->cmd_lst);
 	if (ms)
 		free(ms);
 	ms = NULL;
@@ -289,14 +291,13 @@ void	test_lst(t_token *token_lst, char **values, char **types)
 	token_lst_clear(&token_lst);
 }
 
-void	usual_flow(t_ms *ms, char *input)
+void	usual_flow(t_ms *ms)
 {
 	var_expansion(&ms->token_lst, ms->env_lst);
 	quotes_var_expansion(&ms->token_lst, ms->env_lst);
 	quote_removal(ms->token_lst);
 	token_joining(&ms->token_lst);
-	conclude_parser(ms->token_lst);
-	ms->input = input;
 	ms->paths = split_path_test(ms->env_lst);
-	cmd_lst_build(ms, ms->token_lst);
+	conclude_parser(ms->token_lst);
+	cmd_lst_build(ms);
 }

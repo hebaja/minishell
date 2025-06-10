@@ -8,9 +8,10 @@ Test(minishell_test_suite_cmd, test_cmd_lst_1)
 {
 	char	*input = "ls -l";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->cmd_lst->path, "/usr/bin/ls");
 	cr_assert_str_eq(ms->cmd_lst->args[0], "ls");
 	cr_assert_str_eq(ms->cmd_lst->args[1], "-l");
@@ -22,11 +23,12 @@ Test(minishell_test_suite_cmd, test_cmd_lst_2)
 {
 	char	*input = "ls -l | wc -m -c";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	paths = split_path_test(ms->env_lst);
-	cmd_res = cmd_lst_build(ms, ms->token_lst);
+	cmd_res = cmd_lst_build(ms);
 	cr_assert_eq(cmd_res, 1);
 	cr_assert_str_eq(ms->cmd_lst->path, "/usr/bin/ls");
 	cr_assert_str_eq(ms->cmd_lst->args[0], "ls");

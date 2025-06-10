@@ -93,13 +93,11 @@ int	default_build(t_token **token_lst,
 	return (1);
 }
 
-int	token_lst_build(t_ms *ms, char *value)
+int	iterate_and_append(t_ms *ms, char *value_start, char *value)
 {
-	size_t		i;
-	char		*value_start;
+	int	i;
 
 	i = 0;
-	value_start = value;
 	while (value[i])
 	{
 		if (value[i] && (is_metacharacter(value[i])))
@@ -119,5 +117,17 @@ int	token_lst_build(t_ms *ms, char *value)
 		value_start = value;
 		i = 0;
 	}
+	return (1);
+}
+
+int	token_lst_build(t_ms *ms)
+{
+	char		*value_start;
+	char		*value;
+
+	value_start = ms->input;
+	value = ms->input;
+	if (!iterate_and_append(ms, value_start, value))
+		return (0);
 	return (1);
 }

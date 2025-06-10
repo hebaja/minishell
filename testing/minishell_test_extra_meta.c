@@ -6,7 +6,8 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_test_dolar_var)
 {
 	char	*input = "echo $USER";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	values = populate_values(2, "echo", "$USER");
 	cr_assert_eq(res, 1);
@@ -18,7 +19,8 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_dolar_char)
 {
 	char	*input = "echo $ USER";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	values = populate_values(3, "echo", "$", "USER");
 	cr_assert_eq(res, 1);
@@ -32,7 +34,7 @@ Test(minishell_test_extra_meta_test, build_token_lst_wildcard_only)
 	char	*input = "*";
 
 	values = ft_split(input, ' ');
-	res = token_lst_build(ms, input);
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	cr_assert_eq(ms->token_lst->type, WILDCARD_SOLO);
@@ -44,7 +46,8 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_wildcard_default)
 {
 	char	*input = "list *c";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	values = populate_values(3, "list", "*", "c");
 	cr_assert_eq(res, 1);
@@ -56,7 +59,8 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_wildcard_solo)
 {
 	char	*input = "list * c";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	values = populate_values(3, "list", "*", "c");
 	cr_assert_eq(res, 1);
@@ -68,7 +72,8 @@ Test(minishell_test_extra_meta_test_alloc, build_token_lst_wildcard_solo_end)
 {
 	char	*input = "list *";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	values = populate_values(2, "list", "*");
 	cr_assert_eq(res, 1);

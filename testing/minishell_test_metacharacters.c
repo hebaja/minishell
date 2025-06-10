@@ -6,9 +6,10 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_1)
 {
 	char	*input = ">";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, ">");
 	cr_assert_eq(ms->token_lst->type, REDIRECT_OUT);
 	cr_assert_null(ms->token_lst->next);
@@ -18,35 +19,36 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_2)
 {
 	char	*input = "<";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "<");
 	cr_assert_eq(ms->token_lst->type, REDIRECT_IN);
 	cr_assert_null(ms->token_lst->next);
 }
 
-/*
 Test(minishell_test_suite_metacharacters, test_metacharacters_3)
 {
 	char	*input = "|";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "|");
 	cr_assert_eq(ms->token_lst->type, PIPE);
 	cr_assert_null(ms->token_lst->next);
 }
-*/
 
 Test(minishell_test_suite_metacharacters, test_metacharacters_4)
 {
 	char	*input = ">>";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, ">>");
 	cr_assert_eq(ms->token_lst->type, APPEND);
 	cr_assert_null(ms->token_lst->next);
@@ -56,9 +58,10 @@ Test(minishell_test_suite_metacharacters, test_metacharacters_5)
 {
 	char	*input = "<<";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "<<");
 	cr_assert_eq(ms->token_lst->type, HEREDOC);
 	cr_assert_null(ms->token_lst->next);
@@ -68,9 +71,10 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_1)
 {
 	char	*input = "echo > file";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "echo");
 	cr_assert_str_eq(ms->token_lst->next->value, ">");
 	cr_assert_str_eq(ms->token_lst->next->next->value, "file");
@@ -83,9 +87,10 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_1)
 {
 	char	*input = "echo>file";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "echo");
 	cr_assert_str_eq(ms->token_lst->next->value, ">");
 	cr_assert_str_eq(ms->token_lst->next->next->value, "file");
@@ -98,9 +103,10 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_2)
 {
 	char	*input = "echo>>file";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "echo");
 	cr_assert_str_eq(ms->token_lst->next->value, ">>");
 	cr_assert_str_eq(ms->token_lst->next->next->value, "file");
@@ -113,9 +119,10 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
 {
 	char	*input = "cat << EOF > file";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "cat");
 	cr_assert_str_eq(ms->token_lst->next->value, "<<");
 	cr_assert_str_eq(ms->token_lst->next->next->value, "EOF");
@@ -132,9 +139,10 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_2)
 {
 	char	*input = "cat<<EOF>file";
 
-	res = token_lst_build(ms, input);
+	ms->input = input;
+	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
-	usual_flow(ms, input);
+	usual_flow(ms);
 	cr_assert_str_eq(ms->token_lst->value, "cat");
 	cr_assert_str_eq(ms->token_lst->next->value, "<<");
 	cr_assert_str_eq(ms->token_lst->next->next->value, "EOF");
