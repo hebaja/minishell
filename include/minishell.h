@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 19:56:15 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/09 21:55:19 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:12:23 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	int				join;
-	int				fd;
+	int				fd_in;
+	int				fd_out;
 	struct s_token	*next;
 }	t_token;
 

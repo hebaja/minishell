@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:46:13 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/09 21:17:02 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/10 20:52:57 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
 	int		pid;
 	int		status;
-
+	
 	ft_signal_exec();
 	pid = fork();
 	if (pid < 0)
@@ -105,11 +105,37 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	return (1);
 }
 
+void	dup_cmd(t_ms *ms, t_cmd *cmd_lst)
+{
+	int	in_tmp;
+	int	out_tmp;
+
+	in_tmp = dup(STDIN_FILENO);
+	out_tmp = dup(STDOUT_FILENO);
+
+	if (ms->token_lst->fd_in != STDIN_FILENO)
+	{
+		dup2(ms->token_lst->fd_in, STDIN_FILENO);
+		close(ms->token_lst->fd_in);
+	}
+	if (ms->token_lst->fd_out != STDIN_FILENO)
+	{
+		dup2(ms->token_lst->fd_out, STDOUT_FILENO);
+		close(ms->token_lst->fd_out);
+	}
+	ms->status = exec_builtin(cmd_lst, ms->env_lst);
+	dup2(in_tmp, STDIN_FILENO);
+	dup2(out_tmp, STDOUT_FILENO);
+	close(in_tmp);
+	close(out_tmp);
+}
+
+
 void	exec_cmd(t_ms *ms, t_cmd *cmd_lst)
 {
 	if (!cmd_lst->next && is_builtin(cmd_lst->main_type))
 	{
-		ms->status = exec_builtin(cmd_lst, ms->env_lst);
+		dup_cmd(ms, cmd_lst);
 		if (cmd_lst->main_type == BUILTIN_EXIT)
 			ms->is_exit = 1;
 		return ;
