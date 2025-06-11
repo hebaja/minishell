@@ -1,13 +1,35 @@
 #include "minishell_test.h"
 
-extern char		**environ;
-
-t_env	*build_envp(void)
+char	**build_mock_envp(void)
 {
-	char	**env;
-
-	env = environ;
-	return (build_env_lst(0, NULL, env));
+	int		i;
+	size_t	size;
+	char	**mock_envp;
+	char	*envp[] = {
+		"USER=hebatist",
+		"LOGNAME=hebatist",
+		"HOME=/home/hebatist",
+		"PWD=/home/hebatist/common_core/minishell/testing",
+		"OLDPWD=/home/hebatist",
+		"TERM=xterm-256color",
+		"SHELL=/bin/zsh",
+		"LANG=en_US.UTF-8",
+		"LANGUAGE=en",
+		"GIT_EDITOR=vim",
+		"_=/usr/bin/env",
+		"PATH=/home/hebatist/.nvm/versions/node/v23.10.0/bin:/home/hebatist/.pyenv/plugins/pyenv-virtualenv/shims:/home/hebatist/.pyenv/shims:/home/hebatist/.local/bin:/home/hebatist/.pyenv/bin:/nfs/homes/hebatist/.local/bin:/nfs/homes/hebatist/.cargo/bin:/home/hebatist/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/hebatist/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/home/hebatist/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/home/hebatist/.antigen/bundles/zsh-users/zsh-autosuggestions:/home/hebatist/.antigen/bundles/ael-code/zsh-colored-man-pages:/home/hebatist/.antigen/bundles/zsh-users/zsh-completions:/home/hebatist/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/home/hebatist/.antigen/bundles/romkatv/powerlevel10k:/home/hebatist/.cargo/bin",
+		NULL
+	};
+	i = -1;
+	size = 0;
+	while (envp[++i])
+		size++;
+	mock_envp = (char **)malloc(sizeof(char *) * (size + 1));
+	i = -1;
+	while (envp[++i])
+		mock_envp[i] = ft_strdup(envp[i]);
+	mock_envp[i] = NULL;
+	return (mock_envp);
 }
 
 void	setup_alloc_mem(void)
@@ -16,17 +38,26 @@ void	setup_alloc_mem(void)
 	types = malloc(sizeof(char *) * 4);
 }
 
-void	init_ms_test(int argc, char **argv, char **envp)
+void	init_ms_test()
 {
+	char	**mock_envp;
+	int		i;
+
 	ms = (t_ms *)malloc(sizeof(t_ms));
-	if (!ms)
+	mock_envp = build_mock_envp();
+	if (!ms || !mock_envp)
 		exit(EXIT_FAILURE);
 	ms->token_lst = NULL;
-	ms->env_lst = build_env_lst(argc, argv, envp);
+	ms->env_lst = build_env_lst(0, NULL, mock_envp);
 	ms->cmd_lst = NULL;
 	ms->paths = NULL;
 	ms->status = 0;
 	ms->is_exit = 0;
+	i = -1;
+	while (mock_envp[++i])
+		free(mock_envp[i]);
+	free (mock_envp);
+	mock_envp = NULL;
 }
 
 void redirect_all_stdout(void)
@@ -47,12 +78,7 @@ void	redirect_stderr(void)
 
 void	init_test(void)
 {
-	t_env *env_lst;
-	char	**env;
-
-	env = environ;
-	env_lst = build_env_lst(0, NULL, env);
-	init_ms_test(0, NULL, split_env(env_lst));
+	init_ms_test();
 }
 
 void	init_test_redirect_stderr(void)

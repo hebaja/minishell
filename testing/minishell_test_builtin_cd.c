@@ -47,7 +47,6 @@ Test(minishell_test_suite_cd, builtin_cd_3)
 	char	*old_pwd;
 
 	ms->input = input;
-	ms->env_lst = build_envp();
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
@@ -70,7 +69,6 @@ Test(minishell_test_suite_cd, builtin_cd_4)
 	char	*old_pwd;
 
 	ms->input = input;
-	ms->env_lst = build_envp();
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
@@ -95,7 +93,6 @@ Test(minishell_test_suite_cd, builtin_cd_5)
 	char	*old_pwd;
 
 	ms->input = input;
-	ms->env_lst = build_envp();
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
@@ -120,7 +117,6 @@ Test(minishell_test_suite_cd, builtin_cd_6)
 	char	*old_pwd;
 
 	ms->input = input;
-	ms->env_lst = build_envp();
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);

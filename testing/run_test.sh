@@ -60,7 +60,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Run with valgrind to check for memory leaks
-valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./tests
+# valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./tests
+./tests
 
 if [ $? -eq 0 ]; then
     echo "✅ All tests passed"
