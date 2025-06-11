@@ -68,6 +68,7 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int				fds[2];
+	int				pid;
 	int				is_piped;
 	int				is_end;
 	int				is_single;

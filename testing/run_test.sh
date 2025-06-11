@@ -51,8 +51,17 @@ gcc -I \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
 	-lcriterion \
-	-o tests \
-	&& ./tests
+	-o tests
+
+
+if [ $? -ne 0 ]; then
+    echo "❌ Compilation failed"
+    exit 1
+fi
+
+# Run with valgrind to check for memory leaks
+valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./tests
+
 if [ $? -eq 0 ]; then
     echo "✅ All tests passed"
 	exit 0

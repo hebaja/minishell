@@ -83,7 +83,6 @@ void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
 int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
 	int		pid;
-	int		status;
 
 	pid = fork();
 	if (pid < 0)
@@ -98,8 +97,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 		close(cmd_lst->fds[0]);
 		close(cmd_lst->fds[1]);
 	}
-	waitpid(pid, &status, 0);
-	ms->status = status;
+	cmd_lst->pid = pid;
 	return (1);
 }
 
@@ -118,6 +116,12 @@ void	exec_cmd(t_ms *ms)
 	while (cmd_curr)
 	{
 		prep_child_exec(ms, cmd_curr);
+		cmd_curr = cmd_curr->next;
+	}
+	cmd_curr = ms->cmd_lst;
+	while (cmd_curr)
+	{
+		waitpid(cmd_curr->pid, &ms->status, 0);
 		cmd_curr = cmd_curr->next;
 	}
 }
