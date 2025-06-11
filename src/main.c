@@ -27,7 +27,9 @@ int	main(int argc, char **argv, char **envp)
 			clean_prompt(ms);
 		else
 		{
-			if (analyse_token_lst(ms))
+			if (!analyse_token_lst(ms))
+				ms->status = 2;
+			else
 			{
 				cmd_lst_build(ms);
 				exec_cmd(ms);

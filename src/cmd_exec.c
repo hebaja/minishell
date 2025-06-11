@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <errno.h>
+#include <stdlib.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -55,7 +57,9 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 	else
 	{
 		execve(cmd_lst->path, cmd_lst->args, envp);
-		exit(EXIT_FAILURE);
+		clean_all(ms);
+		clean_matrix(envp);
+		exit(127);
 	}
 }
 
@@ -122,6 +126,16 @@ void	exec_cmd(t_ms *ms)
 	while (cmd_curr)
 	{
 		waitpid(cmd_curr->pid, &ms->status, 0);
+
+		if (WIFEXITED(ms->status))
+		{
+			if (WEXITSTATUS(ms->status))
+			{
+				ms->status = WEXITSTATUS(ms->status);
+				if (errno == 0)
+					ms->status -= 1;
+			}
+		}
 		cmd_curr = cmd_curr->next;
 	}
 }

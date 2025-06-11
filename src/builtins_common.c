@@ -78,7 +78,7 @@ int	builtin_echo(t_cmd *cmd)
 		is_break_line = 0;
 		i = 2;
 	}
-	while (cmd->args[i])
+	while (cmd->args[i] && !is_metacharacter(*cmd->args[i]))
 	{
 		ft_printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
