@@ -5,19 +5,29 @@ char	**build_mock_envp(void)
 	int		i;
 	size_t	size;
 	char	**mock_envp;
+	char	buf[256];
+	getcwd(buf, 256);
+	char	*pwd = ft_strjoin("PWD=", buf);
+	char	*oldpwd = ft_strjoin("OLDPWD=", buf);
+	char	*user = getenv("USER");
+	char	*env_user = ft_strjoin("USER=", user);
+	char	*env_logname = ft_strjoin("LOGNAME=", user);
+	char	*env_home = ft_strjoin("HOME=", getenv("HOME"));
+	char	*env_path = ft_strjoin("PATH=", getenv("PATH"));
+
 	char	*envp[] = {
-		"USER=hebatist",
-		"LOGNAME=hebatist",
-		"HOME=/home/hebatist",
-		"PWD=/home/hebatist/common_core/minishell/testing",
-		"OLDPWD=/home/hebatist",
+		env_user,
+		env_logname,
+		env_home,
+		pwd,
+		oldpwd,
+		env_path,
 		"TERM=xterm-256color",
 		"SHELL=/bin/zsh",
 		"LANG=en_US.UTF-8",
 		"LANGUAGE=en",
 		"GIT_EDITOR=vim",
 		"_=/usr/bin/env",
-		"PATH=/home/hebatist/.nvm/versions/node/v23.10.0/bin:/home/hebatist/.pyenv/plugins/pyenv-virtualenv/shims:/home/hebatist/.pyenv/shims:/home/hebatist/.local/bin:/home/hebatist/.pyenv/bin:/nfs/homes/hebatist/.local/bin:/nfs/homes/hebatist/.cargo/bin:/home/hebatist/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/hebatist/.antigen/bundles/robbyrussell/oh-my-zsh/lib:/home/hebatist/.antigen/bundles/zsh-users/zsh-syntax-highlighting:/home/hebatist/.antigen/bundles/zsh-users/zsh-autosuggestions:/home/hebatist/.antigen/bundles/ael-code/zsh-colored-man-pages:/home/hebatist/.antigen/bundles/zsh-users/zsh-completions:/home/hebatist/.antigen/bundles/robbyrussell/oh-my-zsh/plugins/git:/home/hebatist/.antigen/bundles/romkatv/powerlevel10k:/home/hebatist/.cargo/bin",
 		NULL
 	};
 	i = -1;
@@ -29,6 +39,12 @@ char	**build_mock_envp(void)
 	while (envp[++i])
 		mock_envp[i] = ft_strdup(envp[i]);
 	mock_envp[i] = NULL;
+	free(env_user);
+	free(env_logname);
+	free(env_home);
+	free(pwd);
+	free(oldpwd);
+	free(env_path);
 	return (mock_envp);
 }
 
