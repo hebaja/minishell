@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:46:08 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/10 20:08:57 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/11 21:03:34 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	create_redirect(t_token **token_lst)
 	t_token *current;
 	int		fd_in;
 	int		fd_out;
+	t_token	*tmp;
 
 
 	fd_in = -1;
@@ -67,6 +68,11 @@ void	create_redirect(t_token **token_lst)
 		current = current->next;
 	}
 	
-	(*token_lst)->fd_in = fd_in;
-	(*token_lst)->fd_out = fd_out;
+	tmp = *token_lst;
+	while (tmp)
+	{
+		tmp->fd_in = fd_in;
+		tmp->fd_out = fd_out;
+		tmp = tmp->next;
+	}
 }

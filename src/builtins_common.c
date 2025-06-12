@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 17:32:44 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/09 16:26:48 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/11 19:41:25 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,11 @@ int	builtin_echo(t_cmd *cmd)
 	}
 	while (cmd->args[i])
 	{
+		if (ft_strcmp(cmd->args[i + 1], ">") == 0)
+		{
+			ft_printf("%s", cmd->args[1]);
+			break;	
+		}
 		ft_printf("%s", cmd->args[i]);
 		if (cmd->args[i + 1])
 			ft_printf(" ");

@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:46:13 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/10 20:52:57 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/11 21:04:55 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,57 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 	}
 }
 
-void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
+void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output) 
 {
 	if (cmd_lst->is_single)
-		exec_child(ms, cmd_lst, STDIN_FILENO, STDOUT_FILENO);
-	else if (cmd_lst->is_piped && cmd_lst->is_end)
+		exec_child(ms, cmd_lst, fd_input, fd_output);
+	
+	else if (cmd_lst->is_piped && cmd_lst->is_end && fd_input == STDIN_FILENO && fd_output == STDOUT_FILENO)
 	{
 		close_unused_fds(ms, cmd_lst->fds[0], STDOUT_FILENO);
 		exec_child(ms, cmd_lst, cmd_lst->fds[0], STDOUT_FILENO);
 	}
+	
+	else if (cmd_lst->is_piped && cmd_lst->is_end)
+	{
+		close_unused_fds(ms, fd_input, STDOUT_FILENO);
+		exec_child(ms, cmd_lst, fd_input, STDOUT_FILENO);
+	}
 	else if (cmd_lst->is_piped)
 	{
-		close_unused_fds(ms, cmd_lst->fds[0], cmd_lst->next->fds[1]);
-		exec_child(ms, cmd_lst, cmd_lst->fds[0], cmd_lst->next->fds[1]);
+		close_unused_fds(ms, cmd_lst->fds[0], cmd_lst->fds[1]);
+		exec_child(ms, cmd_lst, cmd_lst->fds[0], cmd_lst->fds[1]);
 	}
-	else 
+	else if (fd_input == STDIN_FILENO && fd_output == STDOUT_FILENO)
 	{
-		close_unused_fds(ms, STDIN_FILENO, cmd_lst->next->fds[1]);
-		exec_child(ms, cmd_lst, STDIN_FILENO , cmd_lst->next->fds[1]);
+		close_unused_fds(ms, STDIN_FILENO, cmd_lst->fds[1]);
+		exec_child(ms, cmd_lst, STDIN_FILENO, cmd_lst->fds[1]);
+	}
+	else
+	{
+		close_unused_fds(ms, fd_input, fd_output);
+		exec_child(ms, cmd_lst, fd_input , fd_output);
 	}
 }
+
+void	set_child_exec_redi_mode(t_ms *ms, t_cmd *cmd_lst)
+{
+	int	fd_in;
+	int	fd_out;
+
+	fd_in = ms->token_lst->fd_in;
+	fd_out =  ms->token_lst->fd_out;
+
+	if (fd_in != -1 && fd_out != -1)
+		set_child_exec_mode(ms, cmd_lst, fd_in, fd_out);
+	else if (fd_in != -1 && fd_out == -1)
+		set_child_exec_mode(ms, cmd_lst, fd_in, STDOUT_FILENO);
+	else if (fd_in == -1 && fd_out != -1)
+		set_child_exec_mode(ms, cmd_lst, STDIN_FILENO, fd_out);
+	else if (fd_in == -1 && fd_out == -1)
+		set_child_exec_mode(ms, cmd_lst, STDIN_FILENO, STDOUT_FILENO);
+}
+
 
 int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
@@ -93,7 +124,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 		return (0);
 	}
 	if (pid == 0)
-		set_child_exec_mode(ms, cmd_lst);
+		set_child_exec_redi_mode(ms, cmd_lst);
 	if (cmd_lst->is_piped)
 	{
 		close(cmd_lst->fds[0]);
@@ -114,15 +145,9 @@ void	dup_cmd(t_ms *ms, t_cmd *cmd_lst)
 	out_tmp = dup(STDOUT_FILENO);
 
 	if (ms->token_lst->fd_in != STDIN_FILENO)
-	{
 		dup2(ms->token_lst->fd_in, STDIN_FILENO);
-		close(ms->token_lst->fd_in);
-	}
 	if (ms->token_lst->fd_out != STDIN_FILENO)
-	{
 		dup2(ms->token_lst->fd_out, STDOUT_FILENO);
-		close(ms->token_lst->fd_out);
-	}
 	ms->status = exec_builtin(cmd_lst, ms->env_lst);
 	dup2(in_tmp, STDIN_FILENO);
 	dup2(out_tmp, STDOUT_FILENO);

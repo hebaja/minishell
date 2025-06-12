@@ -1,1 +1,1 @@
-projeto_de_corno1 > texto.txt > arquivo.txt
+texto
