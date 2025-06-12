@@ -48,6 +48,34 @@ int	is_builtin(t_token_type type)
 	return (0);
 }
 
+int	builtin_echo(t_cmd *cmd)
+{
+	int		i;
+	int		is_break_line;
+
+	i = 1;
+	is_break_line = 1;
+	if (!cmd->args[1])
+		is_break_line = 1;
+	if (cmd->args[0] && (cmd->args[1] && ft_strcmp(cmd->args[1], "-n") == 0))
+	{
+		is_break_line = 0;
+		i++;
+	}
+	while (cmd->args[i])
+	{
+		ft_printf("%s", cmd->args[i]);
+		i++;
+		if ((cmd->args[i] && is_metacharacter(cmd->args[i][0]))
+			|| !cmd->args[i])
+			break ;
+		ft_printf(" ");
+	}
+	if (is_break_line)
+		ft_printf("\n");
+	return (0);
+}
+
 int	builtin_pwd(void)
 {
 	char	buf[256];
@@ -58,35 +86,6 @@ int	builtin_pwd(void)
 		return (1);
 	}
 	ft_printf("%s\n", buf);
-	return (0);
-}
-
-int	builtin_echo(t_cmd *cmd)
-{
-	int		i;
-	int		is_break_line;
-
-	if (!cmd->args[0] || !cmd->args[1])
-	{
-		ft_printf("\n");
-		return (0);
-	}
-	i = 1;
-	is_break_line = 1;
-	if (ft_strcmp(cmd->args[1], "-n") == 0)
-	{
-		is_break_line = 0;
-		i = 2;
-	}
-	while (cmd->args[i] && !is_metacharacter(*cmd->args[i]))
-	{
-		ft_printf("%s", cmd->args[i]);
-		if (cmd->args[i + 1])
-			ft_printf(" ");
-		i++;
-	}
-	if (is_break_line)
-		ft_printf("\n");
 	return (0);
 }
 

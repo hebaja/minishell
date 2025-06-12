@@ -131,3 +131,63 @@ Test(minishell_test_suite_builtin_echo, build_token_lst_test_builtin_multi_nobr_
 	test_lst(ms->token_lst, values, types);
 	cr_assert_stdout_eq_str("Hello Hi");
 }
+
+Test(minishell_test_suite_builtin_echo, test_echo_redirect_out)
+{
+	char	*input = "echo Hello > out";
+	
+	ms->input = input;
+	values = ft_split(input, ' ');
+	res = token_lst_build(ms);
+	types = fetch_tokens_type_list(ms->token_lst);
+	cr_assert_eq(res, 1);
+	usual_flow(ms);
+	builtin_echo(ms->cmd_lst);
+	test_lst(ms->token_lst, values, types);
+	cr_assert_stdout_eq_str("Hello\n");
+}
+
+Test(minishell_test_suite_builtin_echo, test_echo_redirect_in)
+{
+	char	*input = "echo Hello < out";
+	
+	ms->input = input;
+	values = ft_split(input, ' ');
+	res = token_lst_build(ms);
+	types = fetch_tokens_type_list(ms->token_lst);
+	cr_assert_eq(res, 1);
+	usual_flow(ms);
+	builtin_echo(ms->cmd_lst);
+	test_lst(ms->token_lst, values, types);
+	cr_assert_stdout_eq_str("Hello\n");
+}
+
+Test(minishell_test_suite_builtin_echo, test_echo_append)
+{
+	char	*input = "echo Hello >> out";
+	
+	ms->input = input;
+	values = ft_split(input, ' ');
+	res = token_lst_build(ms);
+	types = fetch_tokens_type_list(ms->token_lst);
+	cr_assert_eq(res, 1);
+	usual_flow(ms);
+	builtin_echo(ms->cmd_lst);
+	test_lst(ms->token_lst, values, types);
+	cr_assert_stdout_eq_str("Hello\n");
+}
+
+Test(minishell_test_suite_builtin_echo, test_echo_heredoc)
+{
+	char	*input = "echo Hello << out";
+	
+	ms->input = input;
+	values = ft_split(input, ' ');
+	res = token_lst_build(ms);
+	types = fetch_tokens_type_list(ms->token_lst);
+	cr_assert_eq(res, 1);
+	usual_flow(ms);
+	builtin_echo(ms->cmd_lst);
+	test_lst(ms->token_lst, values, types);
+	cr_assert_stdout_eq_str("Hello\n");
+}
