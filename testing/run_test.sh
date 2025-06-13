@@ -41,11 +41,13 @@ gcc -I \
 	../src/builtin_export.c \
 	../src/builtin_unset.c \
 	../src/builtin_exit.c \
-	../src/redirect.c \
+	../src/clean_utils.c \
 	../src/cmd_build.c \
 	../src/cmd_utils.c \
 	../src/cmd_build_utils.c \
 	../src/cmd_env_utils.c \
+	../src/cmd_exec.c \
+	../src/cmd_exec_utils.c \
 	../src/iterate_utils.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \

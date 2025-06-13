@@ -25,15 +25,3 @@ void	clean_matrix(char **paths)
 	free(ms);
 	ms = NULL;
 }
-
-void	clean_prompt(t_ms *ms)
-{
-	free(ms->input);
-	if (ms->token_lst)
-		token_lst_clear(&ms->token_lst);
-	if (ms->cmd_lst)
-		cmd_lst_clear(&ms->cmd_lst);
-	if (ms->paths)
-		clean_matrix(ms->paths);
-	ms->input = readline(TERMINAL_PROMPT);
-}

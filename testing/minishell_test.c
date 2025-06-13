@@ -107,3 +107,16 @@ Test(minishell_test_suite_basic_stderr, build_token_lst_null, .init=init_test_re
 	cr_assert_null(ms->token_lst->value);
 	conclude_parser(ms);
 }
+
+/*
+Test(minishell_test_suite_ba, build_token_lst_comm, .init=init_test)
+{
+	char	*input = "timedatectl";
+
+	ms->input = input;
+	res = token_lst_build(ms);
+	cr_assert_eq(res, 1);
+	usual_flow(ms);
+	exec_cmd(ms);
+}
+*/
