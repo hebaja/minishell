@@ -11,9 +11,8 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <stdio.h>
 
-int	exec_builtin(t_cmd *cmd, t_env *env_lst)
+int	exec_builtin(t_cmd *cmd, t_ms *ms)
 {
 	int	status;
 
@@ -21,17 +20,17 @@ int	exec_builtin(t_cmd *cmd, t_env *env_lst)
 	if (cmd->main_type == BUILTIN_ECHO)
 		status = builtin_echo(cmd);
 	if (cmd->main_type == BUILTIN_ENV)
-		status = builtin_env(env_lst);
+		status = builtin_env(ms->env_lst);
 	if (cmd->main_type == BUILTIN_CD)
-		status = builtin_cd(cmd, env_lst);
+		status = builtin_cd(cmd, ms->env_lst);
 	if (cmd->main_type == BUILTIN_PWD)
 		status = builtin_pwd();
 	if (cmd->main_type == BUILTIN_EXPORT)
-		status = builtin_export(cmd, env_lst);
+		status = builtin_export(cmd, ms->env_lst);
 	if (cmd->main_type == BUILTIN_UNSET)
-		status = builtin_unset(cmd, &env_lst);
+		status = builtin_unset(cmd, &ms->env_lst);
 	if (cmd->main_type == BUILTIN_EXIT)
-		status = builtin_exit(cmd);
+		status = builtin_exit(cmd, ms->status);
 	return (status);
 }
 
@@ -73,7 +72,7 @@ int	builtin_echo(t_cmd *cmd)
 	}
 	if (is_break_line)
 		ft_printf("\n");
-	return (0);
+	return (BUILTIN_SUCCESS_STATUS);
 }
 
 int	builtin_pwd(void)
@@ -83,10 +82,10 @@ int	builtin_pwd(void)
 	if (getcwd(buf, 256) == NULL)
 	{
 		perror("getcwd");
-		return (1);
+		return (BUILTIN_ERROR_STATUS);
 	}
 	ft_printf("%s\n", buf);
-	return (0);
+	return (BUILTIN_SUCCESS_STATUS);
 }
 
 int	builtin_env(t_env *env_lst)
@@ -96,5 +95,5 @@ int	builtin_env(t_env *env_lst)
 		ft_printf("%s=%s\n",env_lst->key, env_lst->value);
 		env_lst = env_lst->next;
 	}
-	return (0);
+	return (BUILTIN_SUCCESS_STATUS);
 }

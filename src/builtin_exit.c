@@ -25,8 +25,7 @@ int	is_numeric(char *value)
 	return (1);
 }
 
-/* TODO We need to set $? to make exit work properly */
-int	builtin_exit(t_cmd *cmd_lst)
+int	builtin_exit(t_cmd *cmd_lst, int curr_status)
 {
 	int	exit_value;
 
@@ -42,5 +41,7 @@ int	builtin_exit(t_cmd *cmd_lst)
 		else
 			exit_value = ft_atoi(cmd_lst->args[1]);
 	}
+	else
+		exit_value = curr_status;
 	return (exit_value);
 }

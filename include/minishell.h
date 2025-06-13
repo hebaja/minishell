@@ -16,12 +16,15 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/include/libft.h"
 
 # define TERMINAL_PROMPT "🚀 $: "
+# define BUILTIN_ERROR_STATUS 1
+# define BUILTIN_SUCCESS_STATUS 0
 
 typedef enum e_token_type
 {
@@ -88,15 +91,6 @@ typedef struct	s_ms
 	int		status;
 	int		is_exit;
 }	t_ms;
-/*
-typedef struct s_cmd
-{
-	int				fd[2];
-	t_token			*token_lst;
-	struct s_cmd	*left;
-	struct s_cmd	*right;
-}	t_cmd;
-*/
 
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);
 int				token_lst_build(t_ms *ms);
@@ -124,9 +118,10 @@ int				quote_mode(t_token **token_lst, char **value,
 int				regular_mode(t_token **token_lst, char **value, 
 					char *value_start, int i);
 int				define_type_builtin(char *value, t_token_type *type);
-int				exec_builtin(t_cmd *cmd_lst, t_env *env_lst);
+int				exec_builtin(t_cmd *cmd_lst, t_ms *ms);
 int				check_redirect(t_token *token_lst);
-int				conclude_parser(t_token *token_lst);
+int				conclude_parser(t_ms *ms);
+void			wait_for_pids(t_ms *ms);
 void			exec_cmd(t_ms *ms);
 void			token_clear(t_token *token);
 void			cmd_lst_clear(t_cmd **cmd_lst);
@@ -165,7 +160,7 @@ int				builtin_env(t_env *env_lst);
 int				builtin_pwd(void);
 int				builtin_export(t_cmd *cmd_lst, t_env *env_lst);
 int				builtin_unset(t_cmd *cmd_lst, t_env **env_lst);
-int				builtin_exit(t_cmd *cmd_lst);
+int				builtin_exit(t_cmd *cmd_lst, int curr_status);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_lst);
 t_env 			*build_env_lst(int argc, char **argv, char **envp);
 void			print_env_sort(t_env *env_lst);

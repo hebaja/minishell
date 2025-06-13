@@ -340,6 +340,6 @@ void	usual_flow(t_ms *ms)
 	quote_removal(ms->token_lst);
 	token_joining(&ms->token_lst);
 	ms->paths = split_path_test(ms->env_lst);
-	conclude_parser(ms->token_lst);
+	conclude_parser(ms);
 	cmd_lst_build(ms);
 }

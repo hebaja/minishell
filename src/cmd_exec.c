@@ -11,8 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <errno.h>
-#include <stdlib.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -51,7 +49,7 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 	}
 	if (is_builtin(cmd_lst->main_type))
 	{
-		exec_builtin(cmd_lst, ms->env_lst);
+		exec_builtin(cmd_lst, ms);
 		exit(EXIT_SUCCESS);
 	}
 	else
@@ -112,7 +110,7 @@ void	exec_cmd(t_ms *ms)
 	cmd_curr = ms->cmd_lst;
 	if (!cmd_curr->next && is_builtin(cmd_curr->main_type))
 	{
-		ms->status = exec_builtin(cmd_curr, ms->env_lst);
+		ms->status = exec_builtin(cmd_curr, ms);
 		if (cmd_curr->main_type == BUILTIN_EXIT)
 			ms->is_exit = 1;
 		return ;
@@ -122,20 +120,5 @@ void	exec_cmd(t_ms *ms)
 		prep_child_exec(ms, cmd_curr);
 		cmd_curr = cmd_curr->next;
 	}
-	cmd_curr = ms->cmd_lst;
-	while (cmd_curr)
-	{
-		waitpid(cmd_curr->pid, &ms->status, 0);
-
-		if (WIFEXITED(ms->status))
-		{
-			if (WEXITSTATUS(ms->status))
-			{
-				ms->status = WEXITSTATUS(ms->status);
-				if (errno == 0)
-					ms->status -= 1;
-			}
-		}
-		cmd_curr = cmd_curr->next;
-	}
+	wait_for_pids(ms);
 }

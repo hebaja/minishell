@@ -14,8 +14,8 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_ms	*ms;
-	int		status;
+	t_ms			*ms;
+	unsigned char	status;
 
 	init_ms(&ms, argc, argv, envp);
 	while (ms->input)

@@ -105,5 +105,5 @@ Test(minishell_test_suite_basic_stderr, build_token_lst_null, .init=init_test_re
 	cr_assert_eq(res, 1);
 	ms->token_lst->value = NULL;
 	cr_assert_null(ms->token_lst->value);
-	conclude_parser(ms->token_lst);
+	conclude_parser(ms);
 }

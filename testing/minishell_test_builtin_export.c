@@ -44,21 +44,20 @@ Test(minishell_test_suite_export, test_export_change)
 	cr_assert_str_eq(var_value_2, "change");
 }
 
-/*
 Test(minishell_test_suite_export, test_export_change_exist)
 {
-	t_env	*env_lst;
 	char	*input = "export LANGUAGE=pt";
 	char	*var_value;
 
-	env_lst = build_envp();                                                  
-	res = token_lst_build(ms, input);
-	types = fetch_tokens_type_list(token_lst);
+	ms->input = input;
+	res = token_lst_build(ms);
+	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
-	cr_assert_str_eq("en", get_var_value(env_lst, "LANGUAGE"));
+	var_value = get_var_value(ms->env_lst, "LANGUAGE");
+	cr_assert_str_eq(var_value, "en");
+	var_value = NULL;
 	usual_flow(ms);
-	builtin_export(token_lst);
-	var_value = get_var_value(env_lst, "LANGUAGE");
+	builtin_export(ms->cmd_lst, ms->env_lst);
+	var_value = get_var_value(ms->env_lst, "LANGUAGE");
 	cr_assert_str_eq(var_value, "pt");
 }
-*/

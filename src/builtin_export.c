@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-int	create_env_node(t_env *env, char **var_val)
+int	create_env_node(t_env *env_lst, char **var_val)
 {
 	t_env	*env_node;
 
@@ -25,20 +25,22 @@ int	create_env_node(t_env *env, char **var_val)
 	env_node->next = NULL;
 	if (!env_node->key || !env_node->value)
 		return (0);
-	ft_lstadd_back_env(&env, env_node);
+	ft_lstadd_back_env(&env_lst, env_node);
 	return (1);
 }
 
-void	add_to_env_lst(t_env *env_lst, char **var_val)
+int	add_to_env_lst(t_env *env_lst, char **var_val)
 {
-	env_lst_remove_if(&env_lst, var_val[0], compare);
 	if (var_val[1])
 	{
+		env_lst_remove_if(&env_lst, var_val[0], compare);
 		if (!create_env_node(env_lst, var_val))
+		{
 			ft_putstr_fd("Export failed\n", 2);
+			return (0);
+		}
 	}
-	else
-		ft_printf("\n");
+	return (1);
 }
 
 void	clean_var_val(char **var_val)
@@ -70,7 +72,8 @@ int	update_env_lst(char *value, t_env *env_lst)
 			return (0);
 		}
 	}
-	add_to_env_lst(env_lst, var_val);
+	if (!add_to_env_lst(env_lst, var_val))
+		return (0);
 	clean_var_val(var_val);
 	return (1);
 }
@@ -81,6 +84,6 @@ int	builtin_export(t_cmd *cmd_lst, t_env *env_lst)
 		print_env_sort(env_lst);
 	else
 		if (!update_env_lst(cmd_lst->args[1], env_lst))
-			return (1);
-	return (0);
+			return (BUILTIN_ERROR_STATUS);
+	return (BUILTIN_SUCCESS_STATUS);
 }

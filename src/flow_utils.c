@@ -1,16 +1,5 @@
 #include "../include/minishell.h"
 
-void	clean_matrix(char **paths)
-{
-	int	i;
-
-	i = -1;
-	while (paths[++i])
-		free(paths[i]);
-	free(paths);
-	paths = NULL;
-}
-
 char	**split_path(t_ms *ms)
 {
 	char	**paths;
@@ -21,33 +10,6 @@ char	**split_path(t_ms *ms)
 	if (!paths)
 		clean_all(ms);
 	return (paths);
-}
-
-void	clean_all(t_ms *ms)
-{
-	if (ms->token_lst)
-		token_lst_clear(&ms->token_lst);
-	if (ms->cmd_lst)
-		cmd_lst_clear(&ms->cmd_lst);
-	if (ms->env_lst)
-		env_lst_clear(&ms->env_lst);
-	if (ms->paths)
-		clean_matrix(ms->paths);
-	free(ms->input);
-	free(ms);
-	ms = NULL;
-}
-
-void	clean_prompt(t_ms *ms)
-{
-	free(ms->input);
-	if (ms->token_lst)
-		token_lst_clear(&ms->token_lst);
-	if (ms->cmd_lst)
-		cmd_lst_clear(&ms->cmd_lst);
-	if (ms->paths)
-		clean_matrix(ms->paths);
-	ms->input = readline(TERMINAL_PROMPT);
 }
 
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
@@ -63,4 +25,33 @@ void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
 	(*ms)->is_exit = 0;
 	using_history();
 	(*ms)->input = readline(TERMINAL_PROMPT);
+}
+
+void wait_for_pids(t_ms *ms)
+{
+	t_cmd	*cmd_curr;
+
+	cmd_curr = ms->cmd_lst;
+	while (cmd_curr)
+	{
+		waitpid(cmd_curr->pid, &ms->status, 0);
+		char	*message;
+
+		if (WIFEXITED(ms->status))
+		{
+			if (WEXITSTATUS(ms->status))
+			{
+				ms->status = WEXITSTATUS(ms->status);
+				if (ms->status == 127)
+				{
+					message = ft_strjoin(cmd_curr->path, ": command not found\n");
+					ft_putstr_fd(message, 2);
+					free(message);
+				}
+				if (errno == 0)
+					ms->status -= 1;
+			}
+		}
+		cmd_curr = cmd_curr->next;
+	}
 }

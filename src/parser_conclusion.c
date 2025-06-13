@@ -56,12 +56,12 @@ void	builtin_recheck(t_token *token)
 		define_type_builtin(token->value, &token->type);
 }
 
-int	conclude_parser(t_token *token_lst)
+int	conclude_parser(t_ms *ms)
 {
-	token_lst_iterate(token_lst, builtin_recheck);
-	if (!check_token_integrity(token_lst))
+	token_lst_iterate(ms->token_lst, builtin_recheck);
+	if (!check_token_integrity(ms->token_lst))
 		return (0);
-	if (!redirect_validate(token_lst))
+	if (!redirect_validate(ms->token_lst))
 		return (0);
 	return (1);
 }

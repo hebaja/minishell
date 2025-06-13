@@ -25,7 +25,7 @@ int	is_dolar(char *value)
 		return (0);
 	else if (*value == '$')
 		value++;
-	if (*value && ft_isalnum(*value))
+	if (*value && (ft_isalnum(*value) || *value == '?'))
 		return (1);
 	return (0);
 }

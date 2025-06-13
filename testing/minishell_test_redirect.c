@@ -11,7 +11,7 @@ Test(minishell_test_suite_redirect, test_redirect_out)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 1);
+	cr_assert_eq(conclude_parser(ms), 1);
 }
 
 Test(minishell_test_suite_redirect, test_append)
@@ -23,7 +23,7 @@ Test(minishell_test_suite_redirect, test_append)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 1);
+	cr_assert_eq(conclude_parser(ms), 1);
 }
 
 Test(minishell_test_suite_redirect, test_redirect_in)
@@ -35,7 +35,7 @@ Test(minishell_test_suite_redirect, test_redirect_in)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 1);
+	cr_assert_eq(conclude_parser(ms), 1);
 }
 
 Test(minishell_test_suite_redirect, test_heredoc)
@@ -60,7 +60,7 @@ Test(minishell_test_suite_redirect, test_redirect_out_error_1)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 
 }
 
@@ -73,7 +73,7 @@ Test(minishell_test_suite_redirect, test_redirect_out_error_2)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_redirect_out_error_3)
@@ -85,7 +85,7 @@ Test(minishell_test_suite_redirect, test_redirect_out_error_3)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_append_error_1)
@@ -97,7 +97,7 @@ Test(minishell_test_suite_redirect, test_append_error_1)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_append_error_2)
@@ -109,7 +109,7 @@ Test(minishell_test_suite_redirect, test_append_error_2)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_append_error_3)
@@ -121,7 +121,7 @@ Test(minishell_test_suite_redirect, test_append_error_3)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_redirect_in_error_1)
@@ -133,7 +133,7 @@ Test(minishell_test_suite_redirect, test_redirect_in_error_1)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_redirect_in_error_2)
@@ -145,7 +145,7 @@ Test(minishell_test_suite_redirect, test_redirect_in_error_2)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_redirect_in_error_3)
@@ -157,7 +157,7 @@ Test(minishell_test_suite_redirect, test_redirect_in_error_3)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_heredoc_error_1)
@@ -169,7 +169,7 @@ Test(minishell_test_suite_redirect, test_heredoc_error_1)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_heredoc_error_2)
@@ -181,7 +181,7 @@ Test(minishell_test_suite_redirect, test_heredoc_error_2)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_heredoc_error_3)
@@ -193,7 +193,7 @@ Test(minishell_test_suite_redirect, test_heredoc_error_3)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
 
 Test(minishell_test_suite_redirect, test_heredoc_error_4)
@@ -205,5 +205,5 @@ Test(minishell_test_suite_redirect, test_heredoc_error_4)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	cr_assert_eq(conclude_parser(ms->token_lst), 0);
+	cr_assert_eq(conclude_parser(ms), 0);
 }
