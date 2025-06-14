@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <unistd.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -48,17 +49,9 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 		close(fd_output);
 	}
 	if (is_builtin(cmd_lst->main_type))
-	{
-		exec_builtin(cmd_lst, ms);
-		exit(EXIT_SUCCESS);
-	}
+		exec_child_builtin(ms, cmd_lst, envp);
 	else
-	{
-		execve(cmd_lst->path, cmd_lst->args, envp);
-		clean_all(ms);
-		clean_matrix(envp);
-		exit(127);
-	}
+		exec_child_execve(ms, cmd_lst, envp);
 }
 
 void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
@@ -94,11 +87,6 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	}
 	if (pid == 0)
 		set_child_exec_mode(ms, cmd_lst);
-	if (cmd_lst->is_piped)
-	{
-		close(cmd_lst->fds[0]);
-		close(cmd_lst->fds[1]);
-	}
 	cmd_lst->pid = pid;
 	return (1);
 }
@@ -120,5 +108,6 @@ void	exec_cmd(t_ms *ms)
 		prep_child_exec(ms, cmd_curr);
 		cmd_curr = cmd_curr->next;
 	}
+	close_fds_parent(ms);
 	wait_for_pids(ms);
 }
