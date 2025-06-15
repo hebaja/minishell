@@ -43,8 +43,9 @@ Test(minishell_test_suite_cd, builtin_cd_2)
 Test(minishell_test_suite_cd, builtin_cd_3)
 {
 	char	*input = "cd directory";
-	char	*pwd;
 	char	*old_pwd;
+	char	buf[256];
+
 
 	ms->input = input;
 	res = token_lst_build(ms);
@@ -53,20 +54,20 @@ Test(minishell_test_suite_cd, builtin_cd_3)
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "directory");
-	pwd = ft_strdup(get_var_value(ms->env_lst, "PWD"));
 	old_pwd = ft_strdup(get_var_value(ms->env_lst, "OLDPWD"));
+	mkdir("directory", 0644);
 	builtin_cd(ms->cmd_lst, ms->env_lst);
-	cr_assert_str_eq(pwd, get_var_value(ms->env_lst, "PWD"));
+	getcwd(buf, 256);
+	cr_assert_str_eq(buf, get_var_value(ms->env_lst, "PWD"));
 	cr_assert_str_eq(old_pwd, get_var_value(ms->env_lst, "OLDPWD"));
-	free(pwd);
 	free(old_pwd);
 }
 
 Test(minishell_test_suite_cd, builtin_cd_4)
 {
 	char	*input = "cd directory";
-	char	*pwd;
 	char	*old_pwd;
+	char	buf[256];
 
 	ms->input = input;
 	res = token_lst_build(ms);
@@ -75,14 +76,13 @@ Test(minishell_test_suite_cd, builtin_cd_4)
 	cr_assert_eq(ms->token_lst->type, BUILTIN_CD);
 	cr_assert_str_eq(ms->token_lst->value, "cd");
 	cr_assert_str_eq(ms->token_lst->next->value, "directory");
-	pwd = ft_strdup(get_var_value(ms->env_lst, "PWD"));
 	old_pwd = ft_strdup(get_var_value(ms->env_lst, "OLDPWD"));
-	mkdir("directory", 0200);
+	mkdir("directory", 0644);
 	builtin_cd(ms->cmd_lst, ms->env_lst);
-	cr_assert_str_eq(pwd, get_var_value(ms->env_lst, "PWD"));
+	getcwd(buf, 256);
+	cr_assert_str_eq(buf, get_var_value(ms->env_lst, "PWD"));
 	cr_assert_str_eq(old_pwd, get_var_value(ms->env_lst, "OLDPWD"));
-	free(pwd);
-	free(old_pwd);
+free(old_pwd);
 	rmdir("directory");
 }
 

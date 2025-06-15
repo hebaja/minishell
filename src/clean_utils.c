@@ -21,7 +21,6 @@ void	clean_matrix(char **paths)
 		env_lst_clear(&ms->env_lst);
 	if (ms->paths)
 		clean_matrix(ms->paths);
-	free(ms->input);
 	free(ms);
 	ms = NULL;
 }

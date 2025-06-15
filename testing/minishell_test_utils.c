@@ -14,7 +14,7 @@ char	**build_mock_envp(void)
 	char	*env_logname = ft_strjoin("LOGNAME=", user);
 	char	*env_home = ft_strjoin("HOME=", getenv("HOME"));
 	char	*env_path = ft_strjoin("PATH=", getenv("PATH"));
-
+	
 	char	*envp[] = {
 		env_user,
 		env_logname,

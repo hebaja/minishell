@@ -40,6 +40,7 @@ int	cd_path(t_cmd *cmd_lst, t_env *env_lst, char *old_buf)
 	char	*pwd;
 	char	*old_pwd;
 
+
 	if (!change_dir(cmd_lst->args[1]))
 		return (0);
 	getcwd(new_buf, 256);

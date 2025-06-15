@@ -3,9 +3,9 @@
 export LD_LIBRARY_PATH=./criterion-2.4.2/lib:$LD_LIBRARY_PATH
 gcc -I \
 	./criterion-2.4.2/include \
-	minishell_test.c \
 	minishell_test_utils.c \
 	minishell_test_globals.c \
+	minishell_test.c \
 	minishell_test_builtin.c \
 	minishell_test_builtin_cd.c \
 	minishell_test_builtin_echo.c \
@@ -21,6 +21,7 @@ gcc -I \
 	minishell_test_token_join.c \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
+	minishell_test_exec_pipe.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
