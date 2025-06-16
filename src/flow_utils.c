@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flow_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/16 11:13:54 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/16 11:13:57 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 char	**split_path(t_ms *ms)
@@ -12,13 +24,29 @@ char	**split_path(t_ms *ms)
 	return (paths);
 }
 
-void    handle_sigint(int sig)
+int	sig_exit_status(int status)
+{
+	static int	status_exit = -1;
+	int			tmp;
+
+	if (status != -1)
+	{
+		status_exit = status;
+		return (0);
+	}
+	tmp = status_exit;
+	status_exit = -1;
+	return (tmp);
+}
+
+void	handle_sigint(int sig)
 {
 	(void)sig;
 	ft_printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	sig_exit_status(130);
 }
 
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)

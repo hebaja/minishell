@@ -9,7 +9,7 @@ void	wait_for_pids(t_ms *ms)
 	{
 		waitpid(cmd_curr->pid, &ms->status, 0);
 		char	*message;
-	
+
 		if (WIFEXITED(ms->status))
 		{
 			if (WEXITSTATUS(ms->status))

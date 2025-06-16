@@ -93,6 +93,7 @@ typedef struct	s_ms
 	int		is_exit;
 }	t_ms;
 
+int				sig_exit_status(int status);
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);
 int				token_lst_build(t_ms *ms);
 int				analyse_token_lst(t_ms *ms);

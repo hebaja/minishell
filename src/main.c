@@ -16,10 +16,16 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_ms			*ms;
 	unsigned char	status;
+	int				sig_status;
 
 	init_ms(&ms, argc, argv, envp);
+	sig_status = 0;
 	while (ms->input)
 	{
+		sig_status = sig_exit_status(-1);
+		if (sig_status != -1)
+			ms->status = sig_status;
+
 		ms->paths = split_path(ms);
 		if (ms->input)
 			add_history(ms->input);
@@ -41,5 +47,6 @@ int	main(int argc, char **argv, char **envp)
 	}
 	status = ms->status;
 	clean_all(ms);
+	ft_printf("exit\n");
 	return (status);
 }
