@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				cmd_lst_build(ms);
 				exec_cmd(ms);
-				if (ms->is_exit)
+				if (ms->is_exit || ms->input == NULL)
 					break ;
 			}
 			clean_prompt(ms);

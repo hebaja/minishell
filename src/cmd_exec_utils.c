@@ -49,7 +49,7 @@ void	exec_child_builtin(t_ms *ms, t_cmd *cmd, char **envp)
 {
 	exec_builtin(cmd, ms);
 	clean_all(ms);
-	clean_matrix(envp);
+	clean_matrix(&envp);
 	close(STDOUT_FILENO);
 	exit(EXIT_SUCCESS);
 }
@@ -58,6 +58,6 @@ void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp)
 {
 	execve(cmd->path, cmd->args, envp);
 	clean_all(ms);
-	clean_matrix(envp);
+	clean_matrix(&envp);
 	exit(127);
 }

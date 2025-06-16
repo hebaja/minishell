@@ -12,8 +12,18 @@ char	**split_path(t_ms *ms)
 	return (paths);
 }
 
+void    handle_sigint(int sig)
+{
+	(void)sig;
+	ft_printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
 {
+	signal(SIGINT, handle_sigint);
 	*ms = (t_ms *)malloc(sizeof(t_ms));
 	if (!ms)
 		exit(EXIT_FAILURE);
@@ -34,7 +44,7 @@ void	clean_prompt(t_ms *ms)
 		token_lst_clear(&ms->token_lst);
 	if (ms->cmd_lst)
 		cmd_lst_clear(&ms->cmd_lst);
-	if (ms->paths)
-		clean_matrix(ms->paths);
+	if (*ms->paths)
+		clean_matrix(&ms->paths);
 	ms->input = readline(TERMINAL_PROMPT);
 }

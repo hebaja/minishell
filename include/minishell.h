@@ -16,6 +16,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <signal.h>
 # include <errno.h>
 # include <sys/wait.h>
 # include <readline/readline.h>
@@ -136,7 +137,7 @@ void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
 char			**split_path(t_ms *ms);
 void			clean_prompt(t_ms *ms);
 void			clean_all(t_ms *ms);
-void			clean_matrix(char **paths);
+void			clean_matrix(char ***paths);
 int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
 void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *));
 void			cmd_lst_iterate(t_cmd *cmd_lst,	void (*func)(t_cmd *));
