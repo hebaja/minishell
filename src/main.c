@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/17 19:31:15 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:11:01 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ int	main(int argc, char **argv, char **envp)
 	}
 	status = ms->status;
 	if (ms->input == NULL)
+	{
 		ft_printf("exit");
+		return 0;
+	}
 	clean_all(ms);
 	return (status);
 }

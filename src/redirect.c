@@ -6,33 +6,12 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 19:46:08 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/11 21:03:34 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:58:50 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-static int 	create_heredoc(char *eof)
-{
-	char	*line;
-	int		fd[2];
-
-
-	pipe(fd);
-	signal(SIGINT, handling_contrl_heor);
-	line = readline(">");
-	while (line)
-	{
-		if (ft_strcmp(line, eof) == 0)
-			break;
-		if (line && line[0])
-			write(fd[1], line, ft_strlen(line));
-		write(fd[1],"\n", 1);
-		line = readline(">");
-	}
-	close(fd[1]);
-	return (fd[0]);
-}
 
 void	create_redirect(t_token **token_lst)
 {
@@ -53,8 +32,8 @@ void	create_redirect(t_token **token_lst)
 				close(fd_in);
 			if (current->type == REDIRECT_IN)
 				fd_in = open(current->next->value, O_RDONLY, 0644);
-			else
-				fd_in = create_heredoc(current->next->value);	
+			//else
+			//	fd_in = create_heredoc(current->next->value);	
 		}
 		else if ((current->type == REDIRECT_OUT || current->type == APPEND) && current->next)
 		{	

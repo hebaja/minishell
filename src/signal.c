@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:54:38 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/17 19:13:20 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:07:44 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void    handling_contrl_heor(int sig)
 {
 	if (sig == SIGINT)
 	{
-		ft_printf("\n");
 		exit_status(130);
 		exit(130);
 	}

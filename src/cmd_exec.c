@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:46:13 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/11 21:04:55 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 20:00:08 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,27 @@ void	set_child_exec_redi_mode(t_ms *ms, t_cmd *cmd_lst)
 		set_child_exec_mode(ms, cmd_lst, STDIN_FILENO, STDOUT_FILENO);
 }
 
+static int 	create_heredoc(char *eof)
+{
+	char	*line;
+	int		fd[2];
+
+
+	pipe(fd);
+	signal(SIGINT, handling_contrl_heor);
+	line = readline(">");
+	while (line)
+	{
+		if (ft_strcmp(line, eof) == 0)
+			break;
+		if (line && line[0])
+			write(fd[1], line, ft_strlen(line));
+		write(fd[1],"\n", 1);
+		line = readline(">");
+	}
+	close(fd[1]);
+	return (fd[0]);
+}
 
 int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
@@ -124,7 +145,11 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 		return (0);
 	}
 	if (pid == 0)
+	{
+		if (ms->token_lst->type == HEREDOC)
+			create_heredoc(ms->token_lst->next->value);
 		set_child_exec_redi_mode(ms, cmd_lst);
+	}
 	if (cmd_lst->is_piped)
 	{
 		close(cmd_lst->fds[0]);
