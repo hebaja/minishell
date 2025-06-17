@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:06:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/09 16:39:15 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:10:59 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ int	builtin_exit(t_cmd *cmd_lst)
 		else
 			exit_value = ft_atoi(cmd_lst->args[1]);
 	}
+	ft_printf("exit\n");
 	return (exit_value);
 }

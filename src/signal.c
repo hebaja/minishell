@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:54:38 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/09 18:25:02 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:13:20 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void    handling_contrl_heor(int sig)
 int    ft_signal(void)
 {
 	signal(SIGINT, handling_contrl);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 	return (0);
 }
 

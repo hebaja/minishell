@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 16:20:46 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/06/09 16:26:51 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:38:47 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ void	clean_matrix(char **paths)
 {
 	int	i;
 
+	if (!paths || !*paths+
+	)
+		return ;
 	i = -1;
 	while (paths[++i])
 		free(paths[i]);

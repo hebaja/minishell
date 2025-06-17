@@ -1,5 +1,5 @@
 CC=cc
-CC_FLAGS= -Wall -Wextra -Werror
+CC_FLAGS= -Wall -Wextra -Werror -g
 NAME=libft.a
 INC_DIR=include
 SRC_DIR=src
