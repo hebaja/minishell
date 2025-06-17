@@ -78,12 +78,12 @@ int	update_env_lst(char *value, t_env *env_lst)
 	return (1);
 }
 
-int	builtin_export(t_cmd *cmd_lst, t_env *env_lst)
+int	builtin_export(t_cmd *cmd, t_env *env_lst)
 {
-	if (!cmd_lst->args[1])
-		print_env_sort(env_lst);
+	if (!cmd->args[1])
+		print_env_sort(env_lst, cmd);
 	else
-		if (!update_env_lst(cmd_lst->args[1], env_lst))
+		if (!update_env_lst(cmd->args[1], env_lst))
 			return (BUILTIN_ERROR_STATUS);
 	return (BUILTIN_SUCCESS_STATUS);
 }

@@ -52,7 +52,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd, .init=
 	cr_assert_null(ms->token_lst->next);
 	usual_flow(ms);
 	chdir("/home");
-	builtin_pwd();
+	builtin_pwd(ms->cmd_lst);
 	cr_assert_stdout_eq_str("/home\n");
 }
 
@@ -68,7 +68,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_more, .
 	cr_assert_str_eq(ms->token_lst->value, "pwd");
 	usual_flow(ms);
 	chdir("/home");
-	builtin_pwd();
+	builtin_pwd(ms->cmd_lst);
 	cr_assert_stdout_eq_str("/home\n");
 }
 

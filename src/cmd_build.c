@@ -11,16 +11,69 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <fcntl.h>
 
 t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 {
 	t_cmd	*cmd;
+	int		offset;
+	t_token	*curr_token;
+	// int		fd_out;
+	size_t	i;
+	offset = 0;
+	i = 0;
+
+	curr_token = start_token;
+	while (i < cmd_size && curr_token)
+	{
+		if(is_redirect(curr_token) && curr_token->next)
+			offset += 2;
+		curr_token = curr_token->next;
+		i++;
+	}
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	cmd->args = split_token_value(start_token, cmd_size);
+	cmd->args = split_token_value(start_token, cmd_size - offset);
 	cmd->path = set_path(start_token, paths);
 	cmd->main_type = start_token->type;
 	cmd->next = NULL;
+
+
+	int	tmp_fd_out = -1;
+	int	tmp_fd_in = -1;
+	cmd->fd_out = STDOUT_FILENO;
+	cmd->fd_in = STDIN_FILENO;
+	curr_token = start_token;
+	while (cmd_size && curr_token)
+	{
+		if (curr_token->next && (curr_token->type == REDIRECT_OUT
+			|| curr_token->type == APPEND))
+		{
+			if (tmp_fd_out > -1)
+				close(tmp_fd_out);
+			if (curr_token->type == REDIRECT_OUT)
+				tmp_fd_out = open(curr_token->next->value, O_CREAT | O_WRONLY | O_TRUNC , 0644);
+			else
+				tmp_fd_out = open(curr_token->next->value, O_CREAT | O_WRONLY | O_APPEND , 0644);
+		}
+		if (curr_token->next && (curr_token->type == REDIRECT_IN
+			|| curr_token->type == HEREDOC))
+		{
+			if (tmp_fd_in > -1)
+				close(tmp_fd_in);
+			if (curr_token->type == REDIRECT_IN)
+				tmp_fd_in = open(curr_token->next->value, O_RDONLY , 0644);
+			else
+				tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
+			/* TODO build heredoc here */
+		}
+		cmd_size--;
+		curr_token = curr_token->next;
+	}
+	if (tmp_fd_out > -1)
+		cmd->fd_out = tmp_fd_out;
+	if (tmp_fd_in > -1)
+		cmd->fd_in = tmp_fd_in;
 	return (cmd);
 }
 

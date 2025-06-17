@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 				ms->status = 2;
 			else
 			{
+				// redirect(ms->token_lst);
 				cmd_lst_build(ms);
 				exec_cmd(ms);
 				if (ms->is_exit || ms->input == NULL)

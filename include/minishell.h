@@ -72,6 +72,8 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	int				fds[2];
+	int				fd_out;
+	int				fd_in;
 	int				pid;
 	int				is_piped;
 	int				is_end;
@@ -92,6 +94,9 @@ typedef struct	s_ms
 	int		status;
 	int		is_exit;
 }	t_ms;
+
+void	redirect(t_token *token_lst);
+int	is_redirect(t_token *token);
 
 int				sig_exit_status(int status);
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);
@@ -141,6 +146,7 @@ void			clean_all(t_ms *ms);
 void			clean_matrix(char ***paths);
 int				token_lst_iterate_check(t_token *token_lst, int (*func)(t_token *));
 void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst, void (*func)(t_token *, t_env *));
+void			print_env(t_env *env_lst, t_cmd *cmd);
 void			cmd_lst_iterate(t_cmd *cmd_lst,	void (*func)(t_cmd *));
 void			var_expansion(t_token **token_lst, t_env *env_lst);
 void			join_value(char *key, t_token *token, t_env *env_lst, int dolar_pos);
@@ -161,14 +167,14 @@ void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 int				builtin_cd(t_cmd *cmd_lst, t_env *env_lst);
 int				builtin_echo(t_cmd *cmd_lst);
-int				builtin_env(t_env *env_lst);
-int				builtin_pwd(void);
+int				builtin_env(t_env *env_lst, t_cmd *cmd);
+int				builtin_pwd(t_cmd *cmd_lst);
 int				builtin_export(t_cmd *cmd_lst, t_env *env_lst);
 int				builtin_unset(t_cmd *cmd_lst, t_env **env_lst);
 int				builtin_exit(t_cmd *cmd_lst, int curr_status);
 t_env			*extract_key_and_value(char **envp, char *searchequal, t_env *env_lst);
 t_env 			*build_env_lst(int argc, char **argv, char **envp);
-void			print_env_sort(t_env *env_lst);
+void			print_env_sort(t_env *env_lst, t_cmd *cmd);
 void			ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void			env_lst_remove_if(t_env **env_lst, char *value, int cmp(char *s1, char *s2));
 size_t			token_lst_size(t_token *token_lst);

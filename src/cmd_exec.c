@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <unistd.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {

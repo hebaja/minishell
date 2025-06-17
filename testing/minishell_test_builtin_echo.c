@@ -144,7 +144,7 @@ Test(minishell_test_suite_builtin_echo, test_echo_redirect_out)
 	usual_flow(ms);
 	builtin_echo(ms->cmd_lst);
 	test_lst(ms->token_lst, values, types);
-	cr_assert_stdout_eq_str("Hello\n");
+	cr_assert_stdout_eq_str("");
 }
 
 Test(minishell_test_suite_builtin_echo, test_echo_redirect_in)
@@ -174,7 +174,7 @@ Test(minishell_test_suite_builtin_echo, test_echo_append)
 	usual_flow(ms);
 	builtin_echo(ms->cmd_lst);
 	test_lst(ms->token_lst, values, types);
-	cr_assert_stdout_eq_str("Hello\n");
+	cr_assert_stdout_eq_str("");
 }
 
 Test(minishell_test_suite_builtin_echo, test_echo_heredoc)
