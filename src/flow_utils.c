@@ -39,18 +39,6 @@ int	sig_exit_status(int status)
 	return (tmp);
 }
 
-void	handle_sigint(int sig)
-{
-	// ft_printf("sigint triggered\n");
-
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-	sig_exit_status(130);
-}
-
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
 {
 	signal(SIGINT, handle_sigint);

@@ -8,6 +8,7 @@ valgrind.supp
 *.o
 *.a
 list.txt
+in
 out
 out1
 out2

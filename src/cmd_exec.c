@@ -32,6 +32,7 @@ void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 	}
 }
 
+
 void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 {
 	char	**envp;
@@ -50,13 +51,18 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 	if (is_builtin(cmd_lst->main_type))
 		exec_child_builtin(ms, cmd_lst, envp);
 	else
+	{
 		exec_child_execve(ms, cmd_lst, envp);
+	}
 }
+
 
 void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
 {
 	if (cmd_lst->is_single)
+	{
 		exec_child(ms, cmd_lst, STDIN_FILENO, STDOUT_FILENO);
+	}
 	else if (cmd_lst->is_piped && cmd_lst->is_end)
 	{
 		close_unused_fds(ms, cmd_lst->fds[0], STDOUT_FILENO);
@@ -79,6 +85,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 	int		pid;
 
 	pid = fork();
+	signal(SIGINT, handle_child_sigint);
 	if (pid < 0)
 	{
 		perror("Failed to fork processes");

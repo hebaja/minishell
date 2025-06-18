@@ -1,5 +1,54 @@
 #include "../include/minishell.h"
 
+void	set_redirect(t_token *curr_token, int *tmp_fd_out, int *tmp_fd_in)
+{
+	if (curr_token->next && (curr_token->type == REDIRECT_OUT
+		|| curr_token->type == APPEND))
+	{
+		if (*tmp_fd_out > -1)
+			close(*tmp_fd_out);
+		if (curr_token->type == REDIRECT_OUT)
+			*tmp_fd_out = open(curr_token->next->value, O_CREAT | O_WRONLY | O_TRUNC , 0644);
+		else
+			*tmp_fd_out = open(curr_token->next->value, O_CREAT | O_WRONLY | O_APPEND , 0644);
+	}
+	if (curr_token->next && (curr_token->type == REDIRECT_IN
+		|| curr_token->type == HEREDOC))
+	{
+		if (*tmp_fd_in > -1)
+			close(*tmp_fd_in);
+		if (curr_token->type == REDIRECT_IN)
+			*tmp_fd_in = open(curr_token->next->value, O_RDONLY , 0644);
+		else
+			*tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
+		/* TODO build heredoc here */
+	}
+}
+
+void	cmd_build_redirect(t_cmd *cmd, t_token *start_token, size_t cmd_size)
+{
+	int		tmp_fd_out;
+	int		tmp_fd_in;
+	t_token	*curr_token;
+	
+	tmp_fd_out = -1;
+	tmp_fd_in = -1;
+	cmd->fd_out = STDOUT_FILENO;
+	cmd->fd_in = STDIN_FILENO;
+	curr_token = start_token;
+	while (cmd_size && curr_token)
+	{
+		set_redirect(curr_token, &tmp_fd_out, &tmp_fd_in);
+		cmd_size--;
+		curr_token = curr_token->next;
+	}
+	if (tmp_fd_out > -1)
+		cmd->fd_out = tmp_fd_out;
+	if (tmp_fd_in > -1)
+		cmd->fd_in = tmp_fd_in;
+}
+
+/*
 int	is_not_redirect(t_token *token)
 {
 	if (token->type != REDIRECT_OUT && token->type != REDIRECT_IN
@@ -40,3 +89,4 @@ void	redirect(t_token *token_lst)
 {
 	ft_printf("%d\n", check_redirect(token_lst));
 }
+*/
