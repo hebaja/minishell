@@ -128,6 +128,10 @@ void	clean_test(void)
 	if (ms)
 		free(ms);
 	ms = NULL;
+	unlink(">");
+	unlink("<");
+	unlink("|");
+	unlink("out");
 }
 
 void	clean_split_path(char **paths)

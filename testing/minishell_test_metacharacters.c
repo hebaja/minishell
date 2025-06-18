@@ -81,6 +81,7 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_1)
 	cr_assert_eq(ms->token_lst->type, BUILTIN_ECHO);
 	cr_assert_eq(ms->token_lst->next->type, REDIRECT_OUT);
 	cr_assert_eq(ms->token_lst->next->next->type, WORD);
+	unlink("file");
 }
 
 Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_1)
@@ -97,6 +98,7 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_1)
 	cr_assert_eq(ms->token_lst->type, BUILTIN_ECHO);
 	cr_assert_eq(ms->token_lst->next->type, REDIRECT_OUT);
 	cr_assert_eq(ms->token_lst->next->next->type, WORD);
+	unlink("file");
 }
 
 Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_2)
@@ -113,6 +115,7 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_2)
 	cr_assert_eq(ms->token_lst->type, BUILTIN_ECHO);
 	cr_assert_eq(ms->token_lst->next->type, APPEND);
 	cr_assert_eq(ms->token_lst->next->next->type, WORD);
+	unlink("file");
 }
 
 Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
@@ -133,6 +136,7 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
 	cr_assert_eq(ms->token_lst->next->next->type, WORD);
 	cr_assert_eq(ms->token_lst->next->next->next->type, REDIRECT_OUT);
 	cr_assert_eq(ms->token_lst->next->next->next->next->type, WORD);
+	unlink("file");
 }
 
 Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_2)
@@ -153,4 +157,5 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_2)
 	cr_assert_eq(ms->token_lst->next->next->type, WORD);
 	cr_assert_eq(ms->token_lst->next->next->next->type, REDIRECT_OUT);
 	cr_assert_eq(ms->token_lst->next->next->next->next->type, WORD);
+	unlink("file");
 }

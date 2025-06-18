@@ -41,7 +41,7 @@ Test(minishell_test_exec_pipe, pipe_builtin_test_2)
 	exec_cmd(ms);
 	cr_assert_stdout_eq_str("1\n");
 }
-/*
+
 Test(minishell_test_exec_pipe, exec_pipe_1)
 {
 	char	*input = "file --help | grep raw | awk '{print $2}'";
@@ -53,7 +53,7 @@ Test(minishell_test_exec_pipe, exec_pipe_1)
 	exec_cmd(ms);
 	cr_assert_stdout_eq_str("--raw\n");
 }
-*/
+
 Test(minishell_test_exec_pipe_error, exec_not_found, .init=init_test_redirect_stderr, .fini=clean_test)
 {
 	char	*input = "jkd";

@@ -97,6 +97,7 @@ typedef struct	s_ms
 
 void	redirect(t_token *token_lst);
 int	is_redirect(t_token *token);
+void	handle_sigint(int sig);
 
 int				sig_exit_status(int status);
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);

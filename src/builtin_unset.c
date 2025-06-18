@@ -12,7 +12,6 @@
 
 #include "../include/minishell.h"
 
-
 int	builtin_unset(t_cmd *cmd_lst, t_env **env_lst)
 {
 	if (cmd_lst->args[1]

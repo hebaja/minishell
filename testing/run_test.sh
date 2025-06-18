@@ -42,6 +42,7 @@ gcc -I \
 	../src/builtin_export.c \
 	../src/builtin_unset.c \
 	../src/builtin_exit.c \
+	../src/builtin_echo.c \
 	../src/clean_utils.c \
 	../src/cmd_build.c \
 	../src/cmd_utils.c \

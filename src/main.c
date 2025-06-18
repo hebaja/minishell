@@ -25,7 +25,6 @@ int	main(int argc, char **argv, char **envp)
 		sig_status = sig_exit_status(-1);
 		if (sig_status != -1)
 			ms->status = sig_status;
-
 		ms->paths = split_path(ms);
 		if (ms->input)
 			add_history(ms->input);

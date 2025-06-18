@@ -41,6 +41,8 @@ int	sig_exit_status(int status)
 
 void	handle_sigint(int sig)
 {
+	// ft_printf("sigint triggered\n");
+
 	(void)sig;
 	ft_printf("\n");
 	rl_on_new_line();

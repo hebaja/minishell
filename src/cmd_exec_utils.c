@@ -10,6 +10,11 @@ void	wait_for_pids(t_ms *ms)
 		waitpid(cmd_curr->pid, &ms->status, 0);
 		char	*message;
 
+		if (WIFSIGNALED(ms->status))
+		{
+			ft_printf("-> %d\n", ms->status);
+		}
+
 		if (WIFEXITED(ms->status))
 		{
 			if (WEXITSTATUS(ms->status))
@@ -49,7 +54,7 @@ void	close_fds_parent(t_ms *ms)
 	}
 }
 
-void	close_redirect_fds(t_cmd *cmd_lst)
+void	close_redirect_all_fds(t_cmd *cmd_lst)
 {
 	while (cmd_lst)
 	{
@@ -64,7 +69,7 @@ void	close_redirect_fds(t_cmd *cmd_lst)
 void	exec_child_builtin(t_ms *ms, t_cmd *cmd, char **envp)
 {
 	exec_builtin(cmd, ms);
-	close_redirect_fds(ms->cmd_lst);
+	close_redirect_all_fds(ms->cmd_lst);
 	clean_all(ms);
 	clean_matrix(&envp);
 	close(STDOUT_FILENO);
@@ -86,7 +91,7 @@ void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp)
 		close(cmd->fd_in);
 		cmd->fd_in = -1;
 	}
-	close_redirect_fds(ms->cmd_lst);
+	close_redirect_all_fds(ms->cmd_lst);
 	execve(cmd->path, cmd->args, envp);
 	clean_all(ms);
 	clean_matrix(&envp);
