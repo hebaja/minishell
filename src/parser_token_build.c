@@ -12,7 +12,8 @@
 
 #include "../include/minishell.h"
 
-t_token	*token_build(char **abs_value, char *value_start, size_t size)
+t_token	*token_build(char **abs_value, char *value_start,
+	size_t size, int is_start)
 {
 	t_token	*token;
 	char	*value;
@@ -20,7 +21,7 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 	int		is_join;
 
 	quote = 0;
-	is_join = is_word_join(abs_value);
+	is_join = is_word_join(abs_value, is_start);
 	token = (t_token *)malloc(sizeof(t_token));
 	value = (char *)malloc(sizeof(char) * (size + 1));
 	if (!token || !value)
@@ -31,9 +32,10 @@ t_token	*token_build(char **abs_value, char *value_start, size_t size)
 		value_start++;
 	}
 	ft_strlcpy(value, value_start, size + 1);
-	token->type = define_type(value, quote, is_join);
-	set_extra_meta_chars(token, value_start, quote, is_join);
+	token->type = define_type(value, quote);
+	set_extra_meta_chars(token, value_start, quote);
 	token->value = value;
+	token->join = is_join;
 	token->next = NULL;
 	*abs_value = (*abs_value) + size;
 	return (token);
@@ -48,14 +50,14 @@ int	append_token(t_token **token_lst, char **value,
 	{
 		if (token_lst == NULL || *token_lst == NULL)
 		{
-			token = token_build(value, value_start, size);
+			token = token_build(value, value_start, size, 1);
 			if (!token)
 				return (0);
 			*token_lst = token;
 		}
 		else
 		{
-			token = token_build(value, value_start, size);
+			token = token_build(value, value_start, size, 0);
 			if (!token)
 			{
 				token_lst_clear(token_lst);
@@ -64,34 +66,6 @@ int	append_token(t_token **token_lst, char **value,
 			token_lst_add_back(token_lst, token);
 		}
 	}
-	return (1);
-}
-
-int	regular_mode(t_token **token_lst, char **value, char *value_start, int i)
-{
-	char	quote;
-
-	quote = 0;
-	while ((*value)[i] && !is_metacharacter((*value)[i]) && !is_dolar(*value))
-	{
-		if (!quote && ft_isspace((*value)[i]))
-			break ;
-		else if (quote && (*value)[i] == quote)
-		{
-			i++;
-			break ;
-		}
-		else if ((*value)[i] == '\'' || (*value)[i] == '\"')
-			quote = (*value)[i];
-		i++;
-		if (quote && !(*value)[i])
-		{
-			ft_putstr_fd("Unclosed quotes\n", 2);
-			return (0);
-		}
-	}
-	if (!append_token(token_lst, value, value_start, i))
-		return (0);
 	return (1);
 }
 
@@ -119,25 +93,23 @@ int	default_build(t_token **token_lst,
 	return (1);
 }
 
-int	token_lst_build(t_token **token_lst, char *value)
+int	iterate_and_append(t_ms *ms, char *value_start, char *value)
 {
-	size_t		i;
-	char		*value_start;
+	int	i;
 
 	i = 0;
-	value_start = value;
 	while (value[i])
 	{
 		if (value[i] && (is_metacharacter(value[i])))
 		{
 			while (i < 2 && (is_metacharacter(value[i])))
 				i++;
-			if (!append_token(token_lst, &value, value_start, i))
+			if (!append_token(&ms->token_lst, &value, value_start, i))
 				return (0);
 		}
 		else
 		{
-			if (!default_build(token_lst, &value, value_start, i))
+			if (!default_build(&ms->token_lst, &value, value_start, i))
 				return (0);
 		}
 		while (value && ft_isspace(*value))
@@ -145,5 +117,17 @@ int	token_lst_build(t_token **token_lst, char *value)
 		value_start = value;
 		i = 0;
 	}
+	return (1);
+}
+
+int	token_lst_build(t_ms *ms)
+{
+	char		*value_start;
+	char		*value;
+
+	value_start = ms->input;
+	value = ms->input;
+	if (!iterate_and_append(ms, value_start, value))
+		return (0);
 	return (1);
 }
