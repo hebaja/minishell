@@ -65,7 +65,6 @@ void	set_redirect(t_ms *ms, t_token *curr_token, int *tmp_fd_out, int *tmp_fd_in
 			*tmp_fd_in = open(curr_token->next->value, O_RDONLY , 0644);
 		else
 			*tmp_fd_in = create_heredoc(ms, curr_token->next->value);
-			// *tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
 	}
 }
 
@@ -91,46 +90,3 @@ void	cmd_build_redirect(t_ms *ms, t_cmd *cmd, t_token *start_token, size_t cmd_s
 	if (tmp_fd_in > -1)
 		cmd->fd_in = tmp_fd_in;
 }
-
-/*
-int	is_not_redirect(t_token *token)
-{
-	if (token->type != REDIRECT_OUT && token->type != REDIRECT_IN
-		&& token->type != APPEND && token->type && token->type != PIPE)
-		return (1);
-	return (0);
-		
-}
-
-int	is_redir(t_token *token_lst)
-{
-	if (token_lst->type == REDIRECT_OUT || token_lst->type == REDIRECT_IN)
-	{
-		if (token_lst->next && ft_strlen(token_lst->value) == 1
-			&& is_not_redirect(token_lst->next))
-			return (1);
-		return (-1);
-	}
-	if (token_lst->type == HEREDOC || token_lst->type == APPEND)
-	{
-		if (token_lst->next && ft_strlen(token_lst->value) == 2
-			&& is_not_redirect(token_lst->next))
-			return (1);
-		return (-1);
-	}
-	return (0);
-}
-
-int	check_redirect(t_token *token_lst)
-{
-	int	res;
-
-	res = token_lst_iterate_check(token_lst, is_redir);
-	return (res);
-}
-
-void	redirect(t_token *token_lst)
-{
-	ft_printf("%d\n", check_redirect(token_lst));
-}
-*/
