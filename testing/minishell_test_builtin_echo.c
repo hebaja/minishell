@@ -180,6 +180,8 @@ Test(minishell_test_suite_builtin_echo, test_echo_append)
 Test(minishell_test_suite_builtin_echo, test_echo_heredoc)
 {
 	char	*input = "echo Hello << out";
+
+	mock_input("Hello\nout\n");
 	
 	ms->input = input;
 	values = ft_split(input, ' ');
@@ -189,5 +191,5 @@ Test(minishell_test_suite_builtin_echo, test_echo_heredoc)
 	usual_flow(ms);
 	builtin_echo(ms->cmd_lst);
 	test_lst(ms->token_lst, values, types);
-	cr_assert_stdout_eq_str("Hello\n");
+	cr_assert_stdout_eq_str("> Hello\n> out\nHello\n");
 }

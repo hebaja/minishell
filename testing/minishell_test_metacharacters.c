@@ -118,10 +118,11 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_echo_2)
 	unlink("file");
 }
 
-Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
+Test(minishell_test_suite_metacharacters_stdout, test_mix_metacharacters_cat_1, .init=init_test_redirect_stdout_stderr, .fini=clean_test)
 {
 	char	*input = "cat << EOF > file";
 
+	mock_input("Hello\nWorld\nEOF\n");
 	ms->input = input;
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);
@@ -139,10 +140,11 @@ Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_1)
 	unlink("file");
 }
 
-Test(minishell_test_suite_metacharacters, test_mix_metacharacters_cat_2)
+Test(minishell_test_suite_metacharacters_stdout, test_mix_metacharacters_cat_2, .init=init_test_redirect_stdout_stderr, .fini=clean_test)
 {
 	char	*input = "cat<<EOF>file";
 
+	mock_input("Hello\nWorld\nEOF\n");
 	ms->input = input;
 	res = token_lst_build(ms);
 	cr_assert_eq(res, 1);

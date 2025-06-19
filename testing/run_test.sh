@@ -5,14 +5,15 @@ gcc -I \
 	./criterion-2.4.2/include \
 	minishell_test_utils.c \
 	minishell_test_globals.c \
-	minishell_test.c \
 	minishell_test_builtin.c \
 	minishell_test_builtin_cd.c \
 	minishell_test_builtin_echo.c \
+	minishell_test_builtin_exit.c \
 	minishell_test_builtin_export.c \
 	minishell_test_builtin_unset.c \
-	minishell_test_builtin_exit.c \
+	minishell_test.c \
 	minishell_test_cmd.c \
+	minishell_test_exec_pipe.c \
 	minishell_test_extra_meta.c \
 	minishell_test_metacharacters.c \
 	minishell_test_quote.c \
@@ -21,7 +22,6 @@ gcc -I \
 	minishell_test_token_join.c \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
-	minishell_test_exec_pipe.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
@@ -51,11 +51,14 @@ gcc -I \
 	../src/cmd_exec.c \
 	../src/cmd_exec_utils.c \
 	../src/iterate_utils.c \
+	../src/flow_utils.c \
+	../src/signal_utils.c \
+	../src/redirect.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
 	-lcriterion \
-	-o tests
+	-o tests -lreadline
 
 
 if [ $? -ne 0 ]; then

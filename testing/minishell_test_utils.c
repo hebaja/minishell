@@ -109,6 +109,13 @@ void	init_test_redirect_stdout(void)
 	redirect_stdout();
 }
 
+void	init_test_redirect_stdout_stderr(void)
+{
+	init_test();
+	redirect_stdout();
+	redirect_stderr();
+}
+
 void	init_test_alloc_mem(void)
 {
 	init_test();
@@ -364,6 +371,17 @@ void wait_for_pids_test(t_ms *ms)
 		}
 		cmd_curr = cmd_curr->next;
 	}
+}
+
+void	mock_input(char *input)
+{
+	int pipe_fd[2];
+
+    pipe(pipe_fd);
+    write(pipe_fd[1], input, ft_strlen(input));
+    close(pipe_fd[1]);
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]);
 }
 
 void	usual_flow(t_ms *ms)
