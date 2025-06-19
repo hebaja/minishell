@@ -10,10 +10,6 @@ void	wait_for_pids(t_ms *ms)
 		waitpid(cmd_curr->pid, &ms->status, 0);
 		char	*message;
 
-		// if (WIFSIGNALED(ms->status))
-		// {
-		// 	ft_printf("-> %d\n", ms->status);
-		// }
 
 		if (WIFEXITED(ms->status))
 		{

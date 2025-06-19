@@ -32,7 +32,6 @@ void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 	}
 }
 
-
 void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 {
 	char	**envp;
@@ -51,9 +50,7 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 	if (is_builtin(cmd_lst->main_type))
 		exec_child_builtin(ms, cmd_lst, envp);
 	else
-	{
 		exec_child_execve(ms, cmd_lst, envp);
-	}
 }
 
 
@@ -84,8 +81,8 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
 	int		pid;
 
-	pid = fork();
 	signal(SIGINT, handle_child_sigint);
+	pid = fork();
 	if (pid < 0)
 	{
 		perror("Failed to fork processes");
@@ -109,6 +106,11 @@ void	exec_cmd(t_ms *ms)
 			ms->is_exit = 1;
 		return ;
 	}
+	if (cmd_curr->main_type == HEREDOC)
+	{
+		close(cmd_curr->fd_in);
+		return ;
+	}
 	while (cmd_curr)
 	{
 		prep_child_exec(ms, cmd_curr);
@@ -116,4 +118,5 @@ void	exec_cmd(t_ms *ms)
 	}
 	close_fds_parent(ms);
 	wait_for_pids(ms);
+	signal(SIGINT, handle_sigint);
 }

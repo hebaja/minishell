@@ -1,6 +1,50 @@
 #include "../include/minishell.h"
 
-void	set_redirect(t_token *curr_token, int *tmp_fd_out, int *tmp_fd_in)
+int 	create_heredoc(t_ms *ms, char *eof)
+{
+	char	*line;
+	int		pid;
+	int		fd[2];
+	int		status;
+	
+	signal(SIGINT, SIG_IGN);
+	if (pipe(fd) < 0)
+	{
+		perror("Failed to create heredoc pipe");
+		return (0);
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("Failed to fork heredoc processes");
+		return (0);
+	}
+	if (pid == 0)
+	{
+		signal(SIGINT, handle_heredoc_sigint);
+		close(fd[0]);
+		line = readline("> ");
+		while (line)
+		{
+			if (ft_strcmp(line, eof) == 0)
+				break;
+			if (line && line[0])
+				write(fd[1], line, ft_strlen(line));
+			write(fd[1],"\n", 1);
+			line = readline("> ");
+		}
+		close(fd[1]);
+		close_redirect_all_fds(ms->cmd_lst);
+		clean_all(ms);
+		exit(EXIT_SUCCESS);
+	}
+	close(fd[1]);
+	waitpid(pid, &status, 0);
+	signal(SIGINT, handle_sigint);
+	return (fd[0]);
+}
+
+void	set_redirect(t_ms *ms, t_token *curr_token, int *tmp_fd_out, int *tmp_fd_in)
 {
 	if (curr_token->next && (curr_token->type == REDIRECT_OUT
 		|| curr_token->type == APPEND))
@@ -20,12 +64,12 @@ void	set_redirect(t_token *curr_token, int *tmp_fd_out, int *tmp_fd_in)
 		if (curr_token->type == REDIRECT_IN)
 			*tmp_fd_in = open(curr_token->next->value, O_RDONLY , 0644);
 		else
-			*tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
-		/* TODO build heredoc here */
+			*tmp_fd_in = create_heredoc(ms, curr_token->next->value);
+			// *tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
 	}
 }
 
-void	cmd_build_redirect(t_cmd *cmd, t_token *start_token, size_t cmd_size)
+void	cmd_build_redirect(t_ms *ms, t_cmd *cmd, t_token *start_token, size_t cmd_size)
 {
 	int		tmp_fd_out;
 	int		tmp_fd_in;
@@ -38,7 +82,7 @@ void	cmd_build_redirect(t_cmd *cmd, t_token *start_token, size_t cmd_size)
 	curr_token = start_token;
 	while (cmd_size && curr_token)
 	{
-		set_redirect(curr_token, &tmp_fd_out, &tmp_fd_in);
+		set_redirect(ms, curr_token, &tmp_fd_out, &tmp_fd_in);
 		cmd_size--;
 		curr_token = curr_token->next;
 	}

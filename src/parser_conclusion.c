@@ -3,7 +3,8 @@
 int	is_redirect(t_token *token)
 {
 	if (token->type == REDIRECT_OUT || token->type == REDIRECT_IN
-		|| token->type == APPEND || token->type == PIPE)
+		|| token->type == APPEND || token->type == PIPE
+		|| token->type == HEREDOC)
 		return (1);
 	return (0);		
 }

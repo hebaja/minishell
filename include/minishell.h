@@ -99,7 +99,9 @@ void	redirect(t_token *token_lst);
 int	is_redirect(t_token *token);
 void	handle_sigint(int sig);
 void	handle_child_sigint(int sig);
-void	cmd_build_redirect(t_cmd *cmd, t_token *start_token, size_t cmd_size);
+void	handle_heredoc_sigint(int sig);
+void	cmd_build_redirect(t_ms *ms, t_cmd *cmd, t_token *start_token, size_t cmd_size);
+void	close_redirect_all_fds(t_cmd *cmd_lst);
 
 int				sig_exit_status(int status);
 void			init_ms(t_ms **ms, int argc, char **argv, char **envp);

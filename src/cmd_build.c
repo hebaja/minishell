@@ -12,8 +12,6 @@
 
 #include "../include/minishell.h"
 
-
-
 t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 {
 	t_cmd	*cmd;
@@ -36,7 +34,6 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 	cmd->path = set_path(start_token, paths);
 	cmd->main_type = start_token->type;
 	cmd->next = NULL;
-	cmd_build_redirect(cmd, start_token, cmd_size);
 	return (cmd);
 }
 
@@ -58,6 +55,7 @@ int	add_cmd(t_ms *ms, t_token *start_token, size_t cmd_size)
 			return (0);
 		cmd_lst_add_back(&ms->cmd_lst, new_cmd);
 	}
+	cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
 	return (1);
 }
 

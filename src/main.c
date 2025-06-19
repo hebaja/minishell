@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **envp)
 					break ;
 			}
 			clean_prompt(ms);
+			signal(SIGINT, handle_sigint);
 		}
 	}
 	status = ms->status;
