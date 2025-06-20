@@ -30,7 +30,7 @@ gcc -I \
 	../src/var_expansion_utils.c \
 	../src/env_build.c \
 	../src/env_utils.c \
-	../src/env_print_sort.c \
+	../src/env_print.c \
 	../src/quote_removal.c \
 	../src/token_define.c \
 	../src/token_joining.c \
@@ -51,7 +51,6 @@ gcc -I \
 	../src/cmd_exec.c \
 	../src/cmd_exec_utils.c \
 	../src/iterate_utils.c \
-	../src/flow_utils.c \
 	../src/signal_utils.c \
 	../src/redirect.c \
 	../src/parser_token_debug.c \
@@ -59,7 +58,6 @@ gcc -I \
 	-L ./criterion-2.4.2/lib \
 	-lcriterion \
 	-o tests -lreadline
-
 
 if [ $? -ne 0 ]; then
     echo "❌ Compilation failed"

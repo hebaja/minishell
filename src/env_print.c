@@ -16,13 +16,12 @@ void	print_env(t_env *env_lst, t_cmd *cmd)
 {
 	ft_putstr_fd(env_lst->key, cmd->fd_out);
 	ft_putstr_fd("=", cmd->fd_out);
-	ft_putstr_fd(env_lst->value, cmd->fd_out);
-	ft_putstr_fd("\n", cmd->fd_out);
+	ft_putendl_fd(env_lst->value, cmd->fd_out);
 }
 
 int	env_lst_size(t_env *lst)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (lst)
@@ -38,6 +37,12 @@ void	reset_env_printed(t_env *env_lst)
 	env_lst->printed = 0;
 }
 
+/*
+ * TODO function removed from line 13. Check if necessary
+	if (!lst->next)
+		return ;
+*/	
+
 void	print_env_sort(t_env *lst, t_cmd *cmd)
 {
 	t_env	*start;
@@ -46,8 +51,6 @@ void	print_env_sort(t_env *lst, t_cmd *cmd)
 
 	start = lst;
 	size = env_lst_size(lst);
-	if (!lst->next)
-		return ;
 	while (size)
 	{
 		while (lst->printed == 1)
@@ -59,7 +62,7 @@ void	print_env_sort(t_env *lst, t_cmd *cmd)
 				lst = tmp;
 			tmp = tmp->next;
 		}
-		ft_printf("%s=%s\n",lst->key, lst->value);
+		ft_printf("%s=%s\n", lst->key, lst->value);
 		print_env(lst, cmd);
 		lst->printed = 1;
 		lst = start;

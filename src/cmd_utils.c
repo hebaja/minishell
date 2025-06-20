@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
- t_cmd	*cmd_lst_last(t_cmd *cmd_lst)
+t_cmd	*cmd_lst_last(t_cmd *cmd_lst)
 {
 	while (cmd_lst)
 	{

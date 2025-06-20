@@ -66,3 +66,24 @@ void	clean_prompt(t_ms *ms)
 		clean_matrix(&ms->paths);
 	ms->input = readline(TERMINAL_PROMPT);
 }
+
+int	run_minishell(t_ms *ms)
+{
+	if (!token_lst_build(ms) || !ms->token_lst)
+		clean_prompt(ms);
+	else
+	{
+		if (!analyse_token_lst(ms))
+			ms->status = 2;
+		else
+		{
+			cmd_lst_build(ms);
+			exec_cmd(ms);
+			if (ms->is_exit || ms->input == NULL)
+				return (0);
+		}
+		clean_prompt(ms);
+		signal(SIGINT, handle_sigint);
+	}
+	return (1);
+}

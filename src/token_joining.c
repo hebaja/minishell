@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_joining.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 20:32:38 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 20:32:40 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-int	cmp(t_token_type a, t_token_type b)
+int	cmp_token_type(t_token_type a, t_token_type b)
 {
 	if (a == b)
 		return (1);

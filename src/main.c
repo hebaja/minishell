@@ -22,29 +22,13 @@ int	main(int argc, char **argv, char **envp)
 	sig_status = 0;
 	while (ms->input)
 	{
+		add_history(ms->input);
 		sig_status = sig_exit_status(-1);
+		ms->paths = split_path(ms);
 		if (sig_status != -1)
 			ms->status = sig_status;
-		ms->paths = split_path(ms);
-		if (ms->input)
-			add_history(ms->input);
-		if (!token_lst_build(ms) || !ms->token_lst)
-			clean_prompt(ms);
-		else
-		{
-			if (!analyse_token_lst(ms))
-				ms->status = 2;
-			else
-			{
-				// redirect(ms->token_lst);
-				cmd_lst_build(ms);
-				exec_cmd(ms);
-				if (ms->is_exit || ms->input == NULL)
-					break ;
-			}
-			clean_prompt(ms);
-			signal(SIGINT, handle_sigint);
-		}
+		if (!run_minishell(ms))
+			break ;
 	}
 	status = ms->status;
 	clean_all(ms);

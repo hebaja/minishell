@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 19:46:31 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 19:46:36 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	change_dir(char *path)
@@ -40,7 +52,6 @@ int	cd_path(t_cmd *cmd_lst, t_env *env_lst, char *old_buf)
 	char	*pwd;
 	char	*old_pwd;
 
-
 	if (!change_dir(cmd_lst->args[1]))
 		return (0);
 	getcwd(new_buf, 256);
@@ -67,7 +78,7 @@ int	builtin_cd(t_cmd *cmd_lst, t_env *env_lst)
 	}
 	else
 	{
-		ft_putstr_fd("chdir: too many arguments\n", 2);
+		ft_putendl_fd("chdir: too many arguments", 2);
 		return (BUILTIN_ERROR_STATUS);
 	}
 	return (BUILTIN_SUCCESS_STATUS);

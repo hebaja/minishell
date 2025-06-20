@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   var_expansion_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 20:34:05 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 20:34:07 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	find_dolar_pos(t_token *token_lst)
@@ -43,7 +55,7 @@ void	join_value(char *key, t_token *token, t_env *env_lst, int dolar_pos)
 	free(token->value);
 	token->value = new_str;
 }
-	
+
 char	*extract_var_key(t_token *token, int dolar_pos)
 {
 	int		i;

@@ -20,6 +20,7 @@ char	*build_env_sp(t_env *env);
 char	**split_env(t_env *env_lst);
 void	print_env(t_env *env_lst, t_cmd *cmd);
 void	print_env_sort(t_env *env_lst, t_cmd *cmd);
+void	ft_lstadd_back_env(t_env **env_head, t_env *new_node);
 void	env_lst_remove_if(t_env **env_lst, char *value,
 			int cmp(char *s1, char *s2));
 void	env_lst_iterate(t_env *env_lst, void (*f)(t_env *env_lst));

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_conclusion.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 19:49:49 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 19:49:52 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int	is_redirect(t_token *token)
@@ -6,7 +18,7 @@ int	is_redirect(t_token *token)
 		|| token->type == APPEND || token->type == PIPE
 		|| token->type == HEREDOC)
 		return (1);
-	return (0);		
+	return (0);
 }
 
 int	redirect_validate(t_token *token_lst)
@@ -19,7 +31,7 @@ int	redirect_validate(t_token *token_lst)
 			if (!token_lst->next || ft_strlen(token_lst->value) != 1
 				|| is_redirect(token_lst->next))
 			{
-				ft_putstr_fd("Syntax error\n", 2);
+				ft_putendl_fd("Syntax error", 2);
 				return (0);
 			}
 		}
@@ -28,7 +40,7 @@ int	redirect_validate(t_token *token_lst)
 			if (!token_lst->next || ft_strlen(token_lst->value) != 2
 				|| is_redirect(token_lst->next))
 			{
-				ft_putstr_fd("Syntax error\n", 2);
+				ft_putendl_fd("Syntax error", 2);
 				return (0);
 			}
 		}
@@ -43,7 +55,7 @@ int	check_token_integrity(t_token *token_lst)
 	{
 		if (token_lst->value == NULL)
 		{
-			ft_putstr_fd("Problem building tokens\n", 2);
+			ft_putendl_fd("Problem building tokens", 2);
 			return (0);
 		}
 		token_lst = token_lst->next;

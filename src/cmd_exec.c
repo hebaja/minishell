@@ -53,13 +53,10 @@ void	exec_child(t_ms *ms, t_cmd *cmd_lst, int fd_input, int fd_output)
 		exec_child_execve(ms, cmd_lst, envp);
 }
 
-
 void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
 {
 	if (cmd_lst->is_single)
-	{
 		exec_child(ms, cmd_lst, STDIN_FILENO, STDOUT_FILENO);
-	}
 	else if (cmd_lst->is_piped && cmd_lst->is_end)
 	{
 		close_unused_fds(ms, cmd_lst->fds[0], STDOUT_FILENO);
@@ -70,10 +67,10 @@ void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
 		close_unused_fds(ms, cmd_lst->fds[0], cmd_lst->next->fds[1]);
 		exec_child(ms, cmd_lst, cmd_lst->fds[0], cmd_lst->next->fds[1]);
 	}
-	else 
+	else
 	{
 		close_unused_fds(ms, STDIN_FILENO, cmd_lst->next->fds[1]);
-		exec_child(ms, cmd_lst, STDIN_FILENO , cmd_lst->next->fds[1]);
+		exec_child(ms, cmd_lst, STDIN_FILENO, cmd_lst->next->fds[1]);
 	}
 }
 

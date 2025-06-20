@@ -14,17 +14,17 @@
 
 t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 {
-	t_cmd	*cmd;
-	int		offset;
 	t_token	*curr_token;
 	size_t	i;
-	offset = 0;
-	
+	t_cmd	*cmd;
+	int		offset;
+
 	i = 0;
+	offset = 0;
 	curr_token = start_token;
 	while (i < cmd_size && curr_token)
 	{
-		if(is_redirect(curr_token) && curr_token->next)
+		if (is_redirect(curr_token) && curr_token->next)
 			offset += 2;
 		curr_token = curr_token->next;
 		i++;
@@ -112,7 +112,7 @@ int	cmd_lst_build(t_ms *ms)
 	{
 		if (current_token->type == PIPE && current_token->next)
 		{
-			if(!add_cmd(ms, st_token, size) || !st_md_cmd(&ms->cmd_lst, piped))
+			if (!add_cmd(ms, st_token, size) || !st_md_cmd(&ms->cmd_lst, piped))
 				return (0);
 			st_token = current_token->next;
 			size = -1;
@@ -121,7 +121,7 @@ int	cmd_lst_build(t_ms *ms)
 		current_token = current_token->next;
 		size++;
 	}
-	if(!add_cmd(ms, st_token, size) || !end_cmd(&ms->cmd_lst, piped))
+	if (!add_cmd(ms, st_token, size) || !end_cmd(&ms->cmd_lst, piped))
 		return (0);
 	return (1);
 }

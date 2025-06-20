@@ -26,7 +26,7 @@ void	remove_quotes(t_token *token)
 	char	*new_value;
 	size_t	value_len;
 
-	if ((token->type == WORD) 
+	if ((token->type == WORD)
 		&& there_is_quote(token->value))
 	{
 		i = -1;

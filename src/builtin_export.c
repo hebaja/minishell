@@ -16,7 +16,7 @@ int	create_env_node(t_env *env_lst, char **var_val)
 {
 	t_env	*env_node;
 
-	env_node =  malloc(sizeof(t_env));
+	env_node = malloc(sizeof(t_env));
 	if (!env_node)
 		return (0);
 	env_node->key = ft_strdup(var_val[0]);
@@ -33,10 +33,10 @@ int	add_to_env_lst(t_env *env_lst, char **var_val)
 {
 	if (var_val[1])
 	{
-		env_lst_remove_if(&env_lst, var_val[0], compare);
+		env_lst_remove_if(&env_lst, var_val[0], cmp_key_str);
 		if (!create_env_node(env_lst, var_val))
 		{
-			ft_putstr_fd("Export failed\n", 2);
+			ft_putendl_fd("Export failed", 2);
 			return (0);
 		}
 	}
@@ -46,7 +46,7 @@ int	add_to_env_lst(t_env *env_lst, char **var_val)
 void	clean_var_val(char **var_val)
 {
 	int		i;
-	
+
 	i = 0;
 	while (var_val[i])
 	{
@@ -68,7 +68,7 @@ int	update_env_lst(char *value, t_env *env_lst)
 		if ((i == 0 && (!ft_isalpha(var_val[0][0]) && var_val[0][0] != '_'))
 			|| (i != 0 && (!ft_isalnum(var_val[0][i]) && var_val[0][i] != '_')))
 		{
-			ft_putstr_fd("export: not a valid identifier\n", 2);
+			ft_putendl_fd("export: not a valid identifier", 2);
 			return (0);
 		}
 	}

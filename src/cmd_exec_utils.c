@@ -1,16 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_exec_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 20:21:00 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 20:21:04 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	wait_for_pids(t_ms *ms)
 {
 	t_cmd	*cmd_curr;
+	char	*message;
 
 	cmd_curr = ms->cmd_lst;
 	while (cmd_curr)
 	{
 		waitpid(cmd_curr->pid, &ms->status, 0);
-		char	*message;
-
-
 		if (WIFEXITED(ms->status))
 		{
 			if (WEXITSTATUS(ms->status))
@@ -18,8 +28,9 @@ void	wait_for_pids(t_ms *ms)
 				ms->status = WEXITSTATUS(ms->status);
 				if (ms->status == 127)
 				{
-					message = ft_strjoin(cmd_curr->path, ": command not found\n");
-					ft_putstr_fd(message, 2);
+					message = ft_strjoin(cmd_curr->path,
+							": command not found");
+					ft_putendl_fd(message, 2);
 					free(message);
 				}
 				if (errno == 0)

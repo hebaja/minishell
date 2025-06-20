@@ -25,14 +25,14 @@ int				append_token(t_token **token_lst, char **value,
 void			token_clear(t_token *token);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			token_lst_iterate(t_token *token_lst, void (*func)(t_token *));
-void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst,
-					void (*func)(t_token *, t_env *));
 void			token_lst_join_remove(t_token **token_lst);
 void			token_joining(t_token **token_lst);
 void			token_lst_clear(t_token **token_lst);
 void			token_lst_add_back(t_token **token_lst, t_token *token);
 void			set_extra_meta_chars(t_token *token,
 					char *value_start, char quote);
+void			token_lst_env_iterate(t_token *token_lst, t_env *env_lst,
+					void (*func)(t_token *, t_env *));
 size_t			token_lst_size(t_token *token_lst);
 size_t			token_lst_size(t_token *token_lst);
 t_token			*token_build(char **value, char *value_start,

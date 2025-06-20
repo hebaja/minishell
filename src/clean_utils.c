@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   clean_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 19:59:45 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 20:01:17 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 void	clean_matrix(char ***paths)
@@ -11,7 +23,7 @@ void	clean_matrix(char ***paths)
 	*paths = NULL;
 }
 
- void	clean_all(t_ms *ms)
+void	clean_all(t_ms *ms)
 {
 	if (ms->token_lst)
 		token_lst_clear(&ms->token_lst);

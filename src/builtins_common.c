@@ -52,12 +52,12 @@ int	exec_builtin(t_cmd *cmd, t_ms *ms)
 int	is_builtin(t_token_type type)
 {
 	if (type == BUILTIN_ECHO
-	|| type == BUILTIN_ENV
-	|| type == BUILTIN_CD
-	|| type == BUILTIN_PWD
-	|| type == BUILTIN_EXPORT
-	|| type == BUILTIN_UNSET
-	|| type == BUILTIN_EXIT)
+		|| type == BUILTIN_ENV
+		|| type == BUILTIN_CD
+		|| type == BUILTIN_PWD
+		|| type == BUILTIN_EXPORT
+		|| type == BUILTIN_UNSET
+		|| type == BUILTIN_EXIT)
 		return (1);
 	return (0);
 }
@@ -71,8 +71,7 @@ int	builtin_pwd(t_cmd *cmd_lst)
 		perror("getcwd");
 		return (BUILTIN_ERROR_STATUS);
 	}
-	ft_putstr_fd(buf, cmd_lst->fd_out);
-	ft_putstr_fd("\n", cmd_lst->fd_out);
+	ft_putendl_fd(buf, cmd_lst->fd_out);
 	return (BUILTIN_SUCCESS_STATUS);
 }
 

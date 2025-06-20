@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   extract_environment_variables.c                    :+:      :+:    :+:   */
+/*   env_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 17:27:27 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 18:58:22 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/19 20:35:05 by hebatist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	if (!*env_head)
 		*env_head = new_node;
@@ -27,13 +27,13 @@ void	ft_lstadd_back_env(t_env **env_head, t_env *new_node)
 	}
 }
 
-t_env *extract_key_and_value(char **envp, char *search_equal, t_env *env_head)
+t_env	*extract_key_and_value(char **envp, char *search_eq, t_env *env_head)
 {
 	t_env	*new_node;
 	int		size_key;
 	int		size_value;
 
-	size_key = search_equal - *envp;
+	size_key = search_eq - *envp;
 	size_value = ft_strlen(*envp) + size_key;
 	new_node = malloc(sizeof(t_env));
 	if (!new_node)
@@ -52,7 +52,7 @@ t_env *extract_key_and_value(char **envp, char *search_equal, t_env *env_head)
 	return (env_head);
 }
 
-t_env *save_env_keys_and_values(char **envp)
+t_env	*save_env_keys_and_values(char **envp)
 {
 	t_env	*env_head;
 	char	*search_equal;
@@ -77,8 +77,8 @@ t_env *save_env_keys_and_values(char **envp)
 
 t_env	*build_env_lst(int argc, char **argv, char **envp)
 {
-	t_env *env_head;
-	
+	t_env	*env_head;
+
 	(void)argc;
 	(void)argv;
 	env_head = save_env_keys_and_values(envp);
