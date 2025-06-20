@@ -2,7 +2,15 @@ minishell
 package.json
 testing/tests
 .vscode
+valgrind.supp
 *.swp
 *.out
 *.o
 *.a
+list.txt
+in
+out
+out1
+out2
+out3
+out4
