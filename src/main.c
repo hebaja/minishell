@@ -22,7 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	sig_status = 0;
 	while (ms->input)
 	{
-		add_history(ms->input);
+		if (ft_strlen(ms->input) > 0)
+			add_history(ms->input);
 		sig_status = sig_exit_status(-1);
 		ms->paths = split_path(ms);
 		if (sig_status != -1)

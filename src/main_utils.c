@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <signal.h>
 
 char	**split_path(t_ms *ms)
 {
@@ -42,6 +43,7 @@ int	sig_exit_status(int status)
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
 {
 	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	*ms = (t_ms *)malloc(sizeof(t_ms));
 	if (!ms)
 		exit(EXIT_FAILURE);
