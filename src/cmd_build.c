@@ -24,15 +24,15 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 	curr_token = start_token;
 	while (i < cmd_size && curr_token)
 	{
-		if (is_redirect(curr_token) && curr_token->next)
+		if (is_redirect(curr_token->type) && curr_token->next)
 			offset += 2;
 		curr_token = curr_token->next;
 		i++;
 	}
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
 	cmd->args = split_token_value(start_token, cmd_size - offset);
-	cmd->path = set_path(start_token, paths);
 	cmd->main_type = start_token->type;
+	cmd->path = set_path(start_token, paths);
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -46,6 +46,9 @@ int	add_cmd(t_ms *ms, t_token *start_token, size_t cmd_size)
 		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
 		if (!new_cmd)
 			return (0);
+		cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
+		if (is_redirect(new_cmd->main_type))
+			new_cmd = cmd_rebuild(start_token, new_cmd, ms->paths);
 		ms->cmd_lst = new_cmd;
 	}
 	else
@@ -53,9 +56,11 @@ int	add_cmd(t_ms *ms, t_token *start_token, size_t cmd_size)
 		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
 		if (!new_cmd)
 			return (0);
+		cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
+		if (is_redirect(new_cmd->main_type))
+			new_cmd = cmd_rebuild(start_token, new_cmd, ms->paths);
 		cmd_lst_add_back(&ms->cmd_lst, new_cmd);
 	}
-	cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
 	return (1);
 }
 

@@ -12,15 +12,15 @@
 
 #include "../include/minishell.h"
 
-void	clean_matrix(char ***paths)
+void	clean_matrix(char ***matrix)
 {
 	int	i;
 
 	i = -1;
-	while ((*paths)[++i])
-		free((*paths)[i]);
-	free(*paths);
-	*paths = NULL;
+	while ((*matrix)[++i])
+		free((*matrix)[i]);
+	free(*matrix);
+	*matrix = NULL;
 }
 
 void	clean_all(t_ms *ms)

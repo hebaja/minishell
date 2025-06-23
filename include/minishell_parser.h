@@ -19,7 +19,7 @@ int		is_metacharacter(char c);
 int		is_meta_token(char *value);
 int		is_dolar(char *value);
 int		is_word_join(char **abs_value, int is_start);
-int		is_redirect(t_token *token);
+int		is_redirect(t_token_type type);
 int		quote_mode(t_token **token_lst, char **value,
 			char *quoted_value, char quote);
 int		find_dolar_pos(t_token *token_lst);

@@ -60,9 +60,26 @@ int	create_heredoc(t_ms *ms, char *eof)
 	return (fd[0]);
 }
 
+void	check_file_fd(int fd, char *value)
+{
+	if (fd < 0)
+		perror(value);
+}
+
 void	set_redirect(t_ms *ms, t_token *curr_token, int *tmp_fd_out,
 		int *tmp_fd_in)
 {
+	if (curr_token->next && (curr_token->type == REDIRECT_IN
+			|| curr_token->type == HEREDOC))
+	{
+		if (*tmp_fd_in > -1)
+			close(*tmp_fd_in);
+		if (curr_token->type == REDIRECT_IN)
+			*tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
+		else
+			*tmp_fd_in = create_heredoc(ms, curr_token->next->value);
+		check_file_fd(*tmp_fd_in, curr_token->next->value);
+	}
 	if (curr_token->next && (curr_token->type == REDIRECT_OUT
 			|| curr_token->type == APPEND))
 	{
@@ -74,28 +91,19 @@ void	set_redirect(t_ms *ms, t_token *curr_token, int *tmp_fd_out,
 		else
 			*tmp_fd_out = open(curr_token->next->value,
 					O_CREAT | O_WRONLY | O_APPEND, 0644);
-	}
-	if (curr_token->next && (curr_token->type == REDIRECT_IN
-			|| curr_token->type == HEREDOC))
-	{
-		if (*tmp_fd_in > -1)
-			close(*tmp_fd_in);
-		if (curr_token->type == REDIRECT_IN)
-			*tmp_fd_in = open(curr_token->next->value, O_RDONLY, 0644);
-		else
-			*tmp_fd_in = create_heredoc(ms, curr_token->next->value);
+		check_file_fd(*tmp_fd_out, curr_token->next->value);
 	}
 }
 
 void	cmd_build_redirect(t_ms *ms, t_cmd *cmd, t_token *start_token,
 		size_t cmd_size)
 {
-	int		tmp_fd_out;
 	int		tmp_fd_in;
+	int		tmp_fd_out;
 	t_token	*curr_token;
 
-	tmp_fd_out = -1;
 	tmp_fd_in = -1;
+	tmp_fd_out = -1;
 	cmd->fd_out = STDOUT_FILENO;
 	cmd->fd_in = STDIN_FILENO;
 	curr_token = start_token;
@@ -105,8 +113,8 @@ void	cmd_build_redirect(t_ms *ms, t_cmd *cmd, t_token *start_token,
 		cmd_size--;
 		curr_token = curr_token->next;
 	}
-	if (tmp_fd_out > -1)
-		cmd->fd_out = tmp_fd_out;
 	if (tmp_fd_in > -1)
 		cmd->fd_in = tmp_fd_in;
+	if (tmp_fd_out > -1)
+		cmd->fd_out = tmp_fd_out;
 }

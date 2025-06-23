@@ -103,9 +103,12 @@ void	exec_cmd(t_ms *ms)
 			ms->is_exit = 1;
 		return ;
 	}
-	if (cmd_curr->main_type == HEREDOC)
+	if (is_redirect(cmd_curr->main_type))
 	{
-		close(cmd_curr->fd_in);
+		if (cmd_curr->main_type == REDIRECT_IN || cmd_curr->main_type == HEREDOC)
+			close(cmd_curr->fd_in);
+		if (cmd_curr->main_type == REDIRECT_OUT || cmd_curr->main_type == APPEND)
+			close(cmd_curr->fd_out);
 		return ;
 	}
 	while (cmd_curr)
