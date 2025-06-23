@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_builtins.c                                   :+:      :+:    :+:   */
+/*   env_print.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 18:41:03 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/26 18:33:51 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/23 19:28:07 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	print_env_sort(t_env *lst, t_cmd *cmd)
 				lst = tmp;
 			tmp = tmp->next;
 		}
-		ft_printf("%s=%s\n", lst->key, lst->value);
 		print_env(lst, cmd);
 		lst->printed = 1;
 		lst = start;

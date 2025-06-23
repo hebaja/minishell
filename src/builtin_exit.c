@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 20:06:14 by alda-sil          #+#    #+#             */
-/*   Updated: 2025/05/21 21:19:18 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:07:01 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,13 @@ int	builtin_exit(t_cmd *cmd_lst, int curr_status)
 			ft_printf("exit: %s: numeric argument required\n",
 				cmd_lst->args[1]);
 			exit_value = 2;
+		}
+		else if (is_numeric(cmd_lst->args[1]) && cmd_lst->args[2] && 
+			(!is_numeric(cmd_lst->args[2]) || is_numeric(cmd_lst->args[1])))
+		{
+			ft_printf("exit\n");
+			ft_printf("exit: too many arguments\n");
+			exit_value = 6;
 		}
 		else
 			exit_value = ft_atoi(cmd_lst->args[1]);

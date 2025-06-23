@@ -6,7 +6,7 @@
 /*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:58:42 by hebatist          #+#    #+#             */
-/*   Updated: 2025/05/26 19:19:08 by alda-sil         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:55:13 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	analyse_token_lst(t_ms *ms)
 {
 	var_expansion(&ms->token_lst, ms->env_lst);
 	quotes_var_expansion(&ms->token_lst, ms->env_lst);
+	//create_redirect(&ms->token_lst);
 	quote_removal(ms->token_lst);
 	token_joining(&ms->token_lst);
 	ms_token_lst_iterate(ms, expand_exit_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_exec.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 23:46:13 by hebatist          #+#    #+#             */
-/*   Updated: 2025/06/04 23:46:15 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/06/23 20:04:32 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,10 @@ void	exec_cmd(t_ms *ms)
 	if (!cmd_curr->next && is_builtin(cmd_curr->main_type))
 	{
 		ms->status = exec_builtin(cmd_curr, ms);
-		if (cmd_curr->main_type == BUILTIN_EXIT)
+		if (cmd_curr->main_type == BUILTIN_EXIT && ms->status != 6)
 			ms->is_exit = 1;
+		else if (ms->status == 6)
+			ms->status = 1;
 		return ;
 	}
 	if (is_redirect(cmd_curr->main_type))
