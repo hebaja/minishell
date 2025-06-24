@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_rebuild.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/24 15:55:59 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/24 15:56:02 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 size_t	get_rebuilt_cmd_size(t_token *start_token)
@@ -14,7 +26,7 @@ size_t	get_rebuilt_cmd_size(t_token *start_token)
 		if (is_redirect(curr_token->type)
 			&& (curr_token->next && !is_redirect(curr_token->next->type))
 			&& (curr_token->next->next
-			&& !is_redirect(curr_token->next->next->type)))
+				&& !is_redirect(curr_token->next->next->type)))
 		{
 			inverse_flag = 1;
 			curr_token = curr_token->next->next;
@@ -38,7 +50,7 @@ t_token	*get_target_token(t_token *start_token)
 		if (is_redirect(curr_token->type)
 			&& (curr_token->next && !is_redirect(curr_token->next->type))
 			&& (curr_token->next->next
-			&& !is_redirect(curr_token->next->next->type)))
+				&& !is_redirect(curr_token->next->next->type)))
 		{
 			target_token = curr_token->next->next;
 			break ;

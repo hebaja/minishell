@@ -12,36 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	wait_for_pids(t_ms *ms)
-{
-	t_cmd	*cmd_curr;
-	char	*message;
-
-	cmd_curr = ms->cmd_lst;
-	while (cmd_curr)
-	{
-		if (cmd_curr->pid)
-		{
-			waitpid(cmd_curr->pid, &ms->status, 0);
-			if (WIFEXITED(ms->status))
-			{
-				if (WEXITSTATUS(ms->status))
-				{
-					ms->status = WEXITSTATUS(ms->status);
-					if (ms->status == 127)
-					{
-						message = ft_strjoin(cmd_curr->path,
-								": command not found");
-						ft_putendl_fd(message, 2);
-						free(message);
-					}
-				}
-			}
-		}
-		cmd_curr = cmd_curr->next;
-	}
-}
-
 void	close_fds_parent(t_ms *ms)
 {
 	t_cmd	*cmd_curr;

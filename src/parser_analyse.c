@@ -14,8 +14,8 @@
 
 size_t	exit_status_expand_size(char *value)
 {
-	int	i;
-	size_t size;
+	int		i;
+	size_t	size;
 
 	i = 0;
 	size = 0;
@@ -29,7 +29,8 @@ size_t	exit_status_expand_size(char *value)
 	return (size);
 }
 
-char	*value_exit_status_build(char *value, size_t size, size_t new_size, char *expand_status)
+char	*value_exit_status_build(char *value, size_t size, size_t new_size,
+		char *expand_status)
 {
 	char		*new_value;
 	size_t		ni;
@@ -70,7 +71,8 @@ void	expand_exit_status(int status, t_token *token)
 	new_size = exit_status_expand_size(token->value);
 	if (new_size > 0)
 	{
-		new_value = value_exit_status_build(token->value, size, new_size, expand_status);
+		new_value = value_exit_status_build(token->value, size,
+				new_size, expand_status);
 		if (new_value)
 		{
 			free(token->value);

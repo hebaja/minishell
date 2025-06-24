@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <unistd.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -94,25 +93,27 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 
 void	exec_cmd(t_ms *ms)
 {
-	t_cmd	*cmd_curr;
+	t_cmd	*curr;
 
-	cmd_curr = ms->cmd_lst;
-	if (!cmd_curr->next && is_builtin(cmd_curr->main_type))
+	curr = ms->cmd_lst;
+	if (!curr->next && is_builtin(curr->main_type))
 	{
-		ms->status = exec_builtin(cmd_curr, ms);
-		if (cmd_curr->main_type == BUILTIN_EXIT)
+		ms->status = exec_builtin(curr, ms);
+		if (curr->main_type == BUILTIN_EXIT && ms->status != -1)
 			ms->is_exit = 1;
+		else if (ms->status == -1)
+			ms->status = 1;
 		return ;
 	}
-	if (deal_redirect(cmd_curr))
+	if (deal_redirect(curr))
 		return ;
-	while (cmd_curr)
+	while (curr)
 	{
-		if (access(cmd_curr->path, F_OK) == 0 && access(cmd_curr->path, X_OK) != 0)
-			perror(cmd_curr->path);
+		if (access(curr->path, F_OK) == 0 && access(curr->path, X_OK) != 0)
+			perror(curr->path);
 		else
-			prep_child_exec(ms, cmd_curr);
-		cmd_curr = cmd_curr->next;
+			prep_child_exec(ms, curr);
+		curr = curr->next;
 	}
 	close_fds_parent(ms);
 	wait_for_pids(ms);

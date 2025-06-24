@@ -55,6 +55,7 @@ gcc -I \
 	../src/signal_utils.c \
 	../src/redirect.c \
 	../src/redirect_utils.c \
+	../src/pid_wait.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \

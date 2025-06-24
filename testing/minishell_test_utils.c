@@ -421,31 +421,3 @@ int	sig_exit_status(int status)
 	status_exit = -1;
 	return (tmp);
 }
-
-// void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
-// {
-// 	signal(SIGINT, handle_sigint);
-// 	*ms = (t_ms *)malloc(sizeof(t_ms));
-// 	if (!ms)
-// 		exit(EXIT_FAILURE);
-// 	(*ms)->token_lst = NULL;
-// 	(*ms)->env_lst = build_env_lst(argc, argv, envp);
-// 	(*ms)->cmd_lst = NULL;
-// 	(*ms)->paths = NULL;
-// 	(*ms)->status = 0;
-// 	(*ms)->is_exit = 0;
-// 	using_history();
-// 	(*ms)->input = readline(TERMINAL_PROMPT);
-// }
-
-// void	clean_prompt(t_ms *ms)
-// {
-// 	free(ms->input);
-// 	if (ms->token_lst)
-// 		token_lst_clear(&ms->token_lst);
-// 	if (ms->cmd_lst)
-// 		cmd_lst_clear(&ms->cmd_lst);
-// 	if (*ms->paths)
-// 		clean_matrix(&ms->paths);
-// 	ms->input = readline(TERMINAL_PROMPT);
-// }
