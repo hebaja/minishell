@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "minishell_includes.h"
+# include "minishell_redirect.h"
 # include "minishell_builtin.h"
 # include "minishell_struct.h"
 # include "minishell_parser.h"

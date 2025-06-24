@@ -9,6 +9,7 @@ valgrind.supp
 *.a
 list.txt
 script.sh
+run.sh
 in
 out
 out1

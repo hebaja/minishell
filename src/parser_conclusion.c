@@ -24,8 +24,7 @@ int	redirect_validate(t_token *token_lst)
 {
 	while (token_lst)
 	{
-		if (token_lst->type == REDIRECT_IN || token_lst->type == REDIRECT_OUT
-			|| token_lst->type == PIPE)
+		if (token_lst->type == REDIRECT_IN || token_lst->type == REDIRECT_OUT)
 		{
 			if (!token_lst->next || ft_strlen(token_lst->value) != 1
 				|| is_redirect(token_lst->next->type))

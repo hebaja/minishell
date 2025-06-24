@@ -46,6 +46,7 @@ gcc -I \
 	../src/clean_utils.c \
 	../src/cmd_build.c \
 	../src/cmd_utils.c \
+	../src/cmd_rebuild.c \
 	../src/cmd_build_utils.c \
 	../src/cmd_env_utils.c \
 	../src/cmd_exec.c \
@@ -53,6 +54,7 @@ gcc -I \
 	../src/iterate_utils.c \
 	../src/signal_utils.c \
 	../src/redirect.c \
+	../src/redirect_utils.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \

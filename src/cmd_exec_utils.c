@@ -20,21 +20,22 @@ void	wait_for_pids(t_ms *ms)
 	cmd_curr = ms->cmd_lst;
 	while (cmd_curr)
 	{
-		waitpid(cmd_curr->pid, &ms->status, 0);
-		if (WIFEXITED(ms->status))
+		if (cmd_curr->pid)
 		{
-			if (WEXITSTATUS(ms->status))
+			waitpid(cmd_curr->pid, &ms->status, 0);
+			if (WIFEXITED(ms->status))
 			{
-				ms->status = WEXITSTATUS(ms->status);
-				if (ms->status == 127)
+				if (WEXITSTATUS(ms->status))
 				{
-					message = ft_strjoin(cmd_curr->path,
-							": command not found");
-					ft_putendl_fd(message, 2);
-					free(message);
+					ms->status = WEXITSTATUS(ms->status);
+					if (ms->status == 127)
+					{
+						message = ft_strjoin(cmd_curr->path,
+								": command not found");
+						ft_putendl_fd(message, 2);
+						free(message);
+					}
 				}
-				if (errno == 0)
-					ms->status -= 1;
 			}
 		}
 		cmd_curr = cmd_curr->next;

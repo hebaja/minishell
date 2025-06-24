@@ -33,6 +33,7 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 	cmd->args = split_token_value(start_token, cmd_size - offset);
 	cmd->main_type = start_token->type;
 	cmd->path = set_path(start_token, paths);
+	cmd->pid = 0;
 	cmd->next = NULL;
 	return (cmd);
 }
@@ -40,26 +41,25 @@ t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths)
 int	add_cmd(t_ms *ms, t_token *start_token, size_t cmd_size)
 {
 	t_cmd	*new_cmd;
+	t_cmd	*last_cmd;
 
+	new_cmd = cmd_build(start_token, cmd_size, ms->paths);
+	if (!new_cmd)
+		return (0);
 	if (ms->cmd_lst == NULL)
-	{
-		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
-		if (!new_cmd)
-			return (0);
-		cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
-		if (is_redirect(new_cmd->main_type))
-			new_cmd = cmd_rebuild(start_token, new_cmd, ms->paths);
 		ms->cmd_lst = new_cmd;
-	}
 	else
-	{
-		new_cmd = cmd_build(start_token, cmd_size, ms->paths);
-		if (!new_cmd)
-			return (0);
-		cmd_build_redirect(ms, new_cmd, start_token, cmd_size);
-		if (is_redirect(new_cmd->main_type))
-			new_cmd = cmd_rebuild(start_token, new_cmd, ms->paths);
 		cmd_lst_add_back(&ms->cmd_lst, new_cmd);
+	if (!cmd_build_redirect(ms, start_token, cmd_size))
+	{
+		cmd_lst_clear(&ms->cmd_lst);
+		return (0);
+	}
+	last_cmd = cmd_lst_last(ms->cmd_lst);
+	if (is_redirect(last_cmd->main_type))
+	{
+		if (!cmd_rebuild(ms, start_token, ms->paths))
+			return (0);
 	}
 	return (1);
 }

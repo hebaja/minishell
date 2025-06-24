@@ -62,7 +62,6 @@ void	print_env_sort(t_env *lst, t_cmd *cmd)
 				lst = tmp;
 			tmp = tmp->next;
 		}
-		ft_printf("%s=%s\n", lst->key, lst->value);
 		print_env(lst, cmd);
 		lst->printed = 1;
 		lst = start;

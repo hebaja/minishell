@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <unistd.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -103,17 +104,14 @@ void	exec_cmd(t_ms *ms)
 			ms->is_exit = 1;
 		return ;
 	}
-	if (is_redirect(cmd_curr->main_type))
-	{
-		if (cmd_curr->main_type == REDIRECT_IN || cmd_curr->main_type == HEREDOC)
-			close(cmd_curr->fd_in);
-		if (cmd_curr->main_type == REDIRECT_OUT || cmd_curr->main_type == APPEND)
-			close(cmd_curr->fd_out);
+	if (deal_redirect(cmd_curr))
 		return ;
-	}
 	while (cmd_curr)
 	{
-		prep_child_exec(ms, cmd_curr);
+		if (access(cmd_curr->path, F_OK) == 0 && access(cmd_curr->path, X_OK) != 0)
+			perror(cmd_curr->path);
+		else
+			prep_child_exec(ms, cmd_curr);
 		cmd_curr = cmd_curr->next;
 	}
 	close_fds_parent(ms);

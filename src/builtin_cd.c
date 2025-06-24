@@ -37,6 +37,11 @@ int	cd_home(t_env *env_lst, char *buf)
 	char	*old_pwd;
 
 	home_path = get_var_value(env_lst, "HOME");
+	if (!home_path)
+	{
+		ft_putendl_fd("cd: HOME not set", 2);
+		return (0);
+	}
 	pwd = NULL;
 	if (!change_dir(home_path))
 		return (0);
@@ -54,7 +59,12 @@ int	cd_path(t_cmd *cmd_lst, t_env *env_lst, char *old_buf)
 
 	if (!change_dir(cmd_lst->args[1]))
 		return (0);
-	getcwd(new_buf, 256);
+	if (getcwd(new_buf, 256) == NULL)
+	{
+		perror("getcwd");
+		cd_home(env_lst, get_var_value(env_lst, "PWD"));
+		return (0);
+	}
 	pwd = ft_strjoin("PWD=", new_buf);
 	old_pwd = ft_strjoin("OLDPWD=", old_buf);
 	update_vars(env_lst, pwd, old_pwd);

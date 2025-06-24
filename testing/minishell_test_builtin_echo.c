@@ -147,7 +147,7 @@ Test(minishell_test_suite_builtin_echo, test_echo_redirect_out)
 	cr_assert_stdout_eq_str("");
 }
 
-Test(minishell_test_suite_builtin_echo, test_echo_redirect_in)
+Test(minishell_test_suite_builtin_echo_stderr, test_echo_redirect_in, .init=init_test_redirect_stderr, .fini=clean_test)
 {
 	char	*input = "echo Hello < out";
 	
@@ -157,9 +157,7 @@ Test(minishell_test_suite_builtin_echo, test_echo_redirect_in)
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);
 	usual_flow(ms);
-	builtin_echo(ms->cmd_lst);
-	test_lst(ms->token_lst, values, types);
-	cr_assert_stdout_eq_str("Hello\n");
+	cr_assert_stderr_eq_str("out: No such file or directory\n");
 }
 
 Test(minishell_test_suite_builtin_echo, test_echo_append)

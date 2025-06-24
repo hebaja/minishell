@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <signal.h>
 
 char	**split_path(t_ms *ms)
 {
@@ -19,6 +18,8 @@ char	**split_path(t_ms *ms)
 	char	*env_path;
 
 	env_path = get_var_value(ms->env_lst, "PATH");
+	if (!env_path)
+		return (NULL);
 	paths = ft_split(env_path, ':');
 	if (!paths)
 		clean_all(ms);
@@ -64,7 +65,7 @@ void	clean_prompt(t_ms *ms)
 		token_lst_clear(&ms->token_lst);
 	if (ms->cmd_lst)
 		cmd_lst_clear(&ms->cmd_lst);
-	if (*ms->paths)
+	if (ms->paths)
 		clean_matrix(&ms->paths);
 	ms->input = readline(TERMINAL_PROMPT);
 }
@@ -79,8 +80,8 @@ int	run_minishell(t_ms *ms)
 			ms->status = 2;
 		else
 		{
-			cmd_lst_build(ms);
-			exec_cmd(ms);
+			if (cmd_lst_build(ms))
+				exec_cmd(ms);
 			if (ms->is_exit || ms->input == NULL)
 				return (0);
 		}

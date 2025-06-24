@@ -48,10 +48,10 @@ t_token	*get_target_token(t_token *start_token)
 	return (target_token);
 }
 
-t_cmd	*cmd_rebuild(t_token *start_token, t_cmd *cmd, char **paths)
+int	cmd_rebuild(t_ms *ms, t_token *start_token, char **paths)
 {
 	t_token	*target_token;
-	t_cmd	*new_cmd;
+	t_cmd	*last_cmd;
 	size_t	size;
 
 	size = 0;
@@ -60,16 +60,14 @@ t_cmd	*cmd_rebuild(t_token *start_token, t_cmd *cmd, char **paths)
 	{
 		size = get_rebuilt_cmd_size(start_token);
 		if (size == 0)
-			return (cmd);
-		int	fd_in = cmd->fd_in;
-		int	fd_out = cmd->fd_out;
-		cmd_lst_clear(&cmd);
-		new_cmd = cmd_build(target_token, size, paths);
-		if (!new_cmd)
-			return (0);
-		new_cmd->fd_in = fd_in;
-		new_cmd->fd_out = fd_out;
-		return (new_cmd);
+			return (1);
+		last_cmd = cmd_lst_last(ms->cmd_lst);
+		clean_matrix(&last_cmd->args);
+		free(last_cmd->path);
+		last_cmd->args = split_token_value(target_token, size);
+		last_cmd->main_type = target_token->type;
+		last_cmd->path = set_path(target_token, paths);
+		return (1);
 	}
-	return (cmd);
+	return (1);
 }

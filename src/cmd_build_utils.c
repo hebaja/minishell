@@ -41,7 +41,7 @@ char	*set_path(t_token *token, char **paths)
 	char	*abs_pth;
 
 	i = -1;
-	if (*token->value != '/' && access(token->value, F_OK) < 0)
+	if (*token->value != '/' && access(token->value, F_OK) < 0 && paths)
 	{
 		while (paths[++i])
 		{
@@ -55,6 +55,3 @@ char	*set_path(t_token *token, char **paths)
 	abs_pth = ft_strdup(token->value);
 	return (abs_pth);
 }
-
-
-
