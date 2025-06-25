@@ -76,13 +76,13 @@ void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp)
 		close(cmd->fd_in);
 		cmd->fd_in = -1;
 	}
-	close_redirect_all_fds(ms->cmd_lst);
 	if (cmd->fd_out > 2)
 	{
 		dup2(cmd->fd_out, STDOUT_FILENO);
 		close(cmd->fd_out);
 		cmd->fd_out = -1;
 	}
+	close_redirect_all_fds(ms->cmd_lst);
 	execve(cmd->path, cmd->args, envp);
 	close(cmd->fd_in);
 	close(cmd->fd_out);
