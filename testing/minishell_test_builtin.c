@@ -52,7 +52,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd, .init=
 	cr_assert_null(ms->token_lst->next);
 	usual_flow(ms);
 	chdir("/home");
-	builtin_pwd();
+	builtin_pwd(ms->cmd_lst);
 	cr_assert_stdout_eq_str("/home\n");
 }
 
@@ -68,7 +68,7 @@ Test(minishell_test_suite_builtin, build_token_lst_test_all_builtins_pwd_more, .
 	cr_assert_str_eq(ms->token_lst->value, "pwd");
 	usual_flow(ms);
 	chdir("/home");
-	builtin_pwd();
+	builtin_pwd(ms->cmd_lst);
 	cr_assert_stdout_eq_str("/home\n");
 }
 
@@ -211,7 +211,7 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_exit)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed)
 {
-	char	*input = "echo >> doc || cat --abord < ls -l";
+	char	*input = "echo > doc | cat --abord < ls -l";
 
 	ms->input = input;
 	values = ft_split(input, ' ');
@@ -223,10 +223,10 @@ Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed)
 
 Test(minishell_test_suite_builtin, build_token_lst_builtin_mixed_2)
 {
-	char	*input = "echo>>doc || less<more";
+	char	*input = "echo>>doc | less<more";
 
 	ms->input = input;
-	values = populate_values(7, "echo", ">>", "doc", "||", "less", "<", "more");
+	values = populate_values(7, "echo", ">>", "doc", "|", "less", "<", "more");
 	res = token_lst_build(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	cr_assert_eq(res, 1);

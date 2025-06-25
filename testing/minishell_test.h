@@ -22,6 +22,7 @@ extern int		i;
 void	init_test(void);
 void	init_test_redirect_stderr(void);
 void	init_test_redirect_stdout(void);
+void	init_test_redirect_stdout_stderr(void);
 void	init_test_alloc_mem(void);
 void	clean_values(char **values);
 void	redirect_all_stdout(void);
@@ -45,5 +46,6 @@ void	clean(void);
 void	setup_redirect_err(void);
 void	clean_split_path(char **paths);
 char	**split_path_test(t_env *env_lst);
+void	mock_input(char *input);
 
 #endif

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 20:34:29 by hebatist          #+#    #+#             */
+/*   Updated: 2025/06/19 20:34:31 by hebatist         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-int	compare(char *key, char *variable)
+int	cmp_key_str(char *key, char *variable)
 {
 	return (ft_strcmp(key, variable) == 0);
 }
@@ -26,7 +38,7 @@ char	*get_var_value(t_env *env_lst, char *var_key)
 {
 	while (env_lst)
 	{
-		if (compare(env_lst->key, var_key))
+		if (cmp_key_str(env_lst->key, var_key))
 			return (env_lst->value);
 		env_lst = env_lst->next;
 	}

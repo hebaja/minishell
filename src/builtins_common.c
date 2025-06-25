@@ -12,6 +12,20 @@
 
 #include "../include/minishell.h"
 
+void	close_redirect_fds(t_cmd *cmd)
+{
+	if (cmd->fd_out > 2)
+	{
+		close(cmd->fd_out);
+		cmd->fd_out = -1;
+	}
+	if (cmd->fd_in > 2)
+	{
+		close(cmd->fd_in);
+		cmd->fd_in = -1;
+	}
+}
+
 int	exec_builtin(t_cmd *cmd, t_ms *ms)
 {
 	int	status;
@@ -20,62 +34,35 @@ int	exec_builtin(t_cmd *cmd, t_ms *ms)
 	if (cmd->main_type == BUILTIN_ECHO)
 		status = builtin_echo(cmd);
 	if (cmd->main_type == BUILTIN_ENV)
-		status = builtin_env(ms->env_lst);
+		status = builtin_env(ms->env_lst, cmd);
 	if (cmd->main_type == BUILTIN_CD)
 		status = builtin_cd(cmd, ms->env_lst);
 	if (cmd->main_type == BUILTIN_PWD)
-		status = builtin_pwd();
+		status = builtin_pwd(cmd);
 	if (cmd->main_type == BUILTIN_EXPORT)
 		status = builtin_export(cmd, ms->env_lst);
 	if (cmd->main_type == BUILTIN_UNSET)
 		status = builtin_unset(cmd, &ms->env_lst);
 	if (cmd->main_type == BUILTIN_EXIT)
 		status = builtin_exit(cmd, ms->status);
+	close_redirect_fds(cmd);
 	return (status);
 }
 
 int	is_builtin(t_token_type type)
 {
 	if (type == BUILTIN_ECHO
-	|| type == BUILTIN_ENV
-	|| type == BUILTIN_CD
-	|| type == BUILTIN_PWD
-	|| type == BUILTIN_EXPORT
-	|| type == BUILTIN_UNSET
-	|| type == BUILTIN_EXIT)
+		|| type == BUILTIN_ENV
+		|| type == BUILTIN_CD
+		|| type == BUILTIN_PWD
+		|| type == BUILTIN_EXPORT
+		|| type == BUILTIN_UNSET
+		|| type == BUILTIN_EXIT)
 		return (1);
 	return (0);
 }
 
-int	builtin_echo(t_cmd *cmd)
-{
-	int		i;
-	int		is_break_line;
-
-	i = 1;
-	is_break_line = 1;
-	if (!cmd->args[1])
-		is_break_line = 1;
-	if (cmd->args[0] && (cmd->args[1] && ft_strcmp(cmd->args[1], "-n") == 0))
-	{
-		is_break_line = 0;
-		i++;
-	}
-	while (cmd->args[i])
-	{
-		ft_printf("%s", cmd->args[i]);
-		i++;
-		if ((cmd->args[i] && is_metacharacter(cmd->args[i][0]))
-			|| !cmd->args[i])
-			break ;
-		ft_printf(" ");
-	}
-	if (is_break_line)
-		ft_printf("\n");
-	return (BUILTIN_SUCCESS_STATUS);
-}
-
-int	builtin_pwd(void)
+int	builtin_pwd(t_cmd *cmd_lst)
 {
 	char	buf[256];
 
@@ -84,15 +71,15 @@ int	builtin_pwd(void)
 		perror("getcwd");
 		return (BUILTIN_ERROR_STATUS);
 	}
-	ft_printf("%s\n", buf);
+	ft_putendl_fd(buf, cmd_lst->fd_out);
 	return (BUILTIN_SUCCESS_STATUS);
 }
 
-int	builtin_env(t_env *env_lst)
+int	builtin_env(t_env *env_lst, t_cmd *cmd)
 {
 	while (env_lst)
 	{
-		ft_printf("%s=%s\n",env_lst->key, env_lst->value);
+		print_env(env_lst, cmd);
 		env_lst = env_lst->next;
 	}
 	return (BUILTIN_SUCCESS_STATUS);

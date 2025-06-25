@@ -109,6 +109,13 @@ void	init_test_redirect_stdout(void)
 	redirect_stdout();
 }
 
+void	init_test_redirect_stdout_stderr(void)
+{
+	init_test();
+	redirect_stdout();
+	redirect_stderr();
+}
+
 void	init_test_alloc_mem(void)
 {
 	init_test();
@@ -128,6 +135,10 @@ void	clean_test(void)
 	if (ms)
 		free(ms);
 	ms = NULL;
+	unlink(">");
+	unlink("<");
+	unlink("|");
+	unlink("out");
 }
 
 void	clean_split_path(char **paths)
@@ -362,6 +373,17 @@ void wait_for_pids_test(t_ms *ms)
 	}
 }
 
+void	mock_input(char *input)
+{
+	int pipe_fd[2];
+
+    pipe(pipe_fd);
+    write(pipe_fd[1], input, ft_strlen(input));
+    close(pipe_fd[1]);
+    dup2(pipe_fd[0], STDIN_FILENO);
+    close(pipe_fd[0]);
+}
+
 void	usual_flow(t_ms *ms)
 {
 	var_expansion(&ms->token_lst, ms->env_lst);
@@ -371,4 +393,31 @@ void	usual_flow(t_ms *ms)
 	ms->paths = split_path_test(ms->env_lst);
 	conclude_parser(ms);
 	cmd_lst_build(ms);
+}
+
+char	**split_path(t_ms *ms)
+{
+	char	**paths;
+	char	*env_path;
+
+	env_path = get_var_value(ms->env_lst, "PATH");
+	paths = ft_split(env_path, ':');
+	if (!paths)
+		clean_all(ms);
+	return (paths);
+}
+
+int	sig_exit_status(int status)
+{
+	static int	status_exit = -1;
+	int			tmp;
+
+	if (status != -1)
+	{
+		status_exit = status;
+		return (0);
+	}
+	tmp = status_exit;
+	status_exit = -1;
+	return (tmp);
 }

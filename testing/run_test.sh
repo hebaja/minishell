@@ -5,14 +5,15 @@ gcc -I \
 	./criterion-2.4.2/include \
 	minishell_test_utils.c \
 	minishell_test_globals.c \
-	minishell_test.c \
 	minishell_test_builtin.c \
 	minishell_test_builtin_cd.c \
 	minishell_test_builtin_echo.c \
+	minishell_test_builtin_exit.c \
 	minishell_test_builtin_export.c \
 	minishell_test_builtin_unset.c \
-	minishell_test_builtin_exit.c \
+	minishell_test.c \
 	minishell_test_cmd.c \
+	minishell_test_exec_pipe.c \
 	minishell_test_extra_meta.c \
 	minishell_test_metacharacters.c \
 	minishell_test_quote.c \
@@ -21,7 +22,6 @@ gcc -I \
 	minishell_test_token_join.c \
 	minishell_test_var.c \
 	minishell_test_var_quote.c \
-	minishell_test_exec_pipe.c \
 	../src/parser_token_build.c \
 	../src/parser_token_char_utils.c \
 	../src/parser_modes.c \
@@ -30,7 +30,7 @@ gcc -I \
 	../src/var_expansion_utils.c \
 	../src/env_build.c \
 	../src/env_utils.c \
-	../src/env_print_sort.c \
+	../src/env_print.c \
 	../src/quote_removal.c \
 	../src/token_define.c \
 	../src/token_joining.c \
@@ -42,20 +42,26 @@ gcc -I \
 	../src/builtin_export.c \
 	../src/builtin_unset.c \
 	../src/builtin_exit.c \
+	../src/builtin_echo.c \
 	../src/clean_utils.c \
 	../src/cmd_build.c \
 	../src/cmd_utils.c \
+	../src/cmd_rebuild.c \
 	../src/cmd_build_utils.c \
 	../src/cmd_env_utils.c \
 	../src/cmd_exec.c \
 	../src/cmd_exec_utils.c \
 	../src/iterate_utils.c \
+	../src/signal_utils.c \
+	../src/redirect.c \
+	../src/redirect_utils.c \
+	../src/pid_wait.c \
+	../src/expand_status.c \
 	../src/parser_token_debug.c \
 	../libft/libft.a \
 	-L ./criterion-2.4.2/lib \
 	-lcriterion \
-	-o tests
-
+	-o tests -lreadline
 
 if [ $? -ne 0 ]; then
     echo "❌ Compilation failed"

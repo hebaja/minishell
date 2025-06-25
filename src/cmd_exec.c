@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <unistd.h>
 
 void	close_unused_fds(t_ms *ms, int fd_input, int fd_output)
 {
@@ -68,10 +67,10 @@ void	set_child_exec_mode(t_ms *ms, t_cmd *cmd_lst)
 		close_unused_fds(ms, cmd_lst->fds[0], cmd_lst->next->fds[1]);
 		exec_child(ms, cmd_lst, cmd_lst->fds[0], cmd_lst->next->fds[1]);
 	}
-	else 
+	else
 	{
 		close_unused_fds(ms, STDIN_FILENO, cmd_lst->next->fds[1]);
-		exec_child(ms, cmd_lst, STDIN_FILENO , cmd_lst->next->fds[1]);
+		exec_child(ms, cmd_lst, STDIN_FILENO, cmd_lst->next->fds[1]);
 	}
 }
 
@@ -79,6 +78,7 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 {
 	int		pid;
 
+	signal(SIGINT, handle_child_sigint);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -93,21 +93,27 @@ int	prep_child_exec(t_ms *ms, t_cmd *cmd_lst)
 
 void	exec_cmd(t_ms *ms)
 {
-	t_cmd	*cmd_curr;
+	t_cmd	*curr;
 
-	cmd_curr = ms->cmd_lst;
-	if (!cmd_curr->next && is_builtin(cmd_curr->main_type))
+	curr = ms->cmd_lst;
+	if (!curr->next && is_builtin(curr->main_type))
 	{
-		ms->status = exec_builtin(cmd_curr, ms);
-		if (cmd_curr->main_type == BUILTIN_EXIT)
+		ms->status = exec_builtin(curr, ms);
+		if (curr->main_type == BUILTIN_EXIT && ms->status != -1)
 			ms->is_exit = 1;
+		else if (ms->status == -1)
+			ms->status = 1;
 		return ;
 	}
-	while (cmd_curr)
+	while (curr)
 	{
-		prep_child_exec(ms, cmd_curr);
-		cmd_curr = cmd_curr->next;
+		if (access(curr->path, F_OK) == 0 && access(curr->path, X_OK) != 0)
+			perror(curr->path);
+		else if (!is_redirect(curr->main_type) && valid_path(ms, curr->path))
+			prep_child_exec(ms, curr);
+		curr = curr->next;
 	}
 	close_fds_parent(ms);
 	wait_for_pids(ms);
+	signal(SIGINT, handle_sigint);
 }

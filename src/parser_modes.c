@@ -41,7 +41,7 @@ int	quote_mode(t_token **token_lst, char **value,
 		}
 		if (*quoted_value != quote)
 		{
-			ft_putstr_fd("Unclosed quotes\n", 2);
+			ft_putendl_fd("Unclosed quotes", 2);
 			return (0);
 		}
 		append_token(token_lst, value, value_start, size);
@@ -49,7 +49,7 @@ int	quote_mode(t_token **token_lst, char **value,
 		*value = quoted_value;
 		return (1);
 	}
-	ft_putstr_fd("Unclosed quotes\n", 2);
+	ft_putendl_fd("Unclosed quotes", 2);
 	return (0);
 }
 
@@ -72,7 +72,7 @@ int	regular_mode(t_token **token_lst, char **value, char *value_start, int i)
 		i++;
 		if (quote && !(*value)[i])
 		{
-			ft_putstr_fd("Unclosed quotes\n", 2);
+			ft_putendl_fd("Unclosed quotes", 2);
 			return (0);
 		}
 	}

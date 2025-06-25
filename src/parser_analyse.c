@@ -12,18 +12,6 @@
 
 #include "../include/minishell.h"
 
-void	expand_exit_status(int status, t_token *token)
-{
-	char	*value;
-
-	if (ft_strlen(token->value) == 2 && token->type == VAR && token->value[1] == '?')
-	{
-		value = ft_itoa(status);
-		free(token->value);
-		token->value = value;
-	}
-}
-
 void	ms_token_lst_iterate(t_ms *ms, void (*func)(int, t_token *))
 {
 	t_token	*curr_token;

@@ -1,4 +1,5 @@
 #include "minishell_test.h"
+#include <unistd.h>
 
 TestSuite(minishell_test_suite_join, .init=init_test, .fini=clean_test);
 
@@ -165,4 +166,5 @@ Test(minishell_test_suite_join, test_mix_token_join_3)
 	usual_flow(ms);
 	types = fetch_tokens_type_list(ms->token_lst);
 	test_lst(ms->token_lst, values, types);
+	unlink("hihifocus$USER");
 }

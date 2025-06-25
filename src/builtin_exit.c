@@ -34,9 +34,15 @@ int	builtin_exit(t_cmd *cmd_lst, int curr_status)
 	{
 		if (!is_numeric(cmd_lst->args[1]))
 		{
-			ft_printf("exit: %s: numeric argument required\n", 
+			ft_printf("exit: %s: numeric argument required\n",
 				cmd_lst->args[1]);
 			exit_value = 2;
+		}
+		else if (is_numeric(cmd_lst->args[1]) && cmd_lst->args[2]
+			&& (!is_numeric(cmd_lst->args[2]) || is_numeric(cmd_lst->args[1])))
+		{
+			ft_putendl_fd("exit\nexit: too many arguments", 2);
+			exit_value = -1;
 		}
 		else
 			exit_value = ft_atoi(cmd_lst->args[1]);
