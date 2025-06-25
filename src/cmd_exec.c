@@ -105,13 +105,11 @@ void	exec_cmd(t_ms *ms)
 			ms->status = 1;
 		return ;
 	}
-	if (deal_redirect(curr))
-		return ;
 	while (curr)
 	{
 		if (access(curr->path, F_OK) == 0 && access(curr->path, X_OK) != 0)
 			perror(curr->path);
-		else
+		else if (!is_redirect(curr->main_type) && valid_path(ms, curr->path))
 			prep_child_exec(ms, curr);
 		curr = curr->next;
 	}

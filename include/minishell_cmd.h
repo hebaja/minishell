@@ -29,5 +29,6 @@ int		cmd_build_redirect(t_ms *ms, t_token *start_token,
 t_cmd	*cmd_lst_last(t_cmd *cmd_lst);
 t_cmd	*cmd_build(t_token *start_token, size_t cmd_size, char **paths);
 int		cmd_rebuild(t_ms *ms, t_token *start_token, char **paths);
+int		valid_path(t_ms *ms, char *value);
 
 #endif

@@ -12,6 +12,19 @@
 
 #include "../include/minishell.h"
 
+int	valid_path(t_ms *ms, char *value)
+{
+	char	*message;
+
+	if (*value == '/' || ft_strnstr(value, "./", 2))
+		return (1);
+	message = ft_strjoin(value, ": command not found");
+	ft_putendl_fd(message, 2);
+	free(message);
+	ms->status = 127;
+	return (0);
+}
+
 void	close_fds_parent(t_ms *ms)
 {
 	t_cmd	*cmd_curr;
@@ -57,12 +70,6 @@ void	exec_child_builtin(t_ms *ms, t_cmd *cmd, char **envp)
 
 void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp)
 {
-	if (cmd->fd_out > 2)
-	{
-		dup2(cmd->fd_out, STDOUT_FILENO);
-		close(cmd->fd_out);
-		cmd->fd_out = -1;
-	}
 	if (cmd->fd_in > 2)
 	{
 		dup2(cmd->fd_in, STDIN_FILENO);
@@ -70,7 +77,15 @@ void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp)
 		cmd->fd_in = -1;
 	}
 	close_redirect_all_fds(ms->cmd_lst);
+	if (cmd->fd_out > 2)
+	{
+		dup2(cmd->fd_out, STDOUT_FILENO);
+		close(cmd->fd_out);
+		cmd->fd_out = -1;
+	}
 	execve(cmd->path, cmd->args, envp);
+	close(cmd->fd_in);
+	close(cmd->fd_out);
 	clean_all(ms);
 	clean_matrix(&envp);
 	exit(127);
