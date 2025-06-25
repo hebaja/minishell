@@ -1,6 +1,6 @@
 minishell
 package.json
-testing/tests
+testing/
 .vscode
 valgrind.supp
 *.swp
