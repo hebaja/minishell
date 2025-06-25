@@ -81,7 +81,10 @@ int	run_minishell(t_ms *ms)
 		else
 		{
 			if (cmd_lst_build(ms))
-				exec_cmd(ms);
+			{
+				if (!deal_redirect(ms->cmd_lst))
+					exec_cmd(ms);
+			}
 			if (ms->is_exit || ms->input == NULL)
 				return (0);
 		}

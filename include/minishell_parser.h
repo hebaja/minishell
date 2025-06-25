@@ -37,5 +37,6 @@ void	join_value(char *key, t_token *token, t_env *env_lst, int dolar_pos);
 void	builtin_recheck(t_token *token_lst);
 void	quotes_var_expansion(t_token **token_lst, t_env *env_lst);
 void	quote_removal(t_token *token_lst);
+void	expand_exit_status(int status, t_token *token);
 
 #endif

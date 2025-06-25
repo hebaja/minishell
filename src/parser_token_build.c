@@ -102,8 +102,9 @@ int	iterate_and_append(t_ms *ms, char *value_start, char *value)
 	{
 		if (value[i] && (is_metacharacter(value[i])))
 		{
-			while (i < 2 && (is_metacharacter(value[i])))
-				i++;
+			while (++i < 2 && (is_metacharacter(value[i])))
+				if (value[i - 1] == '|')
+					break ;
 			if (!append_token(&ms->token_lst, &value, value_start, i))
 				return (0);
 		}
