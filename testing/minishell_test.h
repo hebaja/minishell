@@ -47,5 +47,6 @@ void	setup_redirect_err(void);
 void	clean_split_path(char **paths);
 char	**split_path_test(t_env *env_lst);
 void	mock_input(char *input);
+int		is_not_empty_input(char *value);
 
 #endif

@@ -407,17 +407,28 @@ char	**split_path(t_ms *ms)
 	return (paths);
 }
 
-int	sig_exit_status(int status)
+int	is_not_empty_input(char *value)
 {
-	static int	status_exit = -1;
-	int			tmp;
-
-	if (status != -1)
+	while (*value)
 	{
-		status_exit = status;
-		return (0);
+		if (!ft_isspace(*value))
+			return (0);
+		value++;
 	}
-	tmp = status_exit;
-	status_exit = -1;
-	return (tmp);
+	return (1);
 }
+
+// int	sig_exit_status(int status)
+// {
+// 	static int	status_exit = -1;
+// 	int			tmp;
+
+// 	if (status != -1)
+// 	{
+// 		status_exit = status;
+// 		return (0);
+// 	}
+// 	tmp = status_exit;
+// 	status_exit = -1;
+// 	return (tmp);
+// }
