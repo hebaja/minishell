@@ -12,25 +12,26 @@
 
 #include "../include/minishell.h"
 
-int	is_word_join(char **abs_value)
+int	is_word_join(char **abs_value, int is_start)
 {
-	if (*(*abs_value - 1)
-		&& (*(*abs_value - 1) == '\''
-		|| *(*abs_value - 1) == '\"'))
-		return (1);
+	if (!is_start)
+	{
+		if (*(*abs_value - 1)
+			&& !is_metacharacter(**abs_value)
+			&& !is_metacharacter(*(*abs_value - 1))
+			&& (*(*abs_value - 1) == '\''
+				|| *(*abs_value - 1) == '\"'
+				|| *(*abs_value - 1) != ' '))
+			return (1);
+	}
 	return (0);
 }
 
 void	set_extra_meta_chars(t_token *token,
-	char *value_start, char quote, int is_join)
+	char *value_start, char quote)
 {
 	if (is_dolar(value_start) && quote == 0)
-	{
-		if (is_join)
-			token->type = VAR_JOIN;
-		else
-			token->type = VAR;
-	}
+		token->type = VAR;
 	if (token->type == WILDCARD_SOLO && *++value_start != '\0')
 	{
 		if (*value_start != ' ')
@@ -45,17 +46,17 @@ int	define_type_builtin(char *value, t_token_type *type)
 	res = 1;
 	if (ft_strncmp(value, "echo", 5) == 0)
 		*type = BUILTIN_ECHO;
-	else if (ft_strncmp(value, "cd", 2) == 0)
+	else if (ft_strncmp(value, "cd", 3) == 0)
 		*type = BUILTIN_CD;
-	else if (ft_strncmp(value, "pwd", 3) == 0)
+	else if (ft_strncmp(value, "pwd", 4) == 0)
 		*type = BUILTIN_PWD;
 	else if (ft_strncmp(value, "export", 7) == 0)
 		*type = BUILTIN_EXPORT;
 	else if (ft_strncmp(value, "unset", 6) == 0)
 		*type = BUILTIN_UNSET;
-	else if (ft_strncmp(value, "env", 3) == 0)
+	else if (ft_strncmp(value, "env", 4) == 0)
 		*type = BUILTIN_ENV;
-	else if (ft_strncmp(value, "exit", 4) == 0)
+	else if (ft_strncmp(value, "exit", 5) == 0)
 		*type = BUILTIN_EXIT;
 	else
 		res = 0;
@@ -84,16 +85,11 @@ int	define_type_more(char *value, t_token_type *type, char c)
 	return (res);
 }
 
-t_token_type	define_type(char *value, char c, int is_word_join)
+t_token_type	define_type(char *value, char c)
 {
 	t_token_type	type;
 
-	if (ft_strncmp(value, "-", 1) == 0)
-	{
-		if (ft_strncmp(value + 1, " ", 1) != 0)
-			return (FLAG);
-	}
-	else if (ft_strncmp(value, "&&", 2) == 0)
+	if (ft_strncmp(value, "&&", 2) == 0)
 		return (AND);
 	else if (ft_strncmp(value, "||", 2) == 0)
 		return (OR);
@@ -107,7 +103,5 @@ t_token_type	define_type(char *value, char c, int is_word_join)
 		return (type);
 	else if (define_type_builtin(value, &type))
 		return (type);
-	else if (is_word_join)
-		return (WORD_JOIN);
 	return (WORD);
 }

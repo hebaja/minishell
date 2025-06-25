@@ -12,6 +12,24 @@
 
 #include "../include/minishell.h"
 
+char	**split_token_value(t_token *token_lst, size_t cmd_size)
+{
+	int		i;
+	char	**args;
+
+	i = 0;
+	args = (char **)malloc(sizeof(char *) * (cmd_size + 1));
+	while (cmd_size)
+	{
+		args[i] = ft_strdup(token_lst->value);
+		token_lst = token_lst->next;
+		cmd_size--;
+		i++;
+	}
+	args[i] = NULL;
+	return (args);
+}
+
 t_token	*token_lst_last(t_token *token_lst)
 {
 	t_token	*current_token;
@@ -47,18 +65,4 @@ size_t	token_lst_size(t_token *token_lst)
 		token_lst = token_lst->next;
 	}
 	return (size);
-}
-
-void	token_lst_iterate(t_token *token_lst, void (*func)(t_token *))
-{
-	t_token	*next_token;
-
-	if (token_lst == NULL)
-		return ;
-	while (token_lst)
-	{
-		next_token = token_lst->next;
-		func(token_lst);
-		token_lst = next_token;
-	}
 }

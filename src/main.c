@@ -3,43 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hebatist <hebatist@student.42.rio>         +#+  +:+       +#+        */
+/*   By: alda-sil <alda-sil@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 20:20:37 by hebatist          #+#    #+#             */
-/*   Updated: 2025/04/03 20:20:41 by hebatist         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:18:40 by alda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	char	*input;
-	t_token	*token_lst;
+	t_ms			*ms;
+	unsigned char	status;
+	int				sig_status;
 
-	token_lst = NULL;
-	using_history();
-	input = readline(TERMINAL_PROMPT);
-	while (input)
+	init_ms(&ms, argc, argv, envp);
+	sig_status = 0;
+	while (ms->input)
 	{
-		if (ft_strncmp(input, "quit", 5) == 0)
-		{
-			free(input);
+		if (ft_strlen(ms->input) > 0)
+			add_history(ms->input);
+		sig_status = sig_exit_status(-1);
+		ms->paths = split_path(ms);
+		if (sig_status != -1)
+			ms->status = sig_status;
+		if (!run_minishell(ms))
 			break ;
-		}
-		if (input)
-			add_history(input);
-		if (!token_lst_build(&token_lst, input) || !token_lst)
-		{
-			free(input);
-			break ;
-		}
-		analyse_token_lst(&token_lst);
-		free(input);
-		token_lst_clear(&token_lst);
-		input = readline(TERMINAL_PROMPT);
 	}
-	if (token_lst)
-		token_lst_clear(&token_lst);
-	return (0);
+	status = ms->status;
+	clean_all(ms);
+	ft_printf("exit\n");
+	return (status);
 }
