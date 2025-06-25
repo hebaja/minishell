@@ -14,8 +14,6 @@
 
 char	*print_token_type(t_token_type type)
 {
-	if (type == FLAG)
-		return "FLAG";
 	if (type == WORD)
 		return ("WORD");
 	if (type == PIPE)
@@ -60,21 +58,35 @@ char	*print_token_type(t_token_type type)
 		return ("SINGLE_QUOTED");
 	if (type == DOUBLE_QUOTED)
 		return ("DOUBLE_QUOTED");
-	if (type == WORD_JOIN)
-		return ("WORD_JOIN");
-	if (type == VAR_JOIN)
-		return ("VAR_JOIN");
 	return ("");
 }
 
 void	print(t_token *token_lst)
 {
-	printf("value = %s, type = %s, next = %p\n", token_lst->value,
+	printf("value = %s, type = %s, join = %d, next = %p\n", 
+		token_lst->value,
 		print_token_type(token_lst->type),
+		token_lst->join,
 		token_lst->next);
 }
 
 void	print_tokens(t_token *tokens_head)
 {
 	token_lst_iterate(tokens_head, print);
+}
+
+void	print_cmd(t_cmd *cmd_lst)
+{
+	int	i;
+
+	i = -1;
+	ft_printf("path: %s - ", cmd_lst->path);
+	while (cmd_lst->args[++i])
+		ft_printf("%s -> ", cmd_lst->args[i]);
+	ft_printf("\n");
+}
+
+void	print_cmd_lst(t_cmd *cmd_lst)
+{
+	cmd_lst_iterate(cmd_lst, print_cmd);
 }
