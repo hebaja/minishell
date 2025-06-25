@@ -28,8 +28,6 @@ size_t	exit_status_expand_size(char *value, size_t exp_status_size)
 			flag = 1;
 			if (value[i] && exp_status_size == 1)
 				size--;
-			if (value[i] && exp_status_size == 2)
-				size = size;
 			if (value[i] && exp_status_size == 3)
 				size++;
 		}

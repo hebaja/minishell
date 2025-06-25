@@ -38,5 +38,6 @@ void	builtin_recheck(t_token *token_lst);
 void	quotes_var_expansion(t_token **token_lst, t_env *env_lst);
 void	quote_removal(t_token *token_lst);
 void	expand_exit_status(int status, t_token *token);
+int		is_not_empty_input(char *value);
 
 #endif

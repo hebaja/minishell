@@ -32,9 +32,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 		ptr[0] = '\0';
 		return (ptr);
 	}
-	ptr = (char *)malloc(end - start + 2);
+	ptr = (char *)malloc(sizeof(char) * ((end - start) + 2));
 	if (ptr == NULL)
 		return (NULL);
-	ft_strlcpy(ptr, &s1[start], end - start + 2);
+	ft_strlcpy(ptr, &s1[start], (end - start) + 2);
 	return (ptr);
 }

@@ -26,21 +26,6 @@ char	**split_path(t_ms *ms)
 	return (paths);
 }
 
-int	sig_exit_status(int status)
-{
-	static int	status_exit = -1;
-	int			tmp;
-
-	if (status != -1)
-	{
-		status_exit = status;
-		return (0);
-	}
-	tmp = status_exit;
-	status_exit = -1;
-	return (tmp);
-}
-
 void	init_ms(t_ms **ms, int argc, char **argv, char **envp)
 {
 	signal(SIGINT, handle_sigint);
@@ -70,10 +55,26 @@ void	clean_prompt(t_ms *ms)
 	ms->input = readline(TERMINAL_PROMPT);
 }
 
+int	is_not_empty_input(char *value)
+{
+	while (*value)
+	{
+		if (!ft_isspace(*value))
+			return (0);
+		value++;
+	}
+	return (1);
+}
+
 int	run_minishell(t_ms *ms)
 {
 	if (!token_lst_build(ms) || !ms->token_lst)
 		clean_prompt(ms);
+	else if (is_not_empty_input(ms->input))
+	{
+		ms->status = 130;
+		clean_prompt(ms);
+	}
 	else
 	{
 		if (!analyse_token_lst(ms))
@@ -81,15 +82,12 @@ int	run_minishell(t_ms *ms)
 		else
 		{
 			if (cmd_lst_build(ms))
-			{
-				if (!deal_redirect(ms->cmd_lst))
-					exec_cmd(ms);
-			}
+				exec_cmd(ms);
 			if (ms->is_exit || ms->input == NULL)
 				return (0);
 		}
 		clean_prompt(ms);
-		signal(SIGINT, handle_sigint);
 	}
+	signal(SIGINT, handle_sigint);
 	return (1);
 }

@@ -69,11 +69,15 @@ int	update_env_lst(char *value, t_env *env_lst)
 			|| (i != 0 && (!ft_isalnum(var_val[0][i]) && var_val[0][i] != '_')))
 		{
 			ft_putendl_fd("export: not a valid identifier", 2);
+			clean_var_val(var_val);
 			return (0);
 		}
 	}
 	if (!add_to_env_lst(env_lst, var_val))
+	{
+		clean_var_val(var_val);
 		return (0);
+	}
 	clean_var_val(var_val);
 	return (1);
 }

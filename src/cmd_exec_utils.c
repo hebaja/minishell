@@ -12,13 +12,14 @@
 
 #include "../include/minishell.h"
 
-int	valid_path(t_ms *ms, char *value)
+int	valid_path(t_ms *ms, t_cmd *cmd)
 {
 	char	*message;
 
-	if (*value == '/' || ft_strnstr(value, "./", 2))
+	if (cmd->path[0] == '/' || ft_strnstr(cmd->path, "./", 2)
+		|| is_builtin(cmd->main_type))
 		return (1);
-	message = ft_strjoin(value, ": command not found");
+	message = ft_strjoin(cmd->path, ": command not found");
 	ft_putendl_fd(message, 2);
 	free(message);
 	ms->status = 127;

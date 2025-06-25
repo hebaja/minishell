@@ -125,7 +125,15 @@ int	token_lst_build(t_ms *ms)
 {
 	char		*value_start;
 	char		*value;
+	char		*tmp_value;
 
+	if (ms->input[0] == ' ' && !is_not_empty_input(ms->input))
+	{
+		tmp_value = ft_strtrim(ms->input, " ");
+		if (ms->input)
+			free(ms->input);
+		ms->input = tmp_value;
+	}	
 	value_start = ms->input;
 	value = ms->input;
 	if (!iterate_and_append(ms, value_start, value))

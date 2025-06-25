@@ -25,5 +25,6 @@ void	wait_for_pids(t_ms *ms);
 void	close_fds_parent(t_ms *ms);
 void	exec_child_builtin(t_ms *ms, t_cmd *cmd, char **envp);
 void	exec_child_execve(t_ms *ms, t_cmd *cmd, char **envp);
+void	print_permission_denied_msg(t_ms *ms, t_cmd *cmd);
 
 #endif

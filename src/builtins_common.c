@@ -77,10 +77,14 @@ int	builtin_pwd(t_cmd *cmd_lst)
 
 int	builtin_env(t_env *env_lst, t_cmd *cmd)
 {
-	while (env_lst)
+	if (env_lst != NULL)
 	{
-		print_env(env_lst, cmd);
-		env_lst = env_lst->next;
+		while (env_lst)
+		{
+			print_env(env_lst, cmd);
+			env_lst = env_lst->next;
+		}
+		return (BUILTIN_SUCCESS_STATUS);
 	}
-	return (BUILTIN_SUCCESS_STATUS);
+	return (BUILTIN_ERROR_STATUS);
 }

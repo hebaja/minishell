@@ -105,15 +105,17 @@ void	exec_cmd(t_ms *ms)
 			ms->status = 1;
 		return ;
 	}
-	while (curr)
+	if (!deal_redirect(ms->cmd_lst))
 	{
-		if (access(curr->path, F_OK) == 0 && access(curr->path, X_OK) != 0)
-			perror(curr->path);
-		else if (!is_redirect(curr->main_type) && valid_path(ms, curr->path))
-			prep_child_exec(ms, curr);
-		curr = curr->next;
+		while (curr)
+		{
+			if (access(curr->path, F_OK) == 0 && access(curr->path, X_OK) != 0)
+				print_permission_denied_msg(ms, curr);
+			else if (!is_redirect(curr->main_type) && valid_path(ms, curr))
+				prep_child_exec(ms, curr);
+			curr = curr->next;
+		}
 	}
 	close_fds_parent(ms);
 	wait_for_pids(ms);
-	signal(SIGINT, handle_sigint);
 }
