@@ -1,5 +1,5 @@
 CC=cc
-CC_FLAGS=-Wall -Wextra -Werror -g
+CC_FLAGS=-Wall -Wextra -Werror
 READLINE_FLAG=-lreadline
 NAME=minishell
 INC_DIR=include
@@ -10,7 +10,7 @@ SRC_FILES=main.c parser_token_build.c parser_token_char_utils.c parser_analyse.c
 		builtin_unset.c builtin_export.c builtin_cd.c builtin_echo.c builtins_common.c env_build.c env_utils.c \
 		env_print.c main_utils.c cmd_build.c cmd_build_utils.c cmd_utils.c cmd_exec.c cmd_exec_utils.c \
 		cmd_rebuild.c iterate_utils.c cmd_env_utils.c clean_utils.c signal_utils.c redirect.c redirect_utils.c \
-		expand_status.c pid_wait.c parser_token_debug.c
+		expand_status.c pid_wait.c
 LIBFT_DIR=libft
 LIBFT=$(LIBFT_DIR)/libft.a
 SRCS=$(addprefix $(SRC_DIR)/, $(SRC_FILES))
